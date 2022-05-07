@@ -1,0 +1,57 @@
+\documentclass[
+english,
+%handout, % enable this switch in order to produce handouts
+]{beamer}
+
+\mode<handout>{
+  \usepackage{pgf}
+  \usepackage{pgfpages}
+  \pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm]
+}
+\mode<presentation>{
+  \usetheme{Juelich}
+}
+\graphicspath{{img/}}
+
+\usepackage[english]{babel}
+\usepackage[scaled]{helvet}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{pifont}
+\usepackage{braket}
+\usepackage{blkarray}
+\usetikzlibrary{shapes,arrows}
+
+\renewcommand{\emph}[1]{\structure{#1}}
+\def\Put(#1,#2)#3{\makebox(0,0){\put(#1,#2){#3}}}
+
+% Bold vectors
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% Complex conjugate
+\newcommand{\conj}[1]{\overline{#1}}
+
+\title{\LARGE{Calculations of atomic multiplets across the periodic table}}
+\subtitle{\normalsize{Master's Thesis}}
+\author{Qian Zhang \and Prof.\ Dr.\ Erik Koch}
+\institute{\\German Research School for Simulation Sciences \and RWTH Aachen University}
+\date{14 October 2014}
+
+\begin{document}
+\maketitle
+
+\input{content/outline}
+\input{content/part1}
+\input{content/part2}
+\input{content/part3}
+\input{content/part4}
+\input{content/part5}
+\input{content/conclusion}
+\input{content/backup}
+
+
+\end{document}

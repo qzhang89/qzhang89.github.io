@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>JavaScript Simulation</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" media="all" href="CSS/theme.css" />
+
+<script type="text/javascript">
+window.addEventListener("load", test, false);
+function test() {
+    var cnvs  = !!document.createElement("canvas").getContext;
+    var twod  = !!document.createElement("canvas").getContext("2d");
+    var gl    = !!document.createElement("canvas").getContext("experimental-webgl");
+    var range = document.createElement("input"); range.setAttribute("type", "range");
+    var json  = !!JSON&&!!JSON.parse;
+    var tarr; try {tarr = new Float64Array(10);} catch (err) {}
+    
+    if (cnvs)
+        document.getElementById("cnvs").innerHTML = "<span style='color:#008000'>✔</span>";
+    if (twod)
+        document.getElementById("2d").innerHTML = "<span style='color:#008000'>✔</span>";
+    if (gl)
+        document.getElementById("gl").innerHTML = "<span style='color:#008000'>✔</span>";
+    if (range.type=="range")
+        document.getElementById("range").innerHTML = "<span style='color:#008000'>✔</span>";
+    if (json)
+        document.getElementById("json").innerHTML = "<span style='color:#008000'>✔</span>";
+    if (!!tarr)
+        document.getElementById("tarr").innerHTML = "<span style='color:#008000'>✔</span>";
+}
+</script>
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="header">
+        <h1>JavaScript Simulation</h1>
+    </div>
+
+    <div id="menu">
+        <ul>
+            <li><a title="Home" class="currentLink" href="index.html">Home</a></li>
+            <li><a title="Chapter 1" href="chapter1.html">Chapter 1</a></li>
+            <li><a title="Chapter 2" href="chapter2.html">Chapter 2</a></li>
+            <li><a title="Chapter 3" href="chapter3.html">Chapter 3</a></li>
+            <li><a title="Chapter 4" href="chapter4.html">Chapter 4</a></li>
+            <li><a title="Chapter 5" href="chapter5.html">Chapter 5</a></li>
+            <li><a title="Chapter 6" href="chapter6.html">Chapter 6</a></li>
+            <li><a title="Chapter 7" href="chapter7.html">Chapter 7</a></li>
+            <li><a title="Chapter 8" href="chapter8.html">Chapter 8</a></li>
+            <li><a title="Chapter 9" href="chapter9.html">Chapter 9</a></li>
+            <li><a title="Documentation" href="documentation.html">Documentation</a></li>
+            <li><a title="Discussion" href="discussion.html">Discussion</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <h2>Welcome!</h2>
+
+        <p>In this website, we design several computational simulations using <strong>JavaScript</strong>.
+           Applications are based on fundamental <strong>Quantum Mechanics</strong>.</p>
+
+        <p>We visualize data on our web pages using the &lt;canvas&gt; tag, which is a new element specified in
+           HTML5. Therefore, to view our web pages, your browser should support the &lt;canvas&gt; tag. The table
+           below summarized a list of essential components of your browser's compatibility, which are required to
+           view our web pages. (Recommended browser: Apple Safari or Google Chrome)</p>
+
+        <table border="1" style="text-align: center; width: 300px; margin-left: auto; margin-right: auto;">
+            <tr>
+                <th>Component</th>
+                <th>Support</th>
+            </tr>
+            <tr>
+                <td>&lt;canvas&gt; tag</td>
+                <td id="cnvs"><span style='color: #FF0000'>✘</span></td>
+            </tr>
+            <tr>
+                <td>2D context</td>
+                <td id="2d"><span style='color: #FF0000'>✘</span></td>
+            </tr>
+            <tr>
+                <td>WebGL</td>
+                <td id="gl"><span style='color: #FF0000'>✘</span></td>
+            </tr>
+            <tr>
+                <td>Range input</td>
+                <td id="range"><span style='color: #FF0000'>✘</span></td>
+            </tr>
+            <tr>
+                <td>Parse JSON</td>
+                <td id="json"><span style='color: #FF0000'>✘</span></td>
+            </tr>
+            <tr>
+                <td>Typed array</td>
+                <td id="tarr"><span style='color: #FF0000'>✘</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="footer">Contact me: x@y, where x=qian.zhang, y=rwth-aachen.de</div>
+</div>
+</body>
+
+</html>

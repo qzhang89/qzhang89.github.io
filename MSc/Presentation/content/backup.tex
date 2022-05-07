@@ -1,0 +1,163 @@
+\begin{frame}[t]
+  \vspace{5em}
+  \begin{center}
+    \Huge \emph{Backup Materials}
+  \end{center}
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Numerov's method}
+  \footnotesize
+  Finite difference
+  \[\frac{d^2\tilde{u}}{dx^2} = \frac{\tilde{u}_{i+1} - 2\tilde{u}_i + \tilde{u}_{i-1}}{\Delta x^2} + \mathcal{O}(\Delta x^2)\]
+  \emph{Numerov's method}
+  \[\frac{d^2\tilde{u}}{dx^2} = \frac{\tilde{u}_{i+1} - 2\tilde{u}_i + \tilde{u}_{i-1}}{\Delta x^2} - \frac{1}{12}\frac{\tilde{u}_{i+1}^{''} - 2\tilde{u}_i^{''} + \tilde{u}_{i-1}^{''}}{\Delta x^2}\Delta x^2 + \mathcal{O}(\Delta x^4)\]
+  Use the original ODE
+  \[\tilde{u}_i^{''} = -2 k_i^2 \tilde{u_i}
+  \quad \text{and} \quad k_i^2 \equiv r_i^2 E - r_i^2 V(r_i) - \frac{1}{2} \Big(l+\frac{1}{2}\Big)^2\]
+  3-point \alert{recursion}!
+  \[\tilde{u}_{i\pm1} = \frac{(2-\frac{5\Delta x^2}{3}k_i^2)\tilde{u}_i - (1+\frac{\Delta x^2}{6}k_{i\mp1}^2)\tilde{u}_{i\mp1}}{1+\frac{\Delta x^2}{6}k_{i\pm1}^2}\]
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Slater-Condon parameters}
+  \footnotesize
+  \vspace{-2em}
+  \[
+  R^{(k)}(n_1l_1,n_2l_2,n_3l_3,n_4l_4) =
+  \int_0^\infty dr_1 \int_0^\infty dr_2\, \conj{u_{n_1l_1}}(r_1) \conj{u_{n_2l_2}}(r_2)
+  \frac{r_<^k}{r_>^{k+1}} u_{n_3l_3}(r_2) u_{n_4l_4}(r_1)
+  \]
+  If $r_1 \le r_2$,
+  \[
+    \begin{array}{c c}
+    r_<=r_1, & r_>=r_2
+    \end{array}
+  \]
+  If $r_1 > r_2$,
+  \[
+    \begin{array}{c c}
+    r_<=r_2, & r_>=r_1
+    \end{array}
+  \]
+  $R^{(k)}(n_1l_1,n_2l_2,n_3l_3,n_4l_4) = $
+  \[
+  \begin{aligned}
+  & \int_0^\infty dr_1
+  \conj{u_{n_1l_1}}(r_1)u_{n_4l_4}(r_1)
+  \left[ \frac{1}{r_1^{k+1}} \int_0^{r_1} dr_2\, r_2^k \conj{u_{n_2l_2}}(r_2)u_{n_3l_3}(r_2) \right. \\
+  & \qquad\qquad\qquad\qquad\qquad\quad
+  \left. + r_1^k \int_{r_1}^\infty dr_2\, \frac{1}{r_2^{k+1}} \conj{u_{n_2l_2}}(r_2)u_{n_3l_3}(r_2) \right]
+  \end{aligned}
+  \]
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Gaunt coefficients}
+  \footnotesize
+  $A^{(k)}(l_1m_1,l_2m_2,l_3m_3,l_4m_4) =$
+  \begin{align*}
+  \sum_{\mu=-k}^k
+  & \int_0^{2\pi}d\phi_1 \int_0^{\pi}d\theta_1\,\sin{\theta_1}\,
+    \conj{Y_{l_1m_1}}(\theta_1,\phi_1) \conj{Y_{k\mu}}(\theta_1,\phi_1) Y_{l_4m_4}(\theta_1,\phi_1) \nonumber \\
+  & \int_0^{2\pi}d\phi_2 \int_0^{\pi}d\theta_2\,\sin{\theta_2}\,
+    \conj{Y_{l_2m_2}}(\theta_2,\phi_2) Y_{k\mu}(\theta_2,\phi_2) Y_{l_3m_3}(\theta_2,\phi_2)
+  \end{align*}
+  
+  \vspace{1em}
+  \emph{Gaunt coefficients}
+  \[g_{m_1m_2}^{(k)} = \Bra{l_1m_1} k\mu \Ket{l_2m_2}\]
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Gaunt coefficients}
+  \scriptsize
+  \emph{Recursion} relation
+  
+  \vspace{1em}
+  $\Bra{l_1m_1} k\mu \Ket{l_2m_2} = $
+  \vspace{-0.5em}
+  \[ a \Bra{l_1+1,m_1} k-1,\mu \Ket{l_2m_2}
+  + b \Bra{l_1-1,m_1} k-1,\mu \Ket{l_2m_2}
+  + c \Bra{l_1m_1} k-2,\mu \Ket{l_2m_2}
+  \]
+  \vspace{-2em}
+  \begin{align*}
+  a & = \sqrt{\frac{(2k+1)(2k-1)(l_1+m_1+1)(l_1-m_1+1)}{(k+\mu)(k-\mu)(2l_1+3)(2l_1+1)}} \\
+  b & = \sqrt{\frac{(2k+1)(2k-1)(l_1+m_1)(l_1-m_1)}{(k+\mu)(k-\mu)(2l_1+1)(2l_1-1)}} \\
+  c & = -\sqrt{\frac{(2k+1)(k+\mu-1)(k-\mu-1)}{(k+\mu)(k-\mu)(2k-3)}}
+  \end{align*}
+  \emph{Base} case
+  \[\Bra{l_1m_1} 00 \Ket{l_2m_2} = \frac{1}{\sqrt{4\pi}} \delta_{l_1l_2} \delta_{m_1m_2}\]
+\end{frame}
+
+\begin{frame}[t]
+  \frametitle{Ladder operator techniques}
+  \scriptsize
+  \emph{Ladder operators}
+  \[ L_\pm \Ket{lm} = \alpha_{lm}^\pm \Ket{l,m\pm1} \]
+  
+  \vspace{-2.5em}
+  \begin{align*}
+  \alpha_{lm}^+ & = \sqrt{(l+m+1)(l-m)} \\
+  \alpha_{lm}^- & = \sqrt{(l+m)(l-m+1)}
+  \end{align*}
+  Express \emph{eigen-vectors} in terms of our 15 \emph{basis vectors}
+  \begin{align*}
+  L_-
+  \begin{array}{|c|c|c|}
+  \hline
+  \bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+  \bullet &  &  \\
+  \hline
+  \end{array} & =
+  \sqrt{(1+1)(1-1+1)}
+  \begin{array}{|c|c|c|}
+  \hline
+  \phantom{\bullet} & \bullet & \phantom{\bullet} \\ \hline
+  \bullet &  &  \\
+  \hline
+  \end{array} +
+  \sqrt{(1+1)(1-1+1)}
+  \begin{array}{|c|c|c|}
+  \hline
+  \bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+  & \bullet &  \\
+  \hline
+  \end{array} \nonumber \\
+  L_-\Ket{2,2,0,0} & = \qquad \qquad \qquad \qquad
+  \sqrt{2}\:
+  \begin{array}{|c|c|c|}
+  \hline
+  \phantom{\bullet} & \bullet & \phantom{\bullet} \\ \hline
+  \bullet &  &  \\
+  \hline
+  \end{array} + \qquad \qquad \qquad \qquad
+  \sqrt{2}\:
+  \begin{array}{|c|c|c|}
+  \hline
+  \bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+  & \bullet &  \\
+  \hline
+  \end{array} \nonumber \\
+  \Ket{2,1,0,0} & = \qquad \qquad \qquad \qquad
+  \frac{1}{\sqrt{2}}
+  \begin{array}{|c|c|c|}
+  \hline
+  \phantom{\bullet} & \bullet & \phantom{\bullet} \\ \hline
+  \bullet &  &  \\
+  \hline
+  \end{array} + \qquad \qquad \qquad \qquad
+  \frac{1}{\sqrt{2}}
+  \begin{array}{|c|c|c|}
+  \hline
+  \bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+  & \bullet &  \\
+  \hline
+  \end{array} \\
+  \Ket{2,1,0,0} & = \qquad \qquad \qquad \qquad
+  \frac{1}{\sqrt{2}} \ \ \ c_{1\downarrow}^\dagger c_{0\uparrow}^\dagger \Ket{0} \ \
+  + \qquad \qquad \qquad \qquad
+  \frac{1}{\sqrt{2}} \ \ \ c_{0\downarrow}^\dagger c_{1\uparrow}^\dagger \Ket{0}
+  \end{align*}
+\end{frame}

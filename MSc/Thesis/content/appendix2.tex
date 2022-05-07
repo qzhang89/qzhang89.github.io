@@ -1,0 +1,585 @@
+\chapter{Second quantization} \label{app:B}
+
+\section{A different formalism but the same physics}
+In real space, electrons are described as wave functions.
+Because electrons are fermions, their anti-symmetric wave functions are
+formulated as Slater determinants \cite{GBK}. (as a remark, a many-electron wave function
+$\Psi(\vec{r}_1,\ldots,\vec{r}_N)$ is in general a linear combination
+of Slater determinants. Meanwhile, we are ignoring spin to simplify our notations.)
+\begin{equation} \label{eq:slaterdeterm}
+\Phi_{\alpha_1\cdots\alpha_N}(\vec{r}_1,\ldots,\vec{r}_N) = \frac{1}{\sqrt{N!}}
+\begin{vmatrix}
+\varphi_{\alpha_1}(\vec{r}_1) & \varphi_{\alpha_2}(\vec{r}_1) & \cdots & \varphi_{\alpha_N}(\vec{r}_1) \\
+\varphi_{\alpha_1}(\vec{r}_2) & \varphi_{\alpha_2}(\vec{r}_2) & \cdots & \varphi_{\alpha_N}(\vec{r}_2) \\
+\vdots & \vdots & \ddots & \vdots \\
+\varphi_{\alpha_1}(\vec{r}_N) & \varphi_{\alpha_2}(\vec{r}_N) & \cdots & \varphi_{\alpha_N}(\vec{r}_N)
+\end{vmatrix}
+\end{equation}
+%
+For a one-electron wave function, Eqn.~(\ref{eq:slaterdeterm}) is trivial:
+\begin{equation}
+\Phi_\alpha(\vec{r}_1) = \varphi_\alpha(\vec{r}_1)
+\end{equation}
+%
+For a two-electron wave function, Eqn.~(\ref{eq:slaterdeterm}) reads:
+\begin{equation}
+\Phi_{\alpha\beta}(\vec{r}_1,\vec{r}_2) = \frac{1}{\sqrt{2}}(\varphi_\alpha(\vec{r}_1)\varphi_\beta(\vec{r}_2)
+- \varphi_\beta(\vec{r}_1)\varphi_\alpha(\vec{r}_2))
+\end{equation}
+%
+For a three-electron wave function, Eqn.~(\ref{eq:slaterdeterm}) becomes:
+\begin{align} \label{eq:3SD}
+\Phi_{\alpha\beta\gamma}(\vec{r}_1,\vec{r}_2,\vec{r}_3) = & {} \frac{1}{\sqrt{6}}
+\Big(\phantom{-}\varphi_\alpha(\vec{r}_1)\varphi_\beta(\vec{r}_2)\varphi_\gamma(\vec{r}_3)
++ \varphi_\gamma(\vec{r}_1)\varphi_\alpha(\vec{r}_2)\varphi_\beta(\vec{r}_3)
++ \varphi_\beta(\vec{r}_1)\varphi_\gamma(\vec{r}_2)\varphi_\alpha(\vec{r}_3) \nonumber \\
+& {} \phantom{\frac{1}{\sqrt{6}}(} {-\varphi_\gamma(\vec{r}_1)}\varphi_\beta(\vec{r}_2)\varphi_\alpha(\vec{r}_3)
+- \varphi_\beta(\vec{r}_1)\varphi_\alpha(\vec{r}_2)\varphi_\gamma(\vec{r}_3)
+- \varphi_\alpha(\vec{r}_1)\varphi_\gamma(\vec{r}_2)\varphi_\beta(\vec{r}_3) \Big)
+\end{align}
+%
+I wouldn't intend to write the four-electron wave function since it will be super long.
+This trouble is actually caused by working with real space.
+Since we need to label $\vec{r}_1, \vec{r}_2, \ldots, \vec{r}_N$ for different
+degrees of freedom, we must use the Slater determinant to ensure the anti-symmetry
+property of the wave function, which unfortunately makes the expression very complicated.
+We can get rid of this difficulty if not working with real space. To specify an electron
+in state $\alpha$, instead of $\varphi_\alpha(\vec{r}_1)$, we write
+\begin{equation*}
+\Ket{\alpha}
+\end{equation*}
+%
+which is known as the Dirac state \cite{QM}. Now, for a two-electron state, we write
+\begin{equation*}
+\Ket{\alpha, \beta}
+\end{equation*}
+%
+But how do we ensure the anti-symmetry of this two-electron state?
+\begin{equation}
+\Ket{\alpha, \beta} = -\Ket{\beta, \alpha}
+\end{equation}
+%
+Previously, when working with real space, this was ensured by the
+Slater determinant. Now, this anti-symmetry will be taken care by the
+second quantization operators.\footnote{The order of the operators indicates
+we create $\alpha$ first and $\beta$ second. Hence we write
+$c_\beta^\dagger c_\alpha^\dagger \Ket{0} = \Ket{\alpha,\beta}$.}
+\begin{equation}
+\Ket{\alpha, \beta} = c_\beta^\dagger c_\alpha^\dagger \Ket{0}
+\end{equation}
+%
+These lovely operators have the property that if they change order, they produce
+a minus sign (the fermi-sign).
+\begin{equation}
+\Ket{\alpha, \beta} = c_\beta^\dagger c_\alpha^\dagger \Ket{0} =
+- c_\alpha^\dagger c_\beta^\dagger \Ket{0} = -\Ket{\beta, \alpha}
+\end{equation}
+%
+Surprisingly, the anti-symmetry property is automatically ensured!
+With second quantization, many-electron states could
+be written out with no pain.
+
+For a one-electron state,
+\begin{equation}
+\Ket{\alpha} = c_\alpha^\dagger \Ket{0}
+\end{equation}
+%
+For a two-electron state,
+\begin{equation}
+\Ket{\alpha,\beta} = c_\beta^\dagger c_\alpha^\dagger \Ket{0}
+\end{equation}
+%
+For a three-electron state,
+\begin{equation}
+\Ket{\alpha,\beta,\gamma} = c_\gamma^\dagger c_\beta^\dagger c_\alpha^\dagger \Ket{0}
+\end{equation}
+%
+We do not need to worry about the anti-symmetry, because it is taken care by
+those operators automatically. This is the idea of second quantization.
+It must be pointed out, second quantization does not involve any new physics.
+Sometimes this name is misleading that people tend to ask, ``Wait, what
+was the first quantization? Well, if the quantization of electron was the first,
+what is the second one?'' No, no! Nothing is further quantized. Second quantization
+is just a novel ``algebra'' that simplifies the formalism of many-body problems.
+
+Suppose we have a state
+\begin{equation}
+\Ket{\text{example}} = \frac{1}{\sqrt{6}} \left( c_\alpha^\dagger c_\beta^\dagger c_\gamma^\dagger +2c_\delta^\dagger c_\epsilon^\dagger c_\zeta^\dagger +c_\eta^\dagger c_\theta^\dagger c_\iota^\dagger \right)|0\rangle
+\end{equation}
+%
+which is a linear combination of three different Slater determinants.
+It would be horrible to express it in real space (repeat Eqn.~(\ref{eq:3SD})
+three times). Second quantization provides us a very convenient way
+to handle many-body states.
+
+\section{Creation and annihilation operators}
+We start from the vacuum state $\Ket{0}$, which is a state with no electron.
+Although without electron, it is defined to be normalized $\Braket{0|0}=1$.
+Next, we introduce the creation operator $c_\alpha^\dagger$.
+If $c_\alpha^\dagger$ applies on a vacuum state,
+it creates one electron with state $\alpha$,
+\begin{equation}
+c_\alpha^\dagger \Ket{0} = \Ket{\alpha}
+\end{equation}
+%
+``Hum? Create an electron out of vacuum?'' No, no! We are not going to
+set up a lab to create electrons out of photons or whatever. This is purely
+an algebra. By saying ``create'', it is from a mathematics point of view,
+not a physical process. Similarly, we have an electron annihilation operator
+$c_\alpha$. If $c_\alpha$ applies on a vacuum state, it returns zero
+\begin{equation}
+c_\alpha \Ket{0} = 0
+\end{equation}
+%
+Previously, we claimed that the creation operators anti-commute:
+$c_\alpha^\dagger c_\beta^\dagger = -c_\beta^\dagger c_\alpha^\dagger$.
+This is one of the definitions in second quantization. Now, the commutation
+relation between a creator and an annihilator is defined as
+\begin{equation}
+c_\alpha c_\beta^\dagger = \Braket{\alpha|\beta} -c_\beta^\dagger c_\alpha
+\end{equation}
+%
+When working with orthonormal basis states, $\Braket{\alpha|\beta}=\delta_{\alpha\beta}$.
+Let's see what happens if $c_\alpha$ applies on a state $\Ket{\alpha}$
+\begin{equation}
+c_\alpha \Ket{\alpha} = c_\alpha c_\alpha^\dagger \Ket{0}
+= (1 - c_\alpha^\dagger c_\alpha) \Ket{0}
+= \Ket{0} - c_\alpha^\dagger \underbrace{c_\alpha \Ket{0}}_{=0} = \Ket{0}
+\end{equation}
+%
+As the name suggests, it removes one electron from $\Ket{\alpha}$ and
+brings back the vacuum state. But this is purely an algebraic consequence,
+not a definition.
+The entire definition of second quantization
+algebra are summarized in Table~\ref{table:secondQ}.
+%
+\begin{table}[h!]
+\caption{The definition of second quantization algebra.}
+\label{table:secondQ}
+\begin{equation*}
+\renewcommand\arraystretch{1.8}
+\begin{array}{|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}l|}
+  \hline
+  \Braket{0|0} & = & 1 \\
+  c_\alpha\Ket{0} & = & 0 \\
+  \{c_\alpha^\dagger, c_\beta^\dagger\} & = & 0 \\
+  \{c_\alpha, c_\beta\} & = & 0 \\
+  \{c_\alpha, c_\beta^\dagger\} & = & \Braket{\alpha|\beta} \\[0.2em]
+  \hline
+\end{array}
+\end{equation*}
+\end{table}
+
+where the anti-commutator,
+\begin{equation}
+\{A,B\} \equiv AB + BA
+\end{equation}
+%
+Believe it or not, with simply five definitions,
+Table~\ref{table:secondQ} defines the complete system which formulates
+second quantization.
+
+\section{The bridge between first and second quantization}
+A two-electron Slater determinant in first quantization (real space),
+\begin{equation*}
+\frac{1}{\sqrt{2}}(\varphi_\alpha(\vec{r}_1)\varphi_\beta(\vec{r}_2)
+- \varphi_\beta(\vec{r}_1)\varphi_\alpha(\vec{r}_2))
+\end{equation*}
+%
+A two-electron Slater determinant in second quantization (configuration space),
+\begin{equation*}
+c_\beta^\dagger c_\alpha^\dagger \Ket{0}
+\end{equation*}
+%
+However, these two are not the same:
+\begin{equation} \label{eq:real2nd}
+c_\beta^\dagger c_\alpha^\dagger \Ket{0} \ne
+\frac{1}{\sqrt{2}}(\varphi_\alpha(\vec{r}_1)\varphi_\beta(\vec{r}_2)
+- \varphi_\beta(\vec{r}_1)\varphi_\alpha(\vec{r}_2))
+\end{equation}
+%
+A wave function is a wave function and a state is a state.
+They describe the same Slater determinant, but one cannot put an equal sign in between.
+To make the connection between real space and second quantization, we need some
+special electron creators and annihilators (called field operators).
+Although physically not possible,
+algebraically we can ``create'' an electron in such a state that it is
+exactly at position $\vec{r}$. We denote
+$c_\vec{r}^\dagger \Ket{0} = \Ket{\vec{r}}$.\footnote{Because of the importance of
+these special creators and annihilators, they get a name, field operators. A more
+standard way to write field operators are $\hat{\Psi}(\vec{r})$ and
+$\hat{\Psi}^\dagger(\vec{r})$ (see Reference \cite{GBK}). But I would like to 
+stick with $c_\vec{r}$ and $c_\vec{r}^\dagger$ to simplify our notations.}
+Suppose we have an $\Ket{\alpha}$ state which in real space corresponds
+to wave function $\varphi_\alpha(\vec{r})$.
+Considering $\varphi_\alpha(\vec{r})$ as an amplitude, $c_\alpha^\dagger$
+and $c_\vec{r}^\dagger$ are (intuitively) related as
+\begin{equation} \label{eq:cacr}
+c_\alpha^\dagger = \int d^3r\,\varphi_\alpha(\vec{r}) c_\vec{r}^\dagger
+\end{equation}
+%
+Conversely, if we have a complete(!) set of single electron wave
+functions $\varphi_{\alpha_n}(\vec{r})$, we can expand the field operators
+in terms of the corresponding creators and annihilators
+\begin{equation} \label{eq:crca}
+c_\vec{r}^\dagger = \sum_n \varphi_{\alpha_n}(\vec{r}) c_{\alpha_n}^\dagger
+\end{equation}
+%
+Using Eqn.~(\ref{eq:cacr}), we find the anti-commutation relation
+\begin{equation}
+\{c_\vec{r}, c_\alpha^\dagger \} =
+\int d^3r'\,\varphi_\alpha(\vec{r'}) \{c_\vec{r}, c_\vec{r'}^\dagger \} = \varphi_\alpha(\vec{r})
+\end{equation}
+which is such a golden relation that helps us bridge
+second quantization to real space. For example,
+a one-electron Slater determinant,
+\begin{equation}
+\Braket{\vec{r}_1|\alpha} = \Bra{0} c_{\vec{r}_1} c_{\alpha}^\dagger \Ket{0}
+= \Bra{0} \varphi_{\alpha}(\vec{r}_1) - c_{\alpha}^\dagger c_{\vec{r}_1} \Ket{0}
+= \varphi_{\alpha}(\vec{r}_1)
+\end{equation}
+Nice! We get back our wave function in real space. Next,
+for a two-electron Slater determinant,
+\begin{align}
+\Braket{\vec{r}_2,\vec{r}_1|\alpha,\beta}
+& = \Bra{0} c_{\vec{r}_1} c_{\vec{r}_2} c_{\beta}^\dagger c_{\alpha}^\dagger \Ket{0} \nonumber \\
+& = \Bra{0} c_{\vec{r}_1} (\varphi_\beta(\vec{r_2}) - c_{\beta}^\dagger c_{\vec{r}_2}) c_{\alpha}^\dagger \Ket{0} \nonumber \\
+& = \Bra{0} c_{\vec{r}_1} c_\alpha^\dagger \Ket{0} \varphi_\beta(\vec{r}_2) - \Bra{0} c_{\vec{r}_1} c_{\beta}^\dagger c_{\vec{r}_2} c_\alpha^\dagger \Ket{0} \nonumber \\
+& = \varphi_\alpha(\vec{r}_1) \varphi_\beta(\vec{r}_2) - \varphi_\beta(\vec{r}_1) \varphi_\alpha(\vec{r}_2)
+\end{align}
+%
+Impressive! Even the two-electron anti-symmetric wave function is automatically returned.
+A proof by induction is nicely discussed in Reference \cite{GBK}. Here we quote
+the conclusion, for an $N$-electron state, its real-space Slater determinant
+representation is given by
+\begin{equation} \label{eq:bridge}
+\boxed{
+\Phi_{\alpha_1\cdots\alpha_N}(\vec{r}_1,\ldots,\vec{r}_N)
+= \frac{1}{\sqrt{N!}}
+\Bra{0} c_{\vec{r}_1} c_{\vec{r}_2} \cdots c_{\vec{r}_N}
+c_{\alpha_N}^\dagger \cdots c_{\alpha_2}^\dagger c_{\alpha_1}^\dagger \Ket{0}
+}
+\end{equation}
+%
+From our quantum mechanics lectures, we often see the relation,
+\begin{equation}
+\Braket{\alpha|\beta} = \int d^3r\, \conj{\varphi_\alpha}(\vec{r}) \varphi_\beta(\vec{r})
+\end{equation}
+This can also be shown using our field operators:
+\begin{align}
+\Braket{\alpha|\beta}
+& = \Bra{0} c_\alpha c_\beta^\dagger \Ket{0}
+ = \Bra{0} \int d^3r\, \conj{\varphi_\alpha}(\vec{r}) c_\vec{r} \varphi_\beta(\vec{r}) c_{\vec{r}}^\dagger \Ket{0} \nonumber \\
+& = \int d^3r\, \conj{\varphi_\alpha}(\vec{r}) \varphi_\beta(\vec{r}) \underbrace{\Bra{0} c_\vec{r} c_{\vec{r}}^\dagger \Ket{0}}_{=1}
+= \int d^3r\, \conj{\varphi_\alpha}(\vec{r}) \varphi_\beta(\vec{r})
+\end{align}
+Similarly, for the two electron case,
+\begin{align}
+\Braket{\alpha,\beta|\gamma,\delta}
+& = \Bra{0} c_\beta c_\alpha c_\delta^\dagger c_\gamma^\dagger \Ket{0}
+= \Bra{0} c_\alpha c_\beta c_\gamma^\dagger c_\delta^\dagger \Ket{0} \nonumber \\
+& = \Bra{0} \int d^3r_1\, \conj{\varphi_\alpha}(\vec{r}_1) c_{\vec{r}_1} \varphi_\delta(\vec{r}_1) c_{\vec{r}_1}^\dagger
+\int d^3r_2\, \conj{\varphi_\beta}(\vec{r}_2) c_{\vec{r}_2} \varphi_\gamma(\vec{r}_2) c_{\vec{r}_2}^\dagger \Ket{0} \nonumber \\
+& = \int d^3r_1\int d^3r_2\, \conj{\varphi_\alpha}(\vec{r}_1) \conj{\varphi_\beta}(\vec{r}_2) \varphi_\gamma(\vec{r}_2) \varphi_\delta(\vec{r}_1) \underbrace{\Bra{0} c_{\vec{r}_1} c_{\vec{r}_1}^\dagger c_{\vec{r}_2} c_{\vec{r}_2}^\dagger \Ket{0}}_{=1}
+\end{align}
+Those lovely operators $c_{\vec{r}}$ and $c_{\vec{r}}^\dagger$ play a role
+bridging first and second quantization. But they never appear explicitly
+in either first or second quantization!
+
+\section{Representation of $n$-body operators}
+In Chapter~\ref{ch:4}, we were working with the Coulomb repulsion Hamiltonian,
+\begin{equation} \label{eq:appHu}
+H_U = \sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|}
+\end{equation}
+which is a two-body operator.
+
+In Chapter~\ref{ch:6}, we introduced the spin-orbit coupling Hamiltonian,
+\begin{equation} \label{eq:appHso}
+H_\text{SO} = \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i
+\end{equation}
+which is a one-body operator.
+
+Eqn.~(\ref{eq:appHu}) and Eqn.~(\ref{eq:appHso}) are in the form of
+the so called first quantization. They operate on real-space wave functions.
+A second quantization many-body state is, however, not compatible with
+those operators. A beautiful discussion (you must give a look)
+of transforming real-space operators to second quantization operators
+is given in \cite{GBK}. A key idea is to use the ``bridge'' in Eqn.~(\ref{eq:bridge}).
+To avoid repeating the same content, I write down the results directly:
+
+For the Coulomb repulsion Hamiltonian,
+\begin{equation}
+H_U = \frac{1}{2} \sum_{\alpha,\beta,\gamma,\delta} \Bra{\alpha,\beta} \frac{1}{|\vec{r}_1-\vec{r}_2|} \Ket{\gamma,\delta} c_\alpha^\dag c_\beta^\dag c_\gamma c_\delta
+\end{equation}
+which is given in Eqn.~(\ref{eq:U2nd}).
+
+For the spin-orbit coupling Hamiltonian,
+\begin{equation}
+H_\text{SO} = \sum_{\alpha,\beta} \Bra{\alpha} \xi(r) \boldsymbol{\ell}\cdot\vec{s} \Ket{\beta} c_\alpha^\dagger c_\beta
+\end{equation}
+which is given in Eqn.~(\ref{eq:SO2nd}).
+
+They are the Hamiltonians compatible with second quantization states.
+
+\section{Electron-hole transformation}
+In this section, we would like to restrict our discussion on atomic
+shell basis states instead of general states.
+In Eqn.~(\ref{eq:createorder}), we made a convention that for a
+fully occupied shell, the electron creators
+are arranged in the following way:
+\vspace{-0.5em}
+\begin{equation}
+\begin{array}{c|c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{\phantom{,}1\phantom{,}} & \multicolumn{1}{c}{\phantom{,}0\phantom{,}} & \multicolumn{1}{c}{-1} \\ \cline{2-4}
+\uparrow & \bullet & \bullet & \bullet \\ \cline{2-4}
+\downarrow & \bullet & \bullet & \bullet \\
+\cline{2-4}
+\multicolumn{1}{c}{}
+\end{array} =
+c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger
+c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger
+\Ket{0}
+\end{equation}
+
+\vspace{-2em}
+Now we understand why it is important to make such a convention: the
+convention is arbitrary, but once it is decided, it must remain
+unchanged through the entire discussion, since changing the order of
+electron creators involves fermi-signs ($\pm1$).
+
+To motivate the topic of this section, let's
+consider an almost-full shell, say, a $d^8$:
+\vspace{-0.5em}
+\begin{equation*}
+\begin{array}{c|c|c|c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{\phantom{,}2\phantom{,}} &
+\multicolumn{1}{c}{\phantom{,}1\phantom{,}} & \multicolumn{1}{c}{\phantom{,}0\phantom{,}} &
+\multicolumn{1}{c}{-1} & \multicolumn{1}{c}{-2} \\ \cline{2-6}
+\uparrow & \bullet & \bullet & \bullet & \bullet &  \\ \cline{2-6}
+\downarrow & \bullet & \bullet &  & \bullet & \bullet \\
+\cline{2-6}
+\end{array}
+\end{equation*}
+%
+We would write it in terms of electron creation operators as
+\begin{equation*}
+c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0}
+\end{equation*}
+%
+This becomes a bit cumbersome and not very readable (but of course
+much simpler than its real-space form). We noticed that if we express
+the same state in terms of the unoccupied sites, the expression will become
+much shorter. What we need to do is to transform our ``electron algebra''
+into a ``hole algebra''.
+Let's start from the fully occupied $d$ shell
+\begin{equation} \label{eq:full}
+\Ket{\text{full}} = 
+c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-2\uparrow}^\dagger c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0}
+\end{equation}
+%
+Notice that a $\Ket{\text{full}}$ state also has $M_L=0$ and $M_S=0$.
+From the hole's point of view, the $\Ket{\text{full}}$ state behaves like a
+``vacuum'' state. Creating a hole at site ($-m,-\sigma$) on a $\Ket{\text{full}}$ state
+leaves the system with momentum $M_L=m$ and $M_S=\sigma$.
+Hence we could define our hole creation operator as
+\begin{equation} \label{eq:simpdef}
+h_{m\sigma}^\dagger = c_{-m,-\sigma}
+\end{equation}
+%
+But this is not very convenient. Because what we really want is, for example,
+\begin{equation} \label{eq:hfull}
+\begin{array}{|c|c|c|c|c|}
+\hline
+\bullet & \bullet & \bullet & \bullet &  \\ \hline
+\bullet & \bullet & \bullet & \bullet & \bullet \\
+\hline
+\end{array}
+= h_{2\downarrow}^\dagger \Ket{\text{full}}
+\end{equation}
+
+\vspace{-1em}
+However,
+\begin{align}
+\begin{array}{|c|c|c|c|c|}
+\hline
+\bullet & \bullet & \bullet & \bullet &  \\ \hline
+\bullet & \bullet & \bullet & \bullet & \bullet \\
+\hline
+\end{array}
+& = c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0} \nonumber \\
+& = c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+\boxed{c_{-2\uparrow}} c_{-2\uparrow}^\dagger c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0} \nonumber \\
+& = (-1)^{5} \boxed{c_{-2\uparrow}}
+\underbrace{c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-2\uparrow}^\dagger c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0}}_{\Ket{\text{full}}} \nonumber \\
+& = - c_{-2\uparrow} \Ket{\text{full}} = - h_{2\downarrow}^\dagger \Ket{\text{full}}
+\end{align}
+%
+If we really want to write as the way in Eqn.~(\ref{eq:hfull}),
+we must absorb the fermi-sign into definition (\ref{eq:simpdef}).
+According to our full shell definition, this fermi-sign has the following pattern
+\begin{equation*}
+\begin{array}{|c|}
+\hline
+- \\ \hline
++ \\
+\hline
+\end{array}
+\quad
+\begin{array}{|c|c|c|}
+\hline
+- & + & - \\ \hline
++ & - & + \\
+\hline
+\end{array}
+\quad
+\begin{array}{|c|c|c|c|c|}
+\hline
+- & + & - & + & - \\ \hline
++ & - & + & - & + \\
+\hline
+\end{array}
+\quad
+\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+- & + & - & + & - & + & - \\ \hline
++ & - & + & - & + & - & + \\
+\hline
+\end{array}
+\end{equation*}
+%
+Therefore, we define, (the definition is subject to how a $\Ket{\text{full}}$ is defined)
+\begin{equation} \label{eq:ehtrans}
+\boxed{
+h_{m\sigma}^\dagger = (-1)^{l+m+\sigma-\frac{1}{2}} c_{-m,-\sigma}
+}
+\end{equation}
+%
+The next question is how to arrange these hole operators. Previously
+we made a convention of ordering electron creators. Now we no longer
+have this freedom to define new convention of ordering
+hole creators. As a consequence from previous convention, the hole
+creators should be ordered in the following way:
+(notice that it is the same order of putting electrons)
+\vspace{-0.5em}
+\begin{equation}
+\begin{array}{c|c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{\phantom{,}1\phantom{,}} & \multicolumn{1}{c}{\phantom{,}0\phantom{,}} & \multicolumn{1}{c}{-1} \\ \cline{2-4}
+\uparrow &  &  &  \\ \cline{2-4}
+\downarrow &  &  &  \\
+\cline{2-4}
+\multicolumn{1}{c}{}
+\end{array} =
+h_{1\uparrow}^\dagger h_{0\uparrow}^\dagger h_{-1\uparrow}^\dagger
+h_{1\downarrow}^\dagger h_{0\downarrow}^\dagger h_{-1\downarrow}^\dagger
+\Ket{\text{full}}
+\end{equation}
+
+\vspace{-2em}
+In general, an $N$-electron basis vector and a $(2(2l-1)-N)$-hole basis vector
+are equivalent by the relation,
+\begin{equation*}
+\prod_{i=1}^N c_{m_i\sigma_i}^\dagger \Ket{0} =
+\prod_{j=1}^{2(2l-1)-N} h_{m_j\sigma_j}^\dagger \Ket{\text{full}}
+\end{equation*}
+The indices $\{j\}$ run over the complement part of indices $\{i\}$,
+for example,
+\begin{equation}
+\begin{array}{|c|c|c|c|c|}
+\hline
+i_1 & i_2 & i_3 & i_4 & j_1 \\ \hline
+i_5 & i_6 & j_2 & i_7 & i_8 \\
+\hline
+\end{array}
+\end{equation}
+To show their equivalence,
+\begin{equation}
+\prod_{j=1}^{2(2l-1)-N} h_{m_j\sigma_j}^\dagger \Ket{\text{full}}
+= \prod_{j=1}^{2(2l-1)-N} (-1)^{l+m_j+\sigma_j-\frac{1}{2}} c_{-m_j,-\sigma_j} \prod_{i=1}^{2(2l+1)} c_{m_i\sigma_i}^\dagger \Ket{0}
+\end{equation}
+But anti-commuting $c_{-m_j,-\sigma_j}$ into the full shell always cancels the
+$(-1)^{l+m_j+\sigma_j-\frac{1}{2}}$ factor (that is how this factor is designed for).
+After all anti-commutations, what left is,
+\begin{equation}
+\prod_{j=1}^{2(2l-1)-N} h_{m_j\sigma_j}^\dagger \Ket{\text{full}}
+= \prod_{i=1}^N c_{m_i\sigma_i}^\dagger \Ket{0}
+\end{equation}
+%
+We can verify that our example state
+\begin{align}
+\begin{array}{|c|c|c|c|c|}
+\hline
+\bullet & \bullet & \bullet & \bullet &  \\ \hline
+\bullet & \bullet &  & \bullet & \bullet \\
+\hline
+\end{array}
+& = h_{0\uparrow}^\dagger h_{2\downarrow}^\dagger \Ket{\text{full}}
+= - c_{0\downarrow} c_{-2\uparrow} \Ket{\text{full}} \nonumber \\
+& = - c_{0\downarrow} \boxed{c_{-2\uparrow}}
+c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-2\uparrow}^\dagger c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0} \nonumber \\
+& = (-1)^6 c_{0\downarrow}
+c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+\boxed{c_{-2\uparrow}} c_{-2\uparrow}^\dagger c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0} \nonumber \\
+& = (-1)^6 \boxed{c_{0\downarrow}}
+c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0} \nonumber \\
+& = (-1)^8
+c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger \boxed{c_{0\downarrow}} c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0} \nonumber \\
+& =
+c_{-2\downarrow}^\dagger c_{-1\downarrow}^\dagger c_{1\downarrow}^\dagger c_{2\downarrow}^\dagger
+c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger
+\Ket{0}
+\end{align}
+is indeed equivalent to the expression in terms of electron creators.
+
+Eqn.~(\ref{eq:ehtrans}) is essentially the portal connecting the electron world with
+the hole world. With this definition, we can investigate the properties of hole
+operators. First of all, the $\Ket{\text{full}}$ state is normalized,
+$\Braket{\text{full}|\text{full}}=1$. If we apply a hole annihilation operator
+on it, according to Pauli exclusion principle, $h_{m\sigma}\Ket{\text{full}}=0$.
+Now, we test the anti-commutation relation between hole operators.
+\begin{align}
+\{ h_{m_1\sigma_1}^\dagger, h_{m_2\sigma_2}^\dagger \}
+& = (-1)^{2l+m_1+m_2+\sigma_1+\sigma_2-1} \{ c_{-m_1,-\sigma_1}, c_{-m_2,-\sigma_2} \} = 0 \\
+\{ h_{m_1\sigma_1}, h_{m_2\sigma_2} \}
+& = (-1)^{2l+m_1+m_2+\sigma_1+\sigma_2-1} \{ c_{-m_1,-\sigma_1}^\dagger, c_{-m_2,-\sigma_2}^\dagger \} = 0 \\
+\{ h_{m_1\sigma_1}, h_{m_2\sigma_2}^\dagger \}
+& = (-1)^{2l+m_1+m_2+\sigma_1+\sigma_2-1} \{ c_{-m_1,-\sigma_1}^\dagger, c_{-m_2,-\sigma_2} \} \nonumber \\
+& = (-1)^{2l+m_1+m_2+\sigma_1+\sigma_2-1} \delta_{m_1m_2} \delta_{\sigma_1\sigma_2}
+= \delta_{m_1m_2} \delta_{\sigma_1\sigma_2}
+\end{align}
+%
+It turns out (not by definition), our hole operators behave exactly as electron
+operators.
+\begin{table}[h!]
+\caption{Second quantization algebra from the hole's perspective.}
+\label{table:secondQhole}
+\begin{equation*}
+\renewcommand\arraystretch{1.8}
+\begin{array}{|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}l|}
+  \hline
+  \Braket{\text{full}|\text{full}} & = & 1 \\
+  h_{m\sigma}\Ket{\text{full}} & = & 0 \\
+  \{h_{m_1\sigma_1}^\dagger, h_{m_2\sigma_2}^\dagger\} & = & 0 \\
+  \{h_{m_1\sigma_1}, h_{m_2\sigma_2}\} & = & 0 \\
+  \{h_{m_1\sigma_1}, h_{m_2\sigma_2}^\dagger\} & = & \delta_{m_1m_2} \delta_{\sigma_1\sigma_2} \\[0.2em]
+  \hline
+\end{array}
+\end{equation*}
+\end{table}
+
+

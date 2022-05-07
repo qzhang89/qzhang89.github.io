@@ -1,0 +1,124 @@
+\chapter{Introduction}
+
+\section{Many-body problem in quantum mechanics}
+Imagine our solar system: it consists of a heavy sun with eight planets
+orbiting around. In classical mechanics, the goal is to calculate the
+position of each celestial object as a function of time. The motion of
+the system is governed by Newton's second law: $\vec{F}=m\vec{a}$. While it is almost
+impossible to solve the classical many-body problem analytically, the numerical
+approach is rather straightforward. However, in quantum mechanics,
+the many-body problem is a completely different story.
+
+Scaling down to $10^{-10}$ meters, it is even philosophically profound that we
+find similar structures in atomic systems as in our cosmic systems. An atom,
+which consists of a heavy nucleus, with electric charge $Ze$, is surrounded by
+$N$ electrons with charge $-e$. The system here is no longer governed by
+Newton's second law, neither is our goal to compute the ``position'' of each
+electron as a function of time. In quantum mechanics, the position of an
+electron is no longer well defined. Instead, what we are looking for is the
+electrons' wave function $\Psi(\vec{r}_1,\vec{r}_2,\ldots,\vec{r}_N)$ which
+is the solution of the Schr\"{o}dinger equation\footnote{Strictly speaking,
+Eqn.~(\ref{eq:Schr}) is called the time-independent Schr\"{o}dinger equation
+and the solution $\Psi(\vec{r}_1,\vec{r}_2,\ldots,\vec{r}_N)$ is the
+time-independent part of the wave function.}
+\begin{equation} \label{eq:Schr}
+H \Psi = E \Psi
+\end{equation}
+where $H$, the Hamiltonian of the system, is given by
+\begin{equation} \label{eq:Hamit}
+H = \sum_{i=1}^N \left[ -\frac{\hbar^2}{2m_e} \nabla_i^2 - \frac{1}{4\pi\epsilon_0} \frac{Ze^2}{r_i} \right] + \sum_{i<j}^N \frac{1}{4\pi\epsilon_0} \frac{e^2}{|\vec{r}_i - \vec{r}_j|}
+\end{equation}
+The term in the first sum represents the kinetic plus potential energy of the
+$i$th electron, in the electric field of the nucleus. The last term, which
+complicates the behavior of the system, describes the electron-electron
+repulsions among all $N$ electrons (the constraint $i<j$ avoids double counting
+over electron pairs).
+
+In neither classical nor quantum mechanics, can one solve many-body problems
+exactly. But in quantum mechanics, even a numerical solution is extremely
+difficult to obtain. The difficulty comes from the fact that
+a many-body wave function $\Psi(\vec{r}_1,\vec{r}_2,\ldots,\vec{r}_N)$ is
+an object with dimension $3N$. One must generate a mesh grid with $3N$-dimension
+to represent the wave function numerically and such a gigantic data is not
+possible to be stored on an ordinary hard disk. Consequently, different methods
+have been developed to simplify the problem and to treat the system approximately.
+
+\section{Atomic units}
+Since we are going to solve our problems numerically, it is
+useful to pay attention to the choice of units. Certainly, we can use SI units,
+but the scales would be inconvenient. For example, in SI units, the reduced
+Planck constant reads $\hbar=1.054572\times10^{-34} \mathrm{J \cdot s}$, which
+is a crazy number from a computational point of view. Hence, we employ atomic
+units (a.u.), namely,
+\begin{alignat*}{3}
+& \text{Length:}\quad && 1\;\mathrm{a_0} && \approx 5.2918\times10^{-11}\;\mathrm{m}  \\
+& \text{Mass:}\quad   && 1\;\mathrm{m_e} && \approx 9.1095\times10^{-31}\;\mathrm{kg} \\
+& \text{Time:}\quad   && 1\;\mathrm{t_0} && \approx 2.4189\times10^{-17}\;\mathrm{s}  \\
+& \text{Charge:}\quad && 1\;\mathrm{e}   && \approx 1.6022\times10^{-19}\;\mathrm{C}
+\end{alignat*}
+which are deliberately chosen such that
+\begin{align}
+\begin{split}
+\hbar          & = 1\;\mathrm{a_0^2 m_e t_0^{-1}} \\
+m_e            & = 1\;\mathrm{m_e} \\
+e              & = 1\;\mathrm{e} \\
+4\pi\epsilon_0 & = 1\;\mathrm{a_0^{-3} m_e t_0^2 e^2}
+\end{split}
+\end{align}
+By adopting atomic units, the Hamiltonian in Eqn.~(\ref{eq:Hamit}) simplifies to
+\begin{equation} \label{eq:HamitSimp}
+H = \sum_{i=1}^N \left[ -\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i} \right] + \sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|}
+\end{equation}
+With the choice of atomic units, distances are given in units of the
+Bohr radius ($\mathrm{a_0}$) and energies in Hartree ($\mathrm{a_0^2 m_e t_0^{-2}}$)
+\begin{equation} \label{eq:EHartree}
+  1\;\mathrm{Hartree}
+= 2\;\mathrm{Rydberg}
+\approx 27.2114\;\mathrm{eV}
+\approx 4.3597\times10^{-18}\;\mathrm{J}
+\end{equation}
+From now on, we will keep using atomic units to simplify our equations and discussions.
+
+\section{Convention of notations}
+I will try to make the notations in my thesis as consistent as possible
+to avoid confusions and to make the discussion clear.
+
+For a many-electron wave function, we use capital psi
+\begin{equation*}
+\Psi(\vec{r}_1,\vec{r}_2,\ldots,\vec{r}_N)
+\end{equation*}
+For a one-electron wave function, we use lower case phi
+\begin{equation*}
+\varphi(\vec{r})
+\end{equation*}
+%
+For a Slater determinant, we use upper case phi
+\begin{equation*}
+\Phi_{\alpha_1\alpha_2\cdots\alpha_N}(\vec{r}_1,\vec{r}_2,\ldots,\vec{r}_N)
+\end{equation*}
+%
+Slater determinants are constructed from one-electron wave functions. They
+are basis functions of anti-symmetric many-electron wave functions.
+\begin{equation} \label{eq:introSD}
+\Phi_{\alpha_1\cdots\alpha_N}(\vec{r}_1,\ldots,\vec{r}_N) = \frac{1}{\sqrt{N!}}
+\begin{vmatrix}
+\varphi_{\alpha_1}(\vec{r}_1) & \varphi_{\alpha_2}(\vec{r}_1) & \cdots & \varphi_{\alpha_N}(\vec{r}_1) \\
+\varphi_{\alpha_1}(\vec{r}_2) & \varphi_{\alpha_2}(\vec{r}_2) & \cdots & \varphi_{\alpha_N}(\vec{r}_2) \\
+\vdots & \vdots & \ddots & \vdots \\
+\varphi_{\alpha_1}(\vec{r}_N) & \varphi_{\alpha_2}(\vec{r}_N) & \cdots & \varphi_{\alpha_N}(\vec{r}_N)
+\end{vmatrix}
+\end{equation}
+%
+Sometimes you hear people say, ``A many-electron wave function is a Slater determinant.''
+That is wrong. A many-electron wave function is in general a linear combination of
+Slater determinants, not just one (although it could be).
+Nevertheless, this real-space representation of Slater determinant
+in Eqn.~(\ref{eq:introSD}) will not appear in our discussion
+(it only appears in Appendix~\ref{app:B}). Slater determinants will
+be represented in the form of second quantization\footnote{Second quantization is
+a very convenient ``algebra'' for handling many-body states. A brief discussion
+of second quantization is given in Appendix~\ref{app:B}.} when later we
+construct our multiplet states.
+
+
+

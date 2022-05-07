@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Program Table</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+<style type="text/css">
+    table {
+        border-collapse: collapse;
+        width: 25%;
+        display: inline-block;
+        border: 2px solid black;
+        font-family: monospace;
+        background-color: #ffffff;
+    }
+    tbody {
+        height: 200px;
+        display: block;
+        width: 100%;
+        overflow: auto;
+    }
+    td.number {
+        background-color: #dddddd;
+        width: 8%;
+        padding: 4px;
+    }
+    td.color {
+        width: 15%;
+    }
+    td.nodes {
+        width: 70%;
+    }
+    input[type="color"] {
+    	border: none;
+        width: 30px;
+    }
+</style>
+
+<script type="text/javascript">
+window.addEventListener("load", windowLoadHandler);
+function windowLoadHandler() {
+    // Data
+    var dataList = [{
+        "jobs": []
+    }, {
+        "jobs": [{
+            "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"],
+            "color": "#0072bd"
+        }, {
+            "nodes": ["E1", "E2", "E3", "E4", "E5", "F1", "F2", "F3", "F4", "F5"],
+            "color": "#d95319"
+        }]
+    }, {
+        "jobs": [{
+            "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"],
+            "color": "#0072bd"
+        }, {
+            "nodes": ["E1", "E2", "E3", "E4", "E5", "F1", "F2", "F3", "F4", "F5"],
+            "color": "#d95319"
+        }, {
+            "nodes": ["A4", "A5", "A6", "A7", "A8", "A9", "B4", "B5", "B6", "B7", "B8", "B9"],
+            "color": "#edb120"
+        }, {
+            "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+            "color": "#7e2f8e"
+        }, {
+            "nodes": ["E6", "E7", "E8", "E9", "F6", "F7", "F8", "F9"],
+            "color": "#77ac30"
+        }]
+    }, {
+        "jobs": [{
+            "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"],
+            "color": "#0072bd"
+        }, {
+            "nodes": ["E1", "E2", "E3", "E4", "E5", "F1", "F2", "F3", "F4", "F5"],
+            "color": "#d95319"
+        }, {
+            "nodes": ["A4", "A5", "A6", "A7", "A8", "A9", "B4", "B5", "B6", "B7", "B8", "B9"],
+            "color": "#edb120"
+        }, {
+            "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+            "color": "#7e2f8e"
+        }, {
+            "nodes": ["E6", "E7", "E8", "E9", "F6", "F7", "F8", "F9"],
+            "color": "#77ac30"
+        }, {
+            "nodes": ["G1", "G2", "G3", "G4", "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4"],
+            "color": "#4dbeee"
+        }, {
+            "nodes": ["G5", "G6", "G7", "G8", "G9", "H5", "H6", "H7", "H8", "H9"],
+            "color": "#a2142f"
+        }]
+    }, {
+        "jobs": [{
+            "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3", "F1", "F2", "F3"],
+            "color": "#d95319"
+        }, {
+            "nodes": ["A6", "A7", "A8", "A9", "B6", "B7", "B8", "B9"],
+            "color": "#edb120"
+        }, {
+            "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+            "color": "#7e2f8e"
+        }, {
+            "nodes": ["E4", "E5", "E6", "E7", "E8", "E9", "F4", "F5", "F6", "F7", "F8", "F9"],
+            "color": "#77ac30"
+        }, {
+            "nodes": ["G1", "G2", "G3", "G4", "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4"],
+            "color": "#4dbeee"
+        }, {
+            "nodes": ["G5", "G6", "G7", "G8", "G9", "H5", "H6", "H7", "H8", "H9"],
+            "color": "#a2142f"
+        }, {
+            "nodes": ["A4", "A5", "B4", "B5"],
+            "color": "#0072bd"
+        }]
+    }, {
+        "jobs": [{
+            "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3", "F1", "F2", "F3"],
+            "color": "#d95319"
+        }, {
+            "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+            "color": "#7e2f8e"
+        }, {
+            "nodes": ["E4", "E5", "E6", "E7", "E8", "E9", "F4", "F5", "F6", "F7", "F8", "F9"],
+            "color": "#77ac30"
+        }, {
+            "nodes": ["G1", "G2", "G3", "G4", "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4"],
+            "color": "#4dbeee"
+        }, {
+            "nodes": ["G5", "G6", "G7", "G8", "G9", "H5", "H6", "H7", "H8", "H9"],
+            "color": "#a2142f"
+        }, {
+            "nodes": ["A4", "A5", "A6", "A7", "A8", "A9", "B4", "B5", "B6", "B7", "B8", "B9"],
+            "color": "#0072bd"
+        }, {
+            "nodes": ["I5", "I6", "I7", "I8", "I9"],
+            "color": "#edb120"
+        }]
+    }];
+    
+    // Get HTML elements
+    var mySvg    = document.getElementById("mySvg");
+    var myTable  = document.getElementById("myTable");
+    var myButton = document.getElementById("myButton");
+    
+    var rows = 9;
+    var cols = 9;
+    
+    var clearColor  = "#ffffff";
+    var strokeColor = "#dddddd";
+    var strokeWidth = 2;
+    
+    // Get window width and set svg size
+    var w  = window.innerWidth;
+    mySvg.setAttribute("width",  w*0.3);
+    mySvg.setAttribute("height", w*0.3);
+    
+    var ew = Math.floor((mySvg.clientWidth-cols*strokeWidth)/(cols+1));
+    var eh = Math.floor((mySvg.clientHeight-rows*strokeWidth)/(rows+1));
+    
+    // Create empty table
+    for (var i=1; i<=rows; i++) {
+        var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.textContent = (i+9).toString(36).toUpperCase();
+        text.setAttribute("x", 0.5*ew);
+        text.setAttribute("y", i*(eh+strokeWidth)+0.5*eh);
+        text.setAttribute("style", "font-size:"+Math.min(ew,eh)*0.50+
+                          "px; font-weight:bold; text-anchor:middle; alignment-baseline:central;");
+        mySvg.appendChild(text);
+    }
+    for (var j=1; j<=cols; j++) {
+        var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.textContent = j;
+        text.setAttribute("x", j*(ew+strokeWidth)+0.5*ew);
+        text.setAttribute("y", 0.5*eh);
+        text.setAttribute("style", "font-size:"+Math.min(ew,eh)*0.50+
+                          "px; font-weight:bold; text-anchor:middle; alignment-baseline:central;");
+        mySvg.appendChild(text);
+    }
+    for (var i=1; i<=rows; i++) {
+        for (var j=1; j<=cols; j++) {
+            var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute("id", (i+9).toString(36).toUpperCase()+j);
+            rect.setAttribute("width",  ew);
+            rect.setAttribute("height", eh);
+            rect.setAttribute("x", j*(ew+strokeWidth));
+            rect.setAttribute("y", i*(eh+strokeWidth));
+            rect.setAttribute("style", "fill:"+clearColor+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+            mySvg.appendChild(rect);
+            
+            // Add event listener
+            rect.addEventListener("mouseover", rectOverHandler);
+            rect.addEventListener("mouseout", rectOutHandler);
+        }
+    }
+    
+    // Clear table
+    function clearTable() {
+        for (var i=1; i<=rows; i++) {
+            for (var j=1; j<=cols; j++) {
+                var rect = document.getElementById((i+9).toString(36).toUpperCase()+j);
+                rect.setAttribute("style", "fill:"+clearColor+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+                rect.removeAttribute("class");
+            }
+        }
+    }
+    
+    // Update table
+    function updateTable(data) {
+        // Clean up table
+        clearTable();
+        while (myTable.rows.length > 0) {
+            myTable.deleteRow(myTable.rows.length-1);
+        }
+        
+        var jobs = data.jobs;
+        for (var i=0; i<jobs.length; i++) {
+            var nodes = jobs[i].nodes;
+            var color = jobs[i].color;
+            
+            // Tabluate in table
+            var row = myTable.insertRow(i); row.className = "job"; row.id = "job"+i;
+            var c0 = row.insertCell(0); c0.className = "number";
+            var c1 = row.insertCell(1); c1.className = "color";
+            var c2 = row.insertCell(2); c2.className = "nodes";
+            c0.innerHTML = i;
+            c1.innerHTML = "<input type=\"color\" value=\""+color+"\" disabled />";
+            c2.innerHTML = nodes;
+            
+            // Mouse stay message
+            row.title = "nodes: "+nodes+"\n" + "color: "+color;
+            
+            // Add event listener
+            row.addEventListener("mouseover", itemOverHandler);
+            row.addEventListener("mouseout", itemOutHandler);
+            
+            // Visualize on svg
+            for (var n=0; n<nodes.length; n++) {
+                var rect = document.getElementById(nodes[n]);
+                if (!!rect) {
+                    rect.setAttribute("style", "fill:"+color+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+                    rect.setAttribute("class", "job"+i);
+                }
+            }
+        }
+    }
+    
+    var iter = 1;
+    myButton.addEventListener("click", updateClickHandler);
+    function updateClickHandler() {
+        updateTable(dataList[iter%dataList.length]);
+        iter++;
+    }
+    
+    function itemOverHandler() {
+        // Hightlight
+        this.style.backgroundColor = "#dddddd";
+        document.body.style.cursor = "pointer";
+        
+        var nodes = this.getElementsByClassName("nodes")[0].innerHTML.split(",");
+        var color = this.getElementsByClassName("color")[0].firstChild.value;
+        for (var i=0; i<nodes.length; i++) {
+            var rect = document.getElementById(nodes[i]);
+            if (!!rect) {
+                rect.setAttribute("style", "fill:"+color+"; stroke:#000000; stroke-width:"+strokeWidth+";");
+            }
+        }
+    }
+    function itemOutHandler() {
+        // De-highlight
+        this.style.backgroundColor = "#ffffff";
+        document.body.style.cursor = "auto";
+        
+        var nodes = this.getElementsByClassName("nodes")[0].innerHTML.split(",");
+        var color = this.getElementsByClassName("color")[0].firstChild.value;
+        for (var i=0; i<nodes.length; i++) {
+            var rect = document.getElementById(nodes[i]);
+            if (!!rect) {
+                rect.setAttribute("style", "fill:"+color+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+            }
+        }
+    }
+    
+    function rectOverHandler() {
+        var jobId = this.getAttribute("class");
+        var item = document.getElementById(jobId);
+        if (!!item) {
+            var event = document.createEvent("HTMLEvents");
+            event.initEvent("mouseover", true, false);
+            item.dispatchEvent(event);
+        }
+    }
+    function rectOutHandler() {
+        // De-highlight
+        var jobId = this.getAttribute("class");
+        var item = document.getElementById(jobId);
+        if (!!item) {
+            var event = document.createEvent("HTMLEvents");
+            event.initEvent("mouseout", true, false);
+            item.dispatchEvent(event);
+        }
+    }
+}
+</script>
+</head>
+
+<body>
+    <h1>Program Table</h1>
+    <div>
+        <svg id="mySvg" xmlns="http://www.w3.org/2000/svg"></svg>
+        <table>
+            <tbody id="myTable"></tbody>
+        </table>
+        <input id="myButton" type="button" value="update">
+    </div>
+</div>
+</body>
+
+</html>

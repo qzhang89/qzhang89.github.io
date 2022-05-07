@@ -1,0 +1,55 @@
+<html>
+
+<head>
+<title>JSC 2013 | Self-Consistent Atomic Orbital Computation and Visualization</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" media="all" href="theme.css" />
+<script type="text/javascript" src="Painter.js"></script>
+<script type="text/javascript" src="Painter3D.js"></script>
+<script type="text/javascript" src="Complex.js"></script>
+<script type="text/javascript" src="EigenSolver.js"></script>
+<script type="text/javascript" src="SCF.js"></script>
+</head>
+
+<body>
+<table style="width:600px; margin:auto;">
+<tr><td>
+<hr />
+
+<h2>Self-Consistent Atomic Orbital Computation and Visualization</h2>
+<p>This is a project done during <a href="http://www.fz-juelich.de/ias/jsc/EN/Career/Gueststudentprogramme/Previous_years/2013/_node.html">
+   JSC - Guest Student Programme 2013</a> by <a href="http://www.grs-sim.de/research/computational-materials-science/team/qzhang.html">
+   Qian Zhang</a> under supervision of <a href="http://www.grs-sim.de/research/computational-materials-science/team/koch.html">
+   Prof. Dr. Erik Koch</a>.</p>
+<p>The study of atomic orbitals plays an important role for understanding the intrinsic properties of atoms.
+   In this report, we first discuss how to compute atomic orbitals for a one-electron system numerically.
+   Then we generalize the problem to many-electron systems to obtain solutions in the self-consistent field approximation.
+   In the end, we implement Monte-Carlo sampling to visualize the computed orbitals in three-dimensional space.</p>
+<p>
+ <a href="4sK.png"><img width="24%" src="4sK.png"  alt="4s orbital" title="4s orbital"></a>
+ <a href="4pBr.png"><img width="24%" src="4pBr.png" alt="4p orbital" title="4p orbital"></a>
+ <a href="4dAg.png"><img width="24%" src="4dAg.png" alt="4d orbital" title="4d orbital"></a>
+ <a href="5fU.png"><img width="24%" src="5fU.png"  alt="5f orbital" title="5f orbital"></a>
+</p>
+<a href="JSC-GSP13_talk.pdf">Presentation</a> and <a href="JSC-GSP13_report.pdf">Report</a>
+
+<hr />
+
+<div class="SCF">
+{ "rMinZ":0.0001, "rMax":50.0, "dx":0.002,
+  "Rcw":300, "Rch":350,
+  "rhocw":200, "rhoch":172,
+  "Zeffcw":200, "Zeffch":172,
+  "bkgdColor":[1,1,1], "gridColor":[0.8,0.8,0.8],
+  "glcw":500, "glch":350 }
+</div>
+
+<hr />
+
+<a href="http://www.grs-sim.de/research/computational-materials-science/team/qzhang.html">Qian Zhang</a>
+
+</td></tr>
+</table>
+</body>
+
+</html>

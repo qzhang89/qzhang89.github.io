@@ -1,0 +1,3376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: Painter3D</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Class: Painter3D</h1>
+    
+    
+
+
+
+<section>
+    
+<header>
+    <h2>
+    Painter3D
+    </h2>
+    
+        <div class="class-description">Painter3D class for plotting 3D graphs on HTML canvas element.
+       We are aiming at providing super simple and fully functional WebGL interface for 3D data plotting.</div>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+<dt>
+    <h4 class="name" id="Painter3D"><span class="type-signature"></span>new Painter3D<span class="signature">(canvas)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Creates an instance of Painter3D
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>canvas</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">DOMElement</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">HTML canvas element</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+        <h5 class="subsection-title">Properties:</h5>
+        
+        <dl>
+
+<table class="props">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.canvas</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">DOMElement</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">HTML canvas element</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.gl</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">WebGLRenderingContext</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">canvas webgl context</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.bkgdColor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">graph background color (default [0.0,0.0,0.0])</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.axisOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">axis on property (true or false) (default false)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.gridOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">grid on property (true or false) (default false)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.meshOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">mesh on property (true or false) (default false)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.lightOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">light on property (true or false) (default false)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.transMatrix</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">translation matrix (default translate [0.0,0.0,-25.0])</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.rotatMatrix</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">rotation matrix (default rotate [-1.2,0.0,-0.785])</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.axisLineObj</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">axis arrow line object</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.axisHeadObj</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">axis arrow head object</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.gridObj</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">grid object</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.meshObj</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">mesh object</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.objList</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">list of objects</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>this.shaderProgram</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">WebGLProgram</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">webgl shader program</td>
+        </tr>
+	
+	
+	</tbody>
+</table></dl>
+        
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var glCanvas = document.getElementsByTagName("canvas")[0]; // Get a canvas element from HTML
+var glPainter = new Painter3D(glCanvas);                   // Create a Painter3D object</code></pre>
+
+    
+</dd>
+
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="clearObjectList"><span class="type-signature"></span>clearObjectList<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Clear object list
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line1178">line 1178</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.clearObjectList(); // Clear all objects
+glPainter.refresh();</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="drawObject"><span class="type-signature"></span>drawObject<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Draw an object
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">3D graph object</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line1242">line 1242</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var vertices = [0,7,0, -5,-4,0, 5,-4,0];
+var colors   = [1,1,1,1, 1,1,1,1, 1,1,1,1];
+var indices  = [0, 1, 2];
+glPainter.setupObject(vertices, null, colors, indices, 0, false);
+glPainter.drawObject(glPainter.objList[glPainter.objList.length-1]); // Draw the new object</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="refresh"><span class="type-signature"></span>refresh<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Re-plot all objects
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line1281">line 1281</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glCanvas.width  = 500; // Resize the HTML canvas element
+glCanvas.height = 300;
+glPainter.refresh();   // Re-plot buffered data</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setAxisOn"><span class="type-signature"></span>setAxisOn<span class="signature">(axisOn)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Turn on or turn off axis
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>axisOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">axis on property (true or false)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line406">line 406</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setAxisOn(true); // Turn on axis
+glPainter.refresh();       // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setBkgdColor"><span class="type-signature"></span>setBkgdColor<span class="signature">(bkgdColor)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Set background color
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>bkgdColor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">background color [r, g, b] (e.g. [1.0, 0.0, 0.0] is red)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line393">line 393</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setBkgdColor([1.0, 1.0, 1.0]); // Set backgournd color to white
+glPainter.refresh();                     // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setGridOn"><span class="type-signature"></span>setGridOn<span class="signature">(gridOn)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Turn on or turn off grid
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>gridOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">grid on property (true or false)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line419">line 419</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setGridOn(true); // Turn on grid
+glPainter.refresh();       // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setLightOn"><span class="type-signature"></span>setLightOn<span class="signature">(lightOn)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Turn on or turn off light
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>lightOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">light on property (true or false)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line445">line 445</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setLightOn(true); // Turn on light
+glPainter.refresh();        // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setMatrices"><span class="type-signature"></span>setMatrices<span class="signature">(trans, rotat)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Set transformation matrices
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>trans</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">translation operation [x, y, z]</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>rotat</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">rotation operation [Rx, Ry, Rz]</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line472">line 472</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setMatrices([0,0,-15], [-1.1,0,0]) // Specify perspective
+glPainter.refresh();                         // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setMeshOn"><span class="type-signature"></span>setMeshOn<span class="signature">(meshOn)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Turn on or turn off mesh
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>meshOn</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">mesh on property (true or false)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line432">line 432</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setMeshOn(true); // Turn on mesh
+glPainter.refresh();       // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setPointSize"><span class="type-signature"></span>setPointSize<span class="signature">(size)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Set point size
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">point size</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line458">line 458</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setPointSize(5); // Set point size
+glPainter.refresh();       // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupAxis"><span class="type-signature"></span>setupAxis<span class="signature">(length, headSize, <span class="optional">origin</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup axis object
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>length</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">length of axis (in unit of 1)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>headSize</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">size of the arrow head (in unit of 1)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>origin</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">origin of axis (default [0, 0, 0])</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line493">line 493</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setupAxis(20, 2); // Setup axis
+glPainter.setAxisOn(true);  // Turn on axis
+glPainter.refresh();        // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupGrid"><span class="type-signature"></span>setupGrid<span class="signature">(unit, length, color, <span class="optional">origin</span>, <span class="optional">rotate</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup grid object (for axis purpose, not to be confused with setupMesh)
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>unit</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">unit of grid</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>length</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">length of grid</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">color of grid [r, g, b]</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>origin</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">origin of grid (default [0, 0, 0])</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>rotate</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">rotation of grid [Rx, Ry, Rz] (default [0, 0, 0])</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line665">line 665</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setupGrid(1, 20, [0.5,0.5,0.5]); // Setup grid
+glPainter.setGridOn(true);                 // Turn on grid
+glPainter.refresh();                       // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupLight"><span class="type-signature"></span>setupLight<span class="signature">(lightDirection, lightAmbient, lightDiffuse, lightSpecular, shininess)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup light
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>lightDirection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">direction of light</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>lightAmbient</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">ambient light color</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>lightDiffuse</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">diffuse light color</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>lightSpecular</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">specular light color</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>shininess</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">shininess of surface</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line1105">line 1105</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setupLight([0.0,1.0,0.0], // Setup light
+                     [0.4,0.4,0.4],
+                     [0.6,0.6,0.6],
+                     [0.8,0.8,0.8],
+                     100.0);
+glPainter.setLightOn(true);         // Turn on light
+glPainter.refresh();</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupMesh"><span class="type-signature"></span>setupMesh<span class="signature">(x, y, type, lightRespon)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup mesh object (for z=f(x,y) plot purpose, not to be confused with setupGrid)
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">x array</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">y array</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">object type (0=face, 1=line, 2=point)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>lightRespon</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">response to light (true or false)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line768">line 768</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var x = [-10, -5, 0, 5, 10];
+var y = [-10, -5, 0, 5, 10];
+glPainter.setupMesh(x, y, 0, true); // Setup mesh
+glPainter.setMeshOn(true);          // Turn on mesh
+glPainter.setLightOn(true);         // Turn on light
+glPainter.refresh();                // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupMeshColor"><span class="type-signature"></span>setupMeshColor<span class="signature">(meshColor)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup color of mesh
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>meshColor</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">color of mesh [r1,g1,b1,a1, r2,g2,b2,a2, ...]</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line985">line 985</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var x = [-10, -5, 0, 5, 10];
+var y = [-10, -5, 0, 5, 10];
+var c = [0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1,
+         0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1,
+         0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1,
+         0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1,
+         0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1, 0,1,0,1];
+glPainter.setupMesh(x, y, 0, true); // Setup mesh
+glPainter.setupMeshColor(c);        // Setup color (a green mesh)
+glPainter.setMeshOn(true);          // Turn on mesh
+glPainter.setLightOn(true);         // Turn on light
+glPainter.refresh();                // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupMeshColorByPhase"><span class="type-signature"></span>setupMeshColorByPhase<span class="signature">(phase)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup color (by phase) of mesh (After call setupMesh())
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>phase</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">phase of vertices (from 0 to 2*Math.PI)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line1021">line 1021</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var x = [-10, -5, 0, 5, 10];
+var y = [-10, -5, 0, 5, 10];
+var p = [0, 1, 3.1, 5, 6.2,
+         0, 1, 3.1, 5, 6.2,
+         0, 1, 3.1, 5, 6.2,
+         0, 1, 3.1, 5, 6.2,
+         0, 1, 3.1, 5, 6.2];
+glPainter.setupMesh(x, y, 0, true); // Setup mesh
+glPainter.setupMeshColorByPhase(p); // Setup color by phase (a rainbow mesh)
+glPainter.setMeshOn(true);          // Turn on mesh
+glPainter.setLightOn(true);         // Turn on light
+glPainter.refresh();                // Refresh</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupObject"><span class="type-signature"></span>setupObject<span class="signature">(vertices, normals, colors, indices, type, lightRespon)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup object and push this object to objList
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>vertices</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">vertex array [x1,y1,z1, x2,y2,z2, ...]</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>normals</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">normal array [nx1,ny1,nz1, nx2,ny2,nz2, ...] (null if not interested in light)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>colors</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">color array [r1,g1,b1,a1, r2,g2,b2,a2, ...]</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>indices</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">index array [i1, i2, ...]</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">object type (0=face, 1=line, 2=point)</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>lightRespon</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">response to light (true or false)</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line1133">line 1133</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var vertices = [0,7,0, -5,-4,0, 5,-4,0];
+var colors   = [1,1,1,1, 1,1,1,1, 1,1,1,1];
+var indices  = [0, 1, 2];
+glPainter.setupObject(vertices, null, colors, indices, 0, false); // A white triangle with no light effect
+glPainter.refresh();</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setupView"><span class="type-signature"></span>setupView<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Setup perspective and clear canvas
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line1190">line 1190</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>glPainter.setupView();
+glPainter.refresh();</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="updateMesh"><span class="type-signature"></span>updateMesh<span class="signature">(z)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Update mesh z value
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>z</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Array.Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">z value of mesh</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Painter3D.js.html">Painter3D.js</a>, <a href="Painter3D.js.html#line893">line 893</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var x = [-10, -5, 0, 5, 10];
+var y = [-10, -5, 0, 5, 10];
+var z = [ 2, 0,-2, 0, 2,
+          0, 2, 0, 2, 0,
+         -2, 0, 2, 0,-2,
+          0, 2, 0, 2, 0,
+          2, 0,-2, 0, 2];
+glPainter.setupMesh(x, y, 0, true); // Setup mesh
+glPainter.updateMesh(z);            // Update mesh
+glPainter.setMeshOn(true);          // Turn on mesh
+glPainter.setLightOn(true);         // Turn on light
+glPainter.refresh();                // Refresh</code></pre>
+
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Complex.html">Complex</a></li><li><a href="Painter.html">Painter</a></li><li><a href="Painter3D.html">Painter3D</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Sun Feb 16 2014 16:03:02 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

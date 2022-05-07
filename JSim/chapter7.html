@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Chapter 7</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" media="all" href="CSS/theme.css" />
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="JS/Painter.js"></script>
+<script type="text/javascript" src="JS/Radial.js"></script>
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="header">
+        <h1>JavaScript Simulation</h1>
+    </div>
+
+    <div id="menu">
+        <ul>
+            <li><a title="Home" href="index.html">Home</a></li>
+            <li><a title="Chapter 1" href="chapter1.html">Chapter 1</a></li>
+            <li><a title="Chapter 2" href="chapter2.html">Chapter 2</a></li>
+            <li><a title="Chapter 3" href="chapter3.html">Chapter 3</a></li>
+            <li><a title="Chapter 4" href="chapter4.html">Chapter 4</a></li>
+            <li><a title="Chapter 5" href="chapter5.html">Chapter 5</a></li>
+            <li><a title="Chapter 6" href="chapter6.html">Chapter 6</a></li>
+            <li><a title="Chapter 7" class="currentLink" href="chapter7.html">Chapter 7</a></li>
+            <li><a title="Chapter 8" href="chapter8.html">Chapter 8</a></li>
+            <li><a title="Chapter 9" href="chapter9.html">Chapter 9</a></li>
+            <li><a title="Documentation" href="documentation.html">Documentation</a></li>
+            <li><a title="Discussion" href="discussion.html">Discussion</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <h2>Schrödinger equation in spherical coordinates</h2>
+
+        <p>In spherical coordinates, the time-independent Schrödinger equation reads (assume \( V \) depends
+           only on \( r \))</p>
+           \[ -\frac{\hbar^2}{2m} \left[ \frac{1}{r^2} \frac{\partial}{\partial r} \left( r^2 \frac{\partial
+           \psi}{\partial r} \right) + \frac{1}{r^2 \sin{\theta}} \frac{\partial}{\partial \theta} \left( \sin{\theta}
+           \frac{\partial \psi}{\partial \theta} \right) + \frac{1}{r^2 \sin^2{\theta}} \left( \frac{\partial^2
+           \psi}{\partial \phi^2} \right) \right] + V(r) \psi = E \psi \]
+
+        <p>By separation of variables</p>
+           \[ \psi(r, \theta, \phi) = R(r) Y(\theta, \phi) \]
+
+        <p>We obtain our radial equation for \( R(r) \) and angular equation for \( Y(\theta, \phi) \)</p>
+           \[
+           \begin{aligned}
+           \text{Radial equation: } &amp; \frac{1}{R} \frac{d}{d r} \left( r^2 \frac{d R}{d r}
+           \right) - \frac{2mr^2}{\hbar^2} [V(r) - E] = l(l+1) \\
+           \text{Angular equation: } &amp; - \frac{1}{Y} \left[ \frac{1}{\sin{\theta}}
+           \frac{\partial}{\partial \theta} \left( \sin{\theta} \frac{\partial Y}{\partial
+           \theta} \right) + \frac{1}{\sin^2{\theta}} \frac{\partial^2 Y}{\partial \phi^2} \right] = -l(l+1)
+           \end{aligned}
+           \]
+
+        <h2>Radial equation</h2>
+
+        <p>The solution for the angular eqution is shown in <a href="chapter4.html">Chapter 4 - Spherical
+           Harmonics</a>. Here, we solve the radial equation. This equation simplifies if we change variables:</p>
+           \[ u(r) \equiv rR(r) \]
+
+        <p>The radial equation now becomes:</p>
+           \[ \text{Radial equation: } - \frac{\hbar^2}{2m} \frac{d^2u}{dx^2} + \left[ V(r) + \frac{\hbar^2}{2m}
+           \frac{l(l+1)}{r^2} \right] u = E u \]
+        <p>This equation is almost identical to the one-dimensional Schrödinger equation, except we now have an
+           extra term \( (\hbar^2/2m)[l(l+1)/r^2] \) in addition to the potential \( V(r) \).</p>
+
+        <p>Meanwhile, note that these two normalization conditions are equivalent:</p>
+           \[ \int_0^{\infty} |R|^2 r^2 dr = 1 \quad \text{and} \quad \int_0^{\infty} |u|^2 dr = 1 \]
+
+        <p>For a hydrogen atom, we have a simple Coulomb potential:</p>
+           \[ V(r) = - \frac{e^2}{4\pi\epsilon_0} \frac{1}{r} \]
+
+        <div class="radialManu">
+        { "rMin":0.001, "rMax":150.0, "dx":0.001, "lMin":0, "lMax":5, "EMin":-0.55, "EMax":-0.01,
+          "cw":0.90, "ch":0.75, "xRange":[0,150], "yRange":[-0.6,0.05] }
+        </div>
+
+        <div class="radialAuto">
+        { "rMin":0.001, "rMax":150.0, "dx":0.001, "lMin":0, "lMax":5, "lLim":-0.55, "uLim":-0.01,
+          "cw":0.90, "ch":0.75, "xRange":[0,150], "yRange":[-0.6,0.05] }
+        </div>.
+    </div>
+
+    <div id="footer">Contact me: x@y, where x=qian.zhang, y=rwth-aachen.de</div>
+</div>
+</body>
+
+</html>

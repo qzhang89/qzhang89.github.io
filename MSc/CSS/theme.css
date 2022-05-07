@@ -1,0 +1,369 @@
+body {
+    margin: 0 0 0 0;
+    padding: 0;
+    background-color: #F5F5F5;
+    font-size: 110%;
+    text-align: center;
+}
+
+#wrapper {
+    background-color: #FFFFFF;
+    width: 80%;
+    min-width: 800px;
+    margin: auto;
+}
+
+#header {
+    background-color: #4F81BD;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+#header img {
+	margin: 10px;
+    vertical-align: middle;        
+}
+
+#header h1 {
+	font-size: 180%;
+	color: #FFFFFF;
+}
+
+#content {
+    width: 95%;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    text-align: justify;
+}
+
+#partener {
+    background-color: #F5F5F5;
+    width: 100%;
+    margin-top: 1em;
+    text-align: right;
+}
+
+#partener img {
+    margin: 10px;
+}
+
+p {
+    text-align: justify;
+}
+
+a:link, a:visited {
+    color: #0000FF;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+div.SCFMTP div.setElem {
+    clear: both;
+    overflow: hidden;
+    padding: 0.2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div.SCFMTP div.ptable {
+	float: left;
+	width: 45%;
+	padding: 0.2em;
+	text-align: center;
+}
+
+div.SCFMTP div.ptDispDiv {
+    display: inline-block;
+    width: 17%;
+    text-align: left;
+    margin-top: 5%;
+    margin-left: 2%;
+}
+
+div.SCFMTP div.elemNumDiv {
+    font-size: 2vw;
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+div.SCFMTP div.elemSymbDiv {
+    font-size: 4.5vw;
+    margin-left: 5%;
+}
+
+div.SCFMTP span.elemSymbSpan {
+    font-weight: bold;
+}
+
+div.SCFMTP sup.elemIonSup {
+    font-size: 2.5vw;
+}
+
+div.SCFMTP div.elemNameDiv {
+    font-size: 1.5vw;
+    margin-left: 5%;
+}
+
+div.SCFMTP div.elemWeightDiv {
+    font-size: 1.15vw;
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-bottom: 3%;
+}
+
+div.SCFMTP input.elemCfgText {
+    font-size: 1vw;
+    width: 88%;
+    margin-left: 5%;
+    margin-bottom: 6%;
+}
+
+div.SCFMTP div.dfcfgDiv {
+    text-align: center;
+    margin: 5%;
+}
+
+div.SCFMTP div.visual {
+	float: right;
+	width: 30%;
+    padding: 0.2em;
+    text-align: center;
+    outline-style: solid;
+    outline-color: #4F81BD;
+    margin-top: 1.2%;
+    margin-right: 1.2%;
+}
+
+div.SCFMTP div.visual input[type="range"] {
+    width: 80%;
+}
+
+div.SCFMTP div.scf {
+    clear: both;
+    overflow: hidden;
+    padding: 0.2em;
+    outline-style: solid;
+    outline-color: #4F81BD;
+}
+
+div.SCFMTP div.comp {
+    float: left;
+    width: 38%;
+    margin-left: 1%;
+}
+
+div.SCFMTP div.iterDiv,
+div.SCFMTP div.xcDiv,
+div.SCFMTP div.unitDiv,
+div.SCFMTP div.genDiv {
+    text-align: center;
+}
+
+div.SCFMTP progress.prgsBar {
+	width: 40%;
+}
+
+div.SCFMTP div.rptDiv {
+    margin-left: 1%;
+}
+
+div.SCFMTP div.plots {
+    float: right;
+    width: 60%;
+    margin-right: 1%;
+}
+
+div.SCFMTP table.plottable {
+	text-align: center;
+    margin: auto;
+    margin-top: 0.3em;
+    border-collapse: collapse;
+}
+
+div.SCFMTP div.mtp {
+    clear: both;
+    overflow: hidden;
+    padding: 0.2em;
+}
+
+div.SCFMTP div.panel {
+    float: left;
+    width: 20%;
+    padding: 0.5em;
+    text-align: center;
+    outline-style: solid;
+    outline-color: #4F81BD;
+}
+
+div.SCFMTP div.panel table {
+    margin: auto;
+    border-spacing: 8px 0;
+}
+
+div.SCFMTP div.panel table td {
+    width: 1.5em;
+    height: 1.75em;
+    font-size: 2em;
+}
+
+div.SCFMTP div.panel .shell:hover {
+    outline-style: solid !important;
+    outline-color: #00FF00 !important;
+    cursor: pointer;
+}
+
+div.SCFMTP div.panel .sym {
+    font-size: 0.7em;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    border-style: none;
+}
+
+div.SCFMTP div.panel .xs {
+    background-color: #6699ff;
+    border: 1px solid #336699;
+    text-align: center;
+}
+
+div.SCFMTP div.panel .xp {
+    background-color: #ffcc00;
+    border: 1px solid #cc9900;
+    text-align: center;
+}
+
+div.SCFMTP div.panel .xd {
+    background-color: #ff9999;
+    border: 1px solid #cc6666;
+    text-align: center;
+}
+
+div.SCFMTP div.panel .xf {
+    background-color: #00cc33;
+    border: 1px solid #009900;
+    text-align: center;
+}
+
+div.SCFMTP input[type="range"] {
+    width: 60%;
+}
+
+div.SCFMTP div.spect {
+    float: right;
+    width: 75%;
+    padding: 0.2em;
+    text-align: center;
+    outline-style: solid;
+    outline-color: #4F81BD;
+    margin-bottom: 2%;
+}
+
+div.SCFMTP div.mtpDiv {
+    clear: both;
+}
+
+div.SCFMTP div.mtpItem {
+	background-color: #F8F8FF;
+}
+
+div.SCFMTP div.mtpIdx {
+    display: none;
+}
+
+div.SCFMTP div.mtpStatus {
+    display: none;
+}
+
+div.SCFMTP div.mtpItem:hover {
+    outline-style: solid;
+    outline-color: #0000FF;
+    cursor: pointer;
+}
+
+div.SCFMTP div.crystal {
+    clear: both;
+    overflow: hidden;
+    padding: 0.2em;
+    outline-style: solid;
+    outline-color: #4F81BD;
+    margin-bottom: 1%;
+}
+
+div.SCFMTP div.viewCrystal {
+    float: left;
+    width: 45%;
+    text-align: center;
+    padding: 0.2em;
+    margin-top: 1%;
+    margin-left: 1%;
+}
+
+div.SCFMTP div.setCrystal {
+    float: right;
+    width: 45%;
+    padding: 0.2em;
+}
+
+div.SCFMTP div.structDiv {
+    margin-bottom: 0.8em;
+    text-align: center;
+}
+
+div.SCFMTP div.structDiv input[type="range"] {
+    width: 50%;
+}
+
+div.SCFMTP div.structDiv table {
+    display: inline-block;
+    text-align: center;
+    border-collapse: collapse;
+    margin-top: 2%;
+}
+
+div.SCFMTP div.structDiv table th {
+    min-width: 2em;
+}
+
+div.SCFMTP div.IkDiv {
+    text-align: center;
+    margin-bottom: 0.8em;
+}
+
+div.SCFMTP div.cbtDiv {
+	font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.2em;
+}
+
+div.SCFMTP div.cbtDiv sup {
+	font-size: 0.6em;
+}
+
+div.SCFMTP div.funSelectDiv {
+    text-align: center;
+    margin-bottom: 0.2em;
+}
+
+div.SCFMTP div.IfunDiv {
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+div.SCFMTP div.QfunDiv {
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+div.SCFMTP div.alphaDiv {
+    margin-bottom: 0.5em;
+    text-align: center;
+}

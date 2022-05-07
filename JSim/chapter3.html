@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Chapter 3</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" media="all" href="CSS/theme.css" />
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="JS/Complex.js"></script>
+<script type="text/javascript" src="JS/CrankNicolson.js"></script>
+<script type="text/javascript" src="JS/Painter3D.js"></script>
+<script type="text/javascript" src="JS/WavePacket2D.js"></script>
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="header">
+        <h1>JavaScript Simulation</h1>
+    </div>
+
+    <div id="menu">
+        <ul>
+            <li><a title="Home" href="index.html">Home</a></li>
+            <li><a title="Chapter 1" href="chapter1.html">Chapter 1</a></li>
+            <li><a title="Chapter 2" href="chapter2.html">Chapter 2</a></li>
+            <li><a title="Chapter 3" class="currentLink" href="chapter3.html">Chapter 3</a></li>
+            <li><a title="Chapter 4" href="chapter4.html">Chapter 4</a></li>
+            <li><a title="Chapter 5" href="chapter5.html">Chapter 5</a></li>
+            <li><a title="Chapter 6" href="chapter6.html">Chapter 6</a></li>
+            <li><a title="Chapter 7" href="chapter7.html">Chapter 7</a></li>
+            <li><a title="Chapter 8" href="chapter8.html">Chapter 8</a></li>
+            <li><a title="Chapter 9" href="chapter9.html">Chapter 9</a></li>
+            <li><a title="Documentation" href="documentation.html">Documentation</a></li>
+            <li><a title="Discussion" href="discussion.html">Discussion</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <h2>Time-dependent Schrödinger equation in 2D space</h2>
+
+        <p>This chapter demonstrate numerical solution of time-dependent Schödinger equation in 2-dimensional
+           space. Simulation is visualized via WebGL. To visualize 3D data on this page, your browser should
+           support WebGL. (Recommended browser: Apple Safari or Google Chrome)</p>
+
+        <p>In 2-dimensional space, the time-dependent Schrödinger equation becomes:</p>
+           \[ -\frac{\hbar^2}{2m} \left( \frac{\partial^2\Psi}{\partial x^2} + \frac{\partial^2\Psi}{\partial y^2}
+           \right) + V(x,y) \Psi = i \hbar \frac{\partial \Psi}{\partial t} \]
+
+        <p>Suppose we consider zero potential and choose unit in which \( \hbar = 1 \) and \( m = 1 \), we
+           simplify our equation to:</p>
+           \[ -\frac{1}{2} \left( \frac{\partial^2\Psi}{\partial x^2} + \frac{\partial^2\Psi}{\partial y^2} \right)
+           = i \frac{\partial \Psi}{\partial t} \]
+
+        <p>The challenging work is we have partial derivatives in both \( x \) and \( y \) directions.</p>
+
+        <p>Suppose we try to implement the Crank-Nicolson scheme in 2D. This would give us:</p>
+           \[
+           \begin{aligned}
+           \Psi_{i,j}^{n+1} = \Psi_{i,j}^n
+           &amp; + \frac{i}{4} \Delta t \left( \frac{\Psi_{i+1,j}^n-2\Psi_{i,j}^n+\Psi_{i-1,j}^n}{\Delta x^2} +
+           \frac{\Psi_{i+1,j}^{n+1}-2\Psi_{i,j}^{n+1}+\Psi_{i-1,j}^{n+1}}{\Delta x^2} \right) \\
+           &amp; + \frac{i}{4} \Delta t \left( \frac{\Psi_{i,j+1}^n-2\Psi_{i,j}^n+\Psi_{i,j-1}^n}{\Delta y^2} +
+           \frac{\Psi_{i,j+1}^{n+1}-2\Psi_{i,j}^{n+1}+\Psi_{i,j-1}^{n+1}}{\Delta y^2} \right)
+           \end{aligned}
+           \]
+
+        <p>While previously in 1-dimensional case, we had a tridiagonal linear system, now in 2-dimensional
+           case, we don't have a tridiagonal linear system (why? because each point has four neighbors instead of
+           two). This implies we cannot use the Thomas algorithm and consequently very computational expensive!</p>
+
+        <p>Fortunately, we have a very powerful method enables us to use the Thomas algorithm. It is called the
+           Alternating Direction Implicit method (ADI).</p>
+        <p>The idea is to divide each timestep into two steps of size \( \Delta t / 2 \). In each sub-step, a
+           different dimension is treated implicitly:</p>
+        <p class="blue">Sub-step 1:</p>
+           \[ \Psi_{i,j}^{n+1/2} = \Psi_{i,j}^n + \frac{i}{4} \Delta t \left(
+           \frac{\Psi_{i+1,j}^{n+1/2}-2\Psi_{i,j}^{n+1/2}+\Psi_{i-1,j}^{n+1/2}}{\Delta x^2} +
+           \frac{\Psi_{i,j+1}^n-2\Psi_{i,j}^n+\Psi_{i,j-1}^n}{\Delta y^2} \right) \]
+        <p class="blue">Sub-step 2:</p>
+           \[ \Psi_{i,j}^{n+1} = \Psi_{i,j}^{n+1/2} + \frac{i}{4} \Delta t \left(
+           \frac{\Psi_{i+1,j}^{n+1/2}-2\Psi_{i,j}^{n+1/2}+\Psi_{i-1,j}^{n+1/2}}{\Delta x^2} +
+           \frac{\Psi_{i,j+1}^{n+1}-2\Psi_{i,j}^{n+1}+\Psi_{i,j-1}^{n+1}}{\Delta y^2} \right) \]
+        
+        <p>It takes a while for one to understand how this scheme works. But now we are able to solve the linear
+           system efficiently using the <a href="http://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm"
+           target="_blank">Thomas algorithm</a>.</p>
+
+        <div class="WavePacket2D">
+        { "xMin":-6.0, "xMax":6.0, "dx":0.1, "yMin":-6.0, "yMax":6.0, "dy":0.1, "tMax":50.00, "dt":0.02,
+          "kx0Min":-3, "kx0Max":3, "kx0Min":-3, "kx0Max":3, "stdMin":1.0, "stdMax":2.0 }
+        </div>
+    </div>
+
+    <div id="footer">Contact me: x@y, where x=qian.zhang, y=rwth-aachen.de</div>
+</div>
+</body>
+
+</html>

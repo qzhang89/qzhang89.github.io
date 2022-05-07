@@ -1,0 +1,1084 @@
+<!--
+Google IO 2012/2013 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https:// code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Presentation</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" media="all" href="theme/css/default.css">
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+
+<style type="text/css" media="all">
+p {text-align:justify;}
+div.shootManu {text-align:center; font-size:70%; color:black; width:72%; min-width:260px; margin-left:auto; margin-right:auto;}
+div.shootAuto {text-align:center; font-size:70%; color:black; width:72%; min-width:260px; margin-left:auto; margin-right:auto;}
+div.WavePacket {text-align:center; font-size:70%; color:black; width:90%; min-width:300px; margin-left:auto; margin-right:auto;}
+div.WavePacket2D {text-align:center; font-size:70%; color:black; width:75%; min-width:300px; margin-left:auto; margin-right:auto;}
+div.WavePacket input[type="button"], div.wp2d input[type="button"] {height: 2em; width: 3.5em; font-size: 100%; text-align: center;}
+table {text-align:center; width:75%; margin-left:auto; margin-right:auto;}
+table td, table th {padding: 0px;}
+td.text {text-align:left; width:20%;}
+table.Ytable, table.Ycode {width:85%; margin:auto;}
+table.Ytable td, table.Ycode td {border: dashed 1px;}
+input[type="range"] {width:100%;}
+</style>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">MathJax.Hub.Config({"SVG":{scale:75}});</script>
+<script type="text/javascript" data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+<script type="text/javascript" src="myJS/Painter.js"></script>
+<script type="text/javascript" src="myJS/Shooting.js"></script>
+<script type="text/javascript" src="myJS/Complex.js"></script>
+<script type="text/javascript" src="myJS/CrankNicolson.js"></script>
+<script type="text/javascript" src="myJS/WavePacket.js"></script>
+<script type="text/javascript" src="myJS/WavePacket2D.js"></script>
+<script type="text/javascript" src="myJS/Painter3D.js"></script>
+<script type="text/javascript" src="myJS/Ylm.js"></script>
+
+<script type="text/javascript">
+window.addEventListener("keydown", keySlideRefresher, false);
+window.addEventListener("touchmove", touchSlideRefresher, false);
+function keySlideRefresher(evt) {
+    switch(evt.keyCode) {
+    case 39: // right arrow
+    case 13: // Enter
+    case 32: // space
+    case 34: // PgDn
+    case 37: // left arrow
+    case 8:  // Backspace
+    case 33: // PgUp
+    case 40: // down arrow
+    case 38: // up arrow
+        var event = document.createEvent("HTMLEvents");
+        event.initEvent("resize", true, false);
+        window.dispatchEvent(event);
+        break;
+    }
+}
+function touchSlideRefresher() {
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent("resize", true, false);
+    window.dispatchEvent(event);
+}
+</script>
+</head>
+
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+    <slide class="title-slide segue nobackground">
+        <hgroup class="auto-fadein">
+            <h1 data-config-title><!-- populated from slide_config.json --></h1>
+            <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+            <p data-config-presenter><!-- populated from slide_config.json --></p>
+        </hgroup>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Outline</h2>
+        </hgroup>
+        <article>
+            <ul>
+                <li>Why JavaScript Simulation?</li>
+                <li>How to visualize data on web?</li>
+                <li>Time-independent Schrödinger equation</li>
+                <li>Time-dependent Schrödinger equation</li>
+                <li>How to visualize 3D data on web?</li>
+                <li>Time-dependent Schrödinger equation in 2D space</li>
+                <li>Visaulizing spherical harmonics</li>
+                <li>Program encapsulation and JSON</li>
+            </ul>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Why JavaScript Simulation?</h2>
+        </hgroup>
+        <article>
+            <p>If we run an application on a browser...</p>
+            <div class="flexbox vcenter"><img style="height:250px" src="img/browsers.jpg" /></div>
+            <ul>
+                <li>There is no system dependence</li>
+                <li>No special compiler required</li>
+                <li>Users can easily access your application though the Internet</li>
+                <li>Only <span class="blue">one browser</span> needed!</li>
+            </ul>
+        </article>
+    </slide>
+    
+    <slide class="segue dark nobackground">
+        <hgroup class="auto-fadein">
+            <h2>How to visualize data on web?</h2>
+            <h3>To perform simulations, we must be able to visualize our data.</h3>
+        </hgroup>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>The HTML5 &lt;canvas&gt; tag</h2>
+        </hgroup>
+        <article class="smaller">
+            <p>&lt;canvas&gt; is a new element specified in HTML5. It is used to <span class="blue">draw graphics</span> via scripting (usually JavaScript).</p>
+            <div style="width:60%; float:left;">
+            <pre class="prettyprint" data-lang="javascript">
+&lt;script type="text/javascript"&gt;
+function draw() {
+    var cnvs = document.getElementById("myCanvas");
+    var ctxt = cnvs.getContext("2d");
+    ctxt.beginPath();
+    ctxt.rect(50, 50, 200, 100);
+    ctxt.stroke();
+    ctxt.beginPath();
+    ctxt.arc(200, 300, 100, 0, Math.PI*2, true);
+    ctxt.stroke();
+}
+&lt;/script&gt;</pre>
+            <pre class="prettyprint" data-lang="html">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+    &lt;canvas id="myCanvas" width="380" height="415"&gt;&lt;/canvas&gt;
+&lt;body&gt;
+&lt;/html&gt;</pre>
+            </div>
+            <div style="border:1px dotted; width:38%; float:left;">
+                <script type="text/javascript">
+                window.addEventListener("load", draw, false);
+                function draw() {
+                    var cnvs = document.getElementById("myCanvas");
+                    var ctxt = myCanvas.getContext("2d");
+                    ctxt.beginPath();
+                    ctxt.rect(50, 50, 200, 100);
+                    ctxt.stroke();
+                    ctxt.beginPath();
+                    ctxt.arc(200, 300, 100, 0, Math.PI*2, true);
+                    ctxt.stroke();
+                }
+                </script>
+                <canvas id="myCanvas" width="380" height="415">Your browser does not support the canvas tag.</canvas>
+            </div>
+        </article>
+    </slide>
+    
+    <slide>
+        <script type="text/javascript">
+        window.addEventListener("load", demoLoadHandler, false);
+        function demoLoadHandler() {
+            var demoCanvas  = document.getElementById("demoCanvas");
+            var clearButton = document.getElementById("clearButton");
+            
+            var ctxt = demoCanvas.getContext("2d");
+            ctxt.lineWidth = 3;
+            
+            demoCanvas.addEventListener("mousedown", mouseDownHandler);
+            demoCanvas.addEventListener("mousemove", mouseMoveHandler);
+            demoCanvas.addEventListener("mouseup",   mouseUpHandler);
+            demoCanvas.addEventListener("mouseout",  mouseUpHandler);
+            clearButton.addEventListener("click", clearClickHandler);
+            
+            var mouseIsDown = false;
+            function mouseDownHandler(evt) {
+                mouseIsDown = true;
+                var rect = demoCanvas.getBoundingClientRect();
+                ctxt.beginPath();
+                ctxt.moveTo(evt.clientX-rect.left, evt.clientY-rect.top);
+            }
+            function mouseMoveHandler(evt) {
+                if (mouseIsDown) {
+                    var rect = demoCanvas.getBoundingClientRect();
+                    ctxt.lineTo(evt.clientX-rect.left, evt.clientY-rect.top);
+                    ctxt.stroke();
+                }
+            }
+            function mouseUpHandler() {
+                mouseIsDown = false;
+            }
+            function clearClickHandler() {
+                ctxt.clearRect(0, 0, demoCanvas.width, demoCanvas.height);
+            }
+        }
+        </script>
+        <hgroup>
+            <h2>This is really a &lt;canvas&gt;</h2>
+        </hgroup>
+        <article>
+            <div style="text-align:center;">
+                <canvas id="demoCanvas" width="600" height="400" style="border:solid;">Your browser does not support the canvas tag.</canvas><br />
+                <input id="clearButton" type="button" value="Clear" />
+            </div>
+            <br />
+            <p>We use it to <span class="blue">visualize</span> our data!</p>
+        </article>
+    </slide>
+    
+    <slide class="segue dark nobackground">
+        <hgroup class="auto-fadein">
+            <h2>So, we are ready.</h2>
+            <h3>We can start our simulations.</h3>
+        </hgroup>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Time-independent Schrödinger equation</h2>
+        </hgroup>
+        <article>
+            <p>Our first problem is to solve the <span class="blue">time-independent Schrödinger equation</span> (in one dimensional space):</p>
+            \[ \left[-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + V(x)\right] \psi = E \psi \]
+            <p>We solve this differential equation numerically. Using the finite difference method:</p>
+            \[ \frac{d^2\psi_i}{dx^2} = \frac{\psi_{i+1} - 2\psi_i + \psi_{i-1}}{\Delta x^2} \]
+            <p>which gives:
+            \[ \psi_{i+1} = \left[\frac{2m}{\hbar^2} (V_i - E) \Delta x^2 + 2\right] \psi_i - \psi_{i-1} \]
+            <p>From this simple <span class="blue">recursion</span>, we can easily obtain \( \psi_2,\,\psi_3,\,\ldots,\,\psi_{N-1} \) if \( \psi_0 \) and \( \psi_1 \) are initiailized.</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>The shooting method</h2>
+        </hgroup>
+        <article>
+            <p>As a demonstration, we consider the potential of the harmonic oscillator:</p>
+            \[ \psi_{i+1} = \left[\frac{2m}{\hbar^2} (\frac{1}{2} m \omega^2 x_i^2 - E) \Delta x^2 + 2\right]\psi_i - \psi_{i-1} \]
+            <p>We take \( \psi_0 = 1.0\times10^{-6} \) and \( \psi_1 = 1.1\times10^{-6} \) as initial conditions.</p>
+            <p>Choosing different \( E \) will result in different shapes of the wave function. The idea of the <span class="blue">shooting method</span> is to choose \( E \) (by trial-and-error) so that: \( \psi_{N-1} \rightarrow 0 \)</p>
+            <div class="flexbox vcenter"><img style="height:220px; width:380px" src="img/shoot.png" /></div>
+        </article>
+    </slide>
+    
+    <slide>
+        <h2>Harmonic oscillator</h2>
+        <article>
+            <div class="shootManu">
+            {
+                "xMin":-2.0, "xMax":2.0, "dx":0.001, "EMin":0, "EMax":60,
+                "cw":0.80, "ch":0.65
+            }
+            </div>
+        </article>
+    </slide>
+    
+    <slide>
+        <h2>Harmonic oscillator</h2>
+        <article>
+            <div class="shootAuto">
+            {
+                "xMin":-2.0, "xMax":2.0, "dx":0.001, "lLim":0.0, "uLim":60.0,
+                "cw":0.80, "ch":0.65
+            }
+            </div>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Time-dependent Schrödinger equation</h2>
+        </hgroup>
+        <article>
+            <p>A more interesting problem: The <span class="blue">time-dependent Schrödinger equation</span> (in 1-dimensional space):</p>
+            \[ \left[-\frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + V(x)\right] \Psi = i \hbar \frac{\partial}{\partial t} \Psi \]
+            <p>It is instructive to rewrite the equation above as:</p>
+            \[ \frac{\partial}{\partial t} \Psi = \frac{\hat{H}}{i\hbar} \Psi \]
+            <p>We will use the <span class="blue">Crank-Nicolson</span> method to solve this problem. We discretize space in steps of size \( \Delta x \) and discretize time in steps of size \( \Delta t \), which leads to \( \Psi_i^n = \Psi(x_0+i\Delta x, \, t_0+n\Delta t) \). The Crank-Nicolson method in matrix form gives:</p>
+            \[ \vec{\Psi}^{n+1} = \vec{\Psi}^n + \frac{\Delta t}{2} \frac{\hat{H}}{i\hbar} (\vec{\Psi}^n + \vec{\Psi}^{n+1}) \]
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>The Crank-Nicolson method</h2>
+        </hgroup>
+        <article>
+            <p>The problem is to solve this linear system:</p>
+            \[ (I - \frac{\Delta t}{2} \frac{\hat{H}}{i\hbar} ) \vec{\Psi}^{n+1} = (I + \frac{\Delta t}{2} \frac{\hat{H}}{i\hbar} ) \vec{\Psi}^n \]
+            <p>where,</p>
+            <span style="font-size:80%">
+            \[
+            \hat{H} = -\frac{\hbar^2}{2m\Delta x^2}
+            \begin{bmatrix}
+            -2 &amp; 1 &amp; &amp; &amp; &amp; \\
+            1 &amp; -2 &amp; 1 &amp; &amp; &amp; \\
+            &amp; 1 &amp; -2 &amp; 1 &amp; &amp; \\
+            &amp; &amp; &amp; \ddots &amp; &amp; \\
+            &amp; &amp; &amp; 1 &amp; -2 &amp; 1 \\
+            &amp; &amp; &amp; &amp; 1 &amp; -2
+            \end{bmatrix} +
+            \begin{bmatrix}
+            V_0 &amp; &amp; &amp; &amp; &amp; \\
+            &amp; V_1 &amp; &amp; &amp; &amp; \\
+            &amp; &amp; V_2 &amp; &amp; &amp; \\
+            &amp; &amp; &amp; \ddots &amp; &amp; \\
+            &amp; &amp; &amp; &amp; V_{N-2} &amp; \\
+            &amp; &amp; &amp; &amp; &amp; V_{N-1}
+            \end{bmatrix}
+            \]
+            </span>
+            <p>The matrix is tridiagonal, we can solve this linear sytem efficiently using the <span class="blue">Thomas algorithm</span>.</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <h2>Wave packet in free space</h2>
+        <article>
+            <div class="WavePacket">
+            {
+                "xMin":-4.0, "xMax":4.0, "dx":0.01, "tMax":5.0, "dt":0.002, "VType":0, "BC":0,
+                "k0Min":-10, "k0Max":10, "stdMin":0.2, "stdMax":0.8, "x0Min":-2.0, "x0Max":2.0,
+                "cw":0.80, "ch":0.45
+            }
+            </div>
+        </article>
+    </slide>
+    
+    <slide>
+        <h2>Wave packet in harmonic oscillator</h2>
+        <article>
+            <div class="WavePacket">
+            {
+                "xMin":-4.0, "xMax":4.0, "dx":0.01, "tMax":5.0, "dt":0.002, "VType":1, "BC":0,
+                "k0Min":-10, "k0Max":10, "stdMin":0.2, "stdMax":0.8, "x0Min":-1.0, "x0Max":1.0,
+                "cw":0.80, "ch":0.45
+            }
+            </div>
+        </article>
+    </slide>
+    
+    <slide class="segue dark nobackground">
+        <hgroup class="auto-fadein">
+            <h2>How to visualize 3D data?</h2>
+            <h3>Tired with 2D plots? Here is something more exciting.</h3>
+        </hgroup>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>WebGL: 3D graphics on &lt;canvas&gt;</h2>
+        </hgroup>
+        <article>
+        <p>While</p>
+        <pre class="prettyprint" data-lang="javascript">
+var cnvs = document.getElementById("myCanvas");
+var ctxt = cnvs.getContext("2d");</pre>
+        <p>gives you a "pen" drawing <span class="blue">2D</span> graphics...</p>
+        <pre class="prettyprint" data-lang="javascript">
+var cnvs = document.getElementById("myCanvas");
+var ctxt = cnvs.getContext("webgl");</pre>
+        <p>gives you a "pen" drawing <span class="blue">3D</span> graphics!</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>To draw a triangle...</h2>
+        </hgroup>
+        <article>
+        <p>We need to tell the computer:</p>
+        <ul>
+            <li>
+            The <span class="blue">positions</span> of three vertices<br />
+            <pre class="prettyprint" data-lang="javascript">
+var vertices = [
+     0.0,  1.0,  0.0, // up
+    -1.0, -1.0,  0.0, // left bottom
+     1.0, -1.0,  0.0  // right bottom
+];</pre>
+            </li>
+            <li>
+            The <span class="blue">colors</span> of three vertices<br />
+            <pre class="prettyprint" data-lang="javascript">
+var colors = [
+     1.0, 0.0, 0.0, 1.0, // red
+     0.0, 1.0, 0.0, 1.0, // green
+     0.0, 0.0, 1.0, 1.0  // blue
+];</pre>
+            </li>
+        </ul>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>To draw a triangle...</h2>
+        </hgroup>
+        <article>
+        <p>The <span class="blue">vertex shader</span> program gets the positions of the vertices:</p>
+        <pre class="prettyprint" data-lang="x-shader/x-vertex">
+gl_Position = ...</pre>
+        <p>The <span class="blue">fragment shader</span> program interpolates colors for the fragments:</p>
+        <pre class="prettyprint" data-lang="x-shader/x-fragment">
+gl_FragColor = ...</pre>
+        <div class="flexbox vcenter"><img src="img/vf.png" /><img src="img/tri.png" /></div>
+        </article>
+    </slide>
+    
+    <slide>
+        <script type="text/javascript">
+        window.addEventListener("load", glCubeSetup, false);
+        function glCubeSetup() {
+            var glCanvas = document.getElementById("glCanvas");
+            var glPainter = new Painter3D(glCanvas);
+            
+            // Vertices, Normals, Colors, Indices
+            var vertices = [
+                // Front face
+                -5.0, -5.0,  5.0,
+                 5.0, -5.0,  5.0,
+                 5.0,  5.0,  5.0,
+                -5.0,  5.0,  5.0,
+                
+                // Back face
+                -5.0, -5.0, -5.0,
+                -5.0,  5.0, -5.0,
+                 5.0,  5.0, -5.0,
+                 5.0, -5.0, -5.0,
+                
+                // Top face
+                -5.0,  5.0, -5.0,
+                -5.0,  5.0,  5.0,
+                 5.0,  5.0,  5.0,
+                 5.0,  5.0, -5.0,
+        
+                // Bottom face
+                -5.0, -5.0, -5.0,
+                 5.0, -5.0, -5.0,
+                 5.0, -5.0,  5.0,
+                -5.0, -5.0,  5.0,
+                
+                // Right face
+                 5.0, -5.0, -5.0,
+                 5.0,  5.0, -5.0,
+                 5.0,  5.0,  5.0,
+                 5.0, -5.0,  5.0,
+                
+                // Left face
+                -5.0, -5.0, -5.0,
+                -5.0, -5.0,  5.0,
+                -5.0,  5.0,  5.0,
+                -5.0,  5.0, -5.0
+            ];
+            
+            var normals = [
+                // Front face
+                 0.0,  0.0,  1.0,
+                 0.0,  0.0,  1.0,
+                 0.0,  0.0,  1.0,
+                 0.0,  0.0,  1.0,
+                
+                // Back face
+                 0.0,  0.0, -1.0,
+                 0.0,  0.0, -1.0,
+                 0.0,  0.0, -1.0,
+                 0.0,  0.0, -1.0,
+                
+                // Top face
+                 0.0,  1.0,  0.0,
+                 0.0,  1.0,  0.0,
+                 0.0,  1.0,  0.0,
+                 0.0,  1.0,  0.0,
+                
+                // Bottom face
+                 0.0, -1.0,  0.0,
+                 0.0, -1.0,  0.0,
+                 0.0, -1.0,  0.0,
+                 0.0, -1.0,  0.0,
+                
+                // Right face
+                 1.0,  0.0,  0.0,
+                 1.0,  0.0,  0.0,
+                 1.0,  0.0,  0.0,
+                 1.0,  0.0,  0.0,
+                
+                // Left face
+                -1.0,  0.0,  0.0,
+                -1.0,  0.0,  0.0,
+                -1.0,  0.0,  0.0,
+                -1.0,  0.0,  0.0
+            ];
+            
+            var colors = [
+                  [0.0, 0.5, 1.0, 1.0], // Front face
+                  [0.5, 0.0, 1.0, 1.0], // Back face
+                  [0.5, 1.0, 0.0, 1.0], // Top face
+                  [0.0, 1.0, 0.5, 1.0], // Bottom face
+                  [1.0, 0.5, 0.0, 1.0], // Right face
+                  [1.0, 0.0, 0.5, 1.0]  // Left face
+            ];
+            var unpackedColors = new Array();
+            for (var i in colors) {
+                var color = colors[i];
+                for (var j=0; j < 4; j++) {
+                    unpackedColors = unpackedColors.concat(color);
+                }
+            }
+            
+            var indices = [
+                0, 1, 2,      0, 2, 3,    // Front face
+                4, 5, 6,      4, 6, 7,    // Back face
+                8, 9, 10,     8, 10, 11,  // Top face
+                12, 13, 14,   12, 14, 15, // Bottom face
+                16, 17, 18,   16, 18, 19, // Right face
+                20, 21, 22,   20, 22, 23  // Left face
+            ];
+            
+            glPainter.setupObject(vertices, normals, unpackedColors, indices, 0, true);
+            glPainter.setMatrices([0,0,-30], [0,0,0])
+            glPainter.refresh();
+        }
+        </script>
+        <hgroup>
+            <h2>WebGL demonstration</h2>
+        </hgroup>
+        <article>
+            <div style="text-align:center;">
+                <canvas id="glCanvas" width="500" height="350"></canvas><br />
+            </div>
+            <br />
+            <p>We use it to <span class="blue">visualize</span> our data in <span class="blue">3D</span>!</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Time-dependent Schrödinger equation in 2D space</h2>
+        </hgroup>
+        <article>
+            <p>In <span class="blue">2-dimensional</span> space, the time-dependent Schrödinger equation becomes:</p>
+            \[ \left[-\frac{\hbar^2}{2m} \left( \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} \right) + V(x,y)\right] \Psi = i \hbar \frac{\partial}{\partial t} \Psi \]
+            <p>Too complicated, you say? Yes, indeed it is!</p>
+            <p>Suppose we consider zero potential and choose unit in which \( \hbar = 1 \) and \( m = 1 \), we simplify our equation to:</p>
+            \[ - \frac{1}{2} \left( \frac{\partial^2\Psi}{\partial x^2} + \frac{\partial^2\Psi}{\partial y^2} \right) = i \frac{\partial \Psi}{\partial t} \]
+            <p>The challenging work is we have partial derivatives in both \( x \) and \( y \) directions.</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>The Crank-Nicolson method in 2D</h2>
+        </hgroup>
+        <article>
+            <p>Suppose we try to implement the Crank-Nicolson scheme in 2D. This would give us:</p>
+            \[
+            \begin{aligned}
+            \Psi_{i,j}^{n+1} = \Psi_{i,j}^n &amp; + \frac{i}{4} \Delta t \left( \frac{\Psi_{i+1,j}^n-2\Psi_{i,j}^n+\Psi_{i-1,j}^n}{\Delta x^2} + \frac{\Psi_{i+1,j}^{n+1}-2\Psi_{i,j}^{n+1}+\Psi_{i-1,j}^{n+1}}{\Delta x^2} \right) \\
+            &amp;  + \frac{i}{4} \Delta t \left( \frac{\Psi_{i,j+1}^n-2\Psi_{i,j}^n+\Psi_{i,j-1}^n}{\Delta y^2} + \frac{\Psi_{i,j+1}^{n+1}-2\Psi_{i,j}^{n+1}+\Psi_{i,j-1}^{n+1}}{\Delta y^2} \right)
+            \end{aligned}
+            \]
+            <p>In 1-dimensional space, a tridiagonal linear system.<br />In 2-dimensional space, not a tridiagonal linear system!</p>
+            <div class="flexbox vcenter"><img style="height:150px;" src="img/stencil.svg" /></div>
+            <p><span class="blue">Can't</span> use the Thomas algorithm?!</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>The Alternating Direction Implicit method</h2>
+        </hgroup>
+        <article class="smaller">
+            <p>Fortunately, we have a very powerful method enables us to use the Thomas algorithm. It is called the <span class="blue">Alternating Direction Implicit method (ADI)</span>.</p>
+            <p>The idea is to divide each timestep into two steps of size \( \Delta t / 2 \). In each sub-step, a different dimension is treated implicitly:</p>
+            <p class="blue">Sub-step 1:</p>
+            \[ \Psi_{i,j}^{n+1/2} = \Psi_{i,j}^n + \frac{i}{4} \Delta t \left( \frac{\Psi_{i+1,j}^{n+1/2}-2\Psi_{i,j}^{n+1/2}+\Psi_{i-1,j}^{n+1/2}}{\Delta x^2} + \frac{\Psi_{i,j+1}^n-2\Psi_{i,j}^n+\Psi_{i,j-1}^n}{\Delta y^2} \right) \]
+            <p class="blue">Sub-step 2:</p>
+            \[ \Psi_{i,j}^{n+1} = \Psi_{i,j}^{n+1/2} + \frac{i}{4} \Delta t \left( \frac{\Psi_{i+1,j}^{n+1/2}-2\Psi_{i,j}^{n+1/2}+\Psi_{i-1,j}^{n+1/2}}{\Delta x^2} + \frac{\Psi_{i,j+1}^{n+1}-2\Psi_{i,j}^{n+1}+\Psi_{i,j-1}^{n+1}}{\Delta y^2} \right) \]
+            <p>It takes a while for one to understand how this scheme works. But now we are able to solve the linear system efficently using the Thomas algorithm.</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Wave packet in 2D space</h2>
+        </hgroup>
+        <article>
+            <div class="WavePacket2D">
+            { "xMin":-6.0, "xMax":6.0, "dx":0.1, "yMin":-6.0, "yMax":6.0, "dy":0.1, "tMax":50.00, "dt":0.02,
+              "kx0Min":-3, "kx0Max":3, "kx0Min":-3, "kx0Max":3, "stdMin":1.0, "stdMax":2.0 }
+            </div>
+        </article>
+    </slide>
+    
+    <slide class="segue dark nobackground">
+        <hgroup class="auto-fadein">
+            <h2>Program encapsulation</h2>
+            <h3>Suppose we have many applications on one page...</h3>
+        </hgroup>
+    </slide>
+    
+    <slide>
+        <h2>Visualizing sperical harmonics</h2>
+        <article>
+            <table class="Ytable">
+                <tr><td></td><td></td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":0, "panelOn":false }</div>
+                </td><td></td><td></td></tr>
+                <tr><td></td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":1, "panelOn":false }</div>
+                </td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":2, "panelOn":false }</div>
+                </td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":3, "panelOn":false }</div>
+                </td><td></td></tr>
+                <tr><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":4, "panelOn":false }</div>
+                </td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":5, "panelOn":false }</div>
+                </td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":6, "panelOn":false }</div>
+                </td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":7, "panelOn":false }</div>
+                </td><td>
+                <div class="Ylm" style="width:200px;">{ "orbtIndex":8, "panelOn":false }</div>
+                </td></tr>
+            </table>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Program encapsulation</h2>
+        </hgroup>
+        <article>
+            <p>How to design our program in an appropriate way so that:</p>
+            <ul>
+                <li>There is no interference between web elements.</li>
+                <li>We can write the html file easily without worrying about the javascript.</li>
+                <li>We can add as many applications as we want.</li>
+            </ul>
+            <p class="blue">Solution:</p>
+            <ul>
+                <li>Use <code>&lt;div&gt;{JSON}&lt;/div&gt;</code></li>
+            </ul>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Visualizing sperical harmonics</h2>
+        </hgroup>
+        <article>
+            <table class="Ycode">
+                <tr><td></td><td></td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":0,<br />&nbsp;&nbsp;&nbsp;"m":0<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td></td><td></td></tr>
+                <tr><td></td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":1,<br />&nbsp;&nbsp;&nbsp;"m":-1<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":1,<br />&nbsp;&nbsp;&nbsp;"m":0<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":1,<br />&nbsp;&nbsp;&nbsp;"m":1<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td></td></tr>
+                <tr><td style="font-weight:normal">
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":2,<br />&nbsp;&nbsp;&nbsp;"m":-2<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":2,<br />&nbsp;&nbsp;&nbsp;"m":-1<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":2,<br />&nbsp;&nbsp;&nbsp;"m":0<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":2,<br />&nbsp;&nbsp;&nbsp;"m":1<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td><td>
+                <code style="font-size:80%">
+                <br />&nbsp;&lt;div class="Ylm"&gt;<br />&nbsp;{<br />&nbsp;&nbsp;&nbsp;"l":2,<br />&nbsp;&nbsp;&nbsp;"m":2<br />&nbsp;}<br />&nbsp;&lt;/div&gt;<br /><br />
+                </code>
+                </td></tr>
+            </table>
+        </article>
+    </slide>
+    
+    <slide>
+        <hgroup>
+            <h2>Parse JSON</h2>
+        </hgroup>
+        <article>
+            <p>The syntax inside each <code>&lt;div&gt;</code> is called JSON (JavaScript Object Notation).</p>
+            <p>In the javascript file, we call:</p>
+            <pre class="prettyprint" data-lang="javascript">
+var YlmDivs = document.getElementsByClassName("Ylm");
+for (var div in YlmDivs) {
+    setup(div);
+}
+function setup(container) {
+    var data = JSON.parse(container.innerHTML);
+    var l = data.l, m = data.m;
+    setupYlm(l, m);
+    ...
+}</pre>
+            <p>to setup each <code>&lt;div&gt;</code>.</p>
+        </article>
+    </slide>
+    
+    <slide>
+        <style type="text/css" media="all">
+            #pgmTable {
+                border-collapse: collapse;
+                width: 80%;
+                display: inline-block;
+                border: 2px solid black;
+                font-family: monospace;
+                background-color: #ffffff;
+            }
+            #myTable {
+                height: 200px;
+                display: inline-block;
+                width: 100%;
+                overflow: auto;
+            }
+            #jsonArea {
+                width: 79.1%;
+                height: 200px;
+                display: block;
+                border: 1px dashed black;
+                font-family: monospace;
+                font-size: 16px;
+                background-color: #ffffff;
+            }
+            td.number {
+                padding: 4px;
+                background-color: #dddddd;
+                width: 8%;
+            }
+            td.color {
+                width: 15%;
+            }
+            td.nodes {
+                width: 70%;
+            }
+            input[type="color"] {
+            	border: none;
+                width: 30px;
+            }
+        </style>
+        <script type="text/javascript">
+        window.addEventListener("load", pgmTableLoadHandler);
+        function pgmTableLoadHandler() {
+            // Data
+            var dataList = [{
+                "jobs": []
+            }, {
+                "jobs": [{
+                    "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"],
+                    "color": "#0072bd"
+                }, {
+                    "nodes": ["E1", "E2", "E3", "E4", "E5", "F1", "F2", "F3", "F4", "F5"],
+                    "color": "#d95319"
+                }]
+            }, {
+                "jobs": [{
+                    "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"],
+                    "color": "#0072bd"
+                }, {
+                    "nodes": ["E1", "E2", "E3", "E4", "E5", "F1", "F2", "F3", "F4", "F5"],
+                    "color": "#d95319"
+                }, {
+                    "nodes": ["A4", "A5", "A6", "A7", "A8", "A9", "B4", "B5", "B6", "B7", "B8", "B9"],
+                    "color": "#edb120"
+                }, {
+                    "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+                    "color": "#7e2f8e"
+                }, {
+                    "nodes": ["E6", "E7", "E8", "E9", "F6", "F7", "F8", "F9"],
+                    "color": "#77ac30"
+                }]
+            }, {
+                "jobs": [{
+                    "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"],
+                    "color": "#0072bd"
+                }, {
+                    "nodes": ["E1", "E2", "E3", "E4", "E5", "F1", "F2", "F3", "F4", "F5"],
+                    "color": "#d95319"
+                }, {
+                    "nodes": ["A4", "A5", "A6", "A7", "A8", "A9", "B4", "B5", "B6", "B7", "B8", "B9"],
+                    "color": "#edb120"
+                }, {
+                    "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+                    "color": "#7e2f8e"
+                }, {
+                    "nodes": ["E6", "E7", "E8", "E9", "F6", "F7", "F8", "F9"],
+                    "color": "#77ac30"
+                }, {
+                    "nodes": ["G1", "G2", "G3", "G4", "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4"],
+                    "color": "#4dbeee"
+                }, {
+                    "nodes": ["G5", "G6", "G7", "G8", "G9", "H5", "H6", "H7", "H8", "H9"],
+                    "color": "#a2142f"
+                }]
+            }, {
+                "jobs": [{
+                    "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3", "F1", "F2", "F3"],
+                    "color": "#d95319"
+                }, {
+                    "nodes": ["A6", "A7", "A8", "A9", "B6", "B7", "B8", "B9"],
+                    "color": "#edb120"
+                }, {
+                    "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+                    "color": "#7e2f8e"
+                }, {
+                    "nodes": ["E4", "E5", "E6", "E7", "E8", "E9", "F4", "F5", "F6", "F7", "F8", "F9"],
+                    "color": "#77ac30"
+                }, {
+                    "nodes": ["G1", "G2", "G3", "G4", "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4"],
+                    "color": "#4dbeee"
+                }, {
+                    "nodes": ["G5", "G6", "G7", "G8", "G9", "H5", "H6", "H7", "H8", "H9"],
+                    "color": "#a2142f"
+                }, {
+                    "nodes": ["A4", "A5", "B4", "B5"],
+                    "color": "#0072bd"
+                }]
+            }, {
+                "jobs": [{
+                    "nodes": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3", "F1", "F2", "F3"],
+                    "color": "#d95319"
+                }, {
+                    "nodes": ["C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8", "D9"],
+                    "color": "#7e2f8e"
+                }, {
+                    "nodes": ["E4", "E5", "E6", "E7", "E8", "E9", "F4", "F5", "F6", "F7", "F8", "F9"],
+                    "color": "#77ac30"
+                }, {
+                    "nodes": ["G1", "G2", "G3", "G4", "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4"],
+                    "color": "#4dbeee"
+                }, {
+                    "nodes": ["G5", "G6", "G7", "G8", "G9", "H5", "H6", "H7", "H8", "H9"],
+                    "color": "#a2142f"
+                }, {
+                    "nodes": ["A4", "A5", "A6", "A7", "A8", "A9", "B4", "B5", "B6", "B7", "B8", "B9"],
+                    "color": "#0072bd"
+                }, {
+                    "nodes": ["I5", "I6", "I7", "I8", "I9"],
+                    "color": "#edb120"
+                }]
+            }];
+    
+            // Get HTML elements
+            var mySvg    = document.getElementById("mySvg");
+            var myTable  = document.getElementById("myTable");
+            var myButton = document.getElementById("myButton");
+            var jsonArea = document.getElementById("jsonArea");
+    
+            var rows = 9;
+            var cols = 9;
+    
+            var clearColor  = "#ffffff";
+            var strokeColor = "#dddddd";
+            var strokeWidth = 2;
+    
+            // Get window width and set svg size
+            var w  = 400;
+            mySvg.setAttribute("width",  w);
+            mySvg.setAttribute("height", w);
+    
+            var ew = Math.floor((w-cols*strokeWidth)/(cols+1));
+            var eh = Math.floor((w-rows*strokeWidth)/(rows+1));
+    
+            // Create empty table
+            for (var i=1; i<=rows; i++) {
+                var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.textContent = (i+9).toString(36).toUpperCase();
+                text.setAttribute("x", 0.5*ew);
+                text.setAttribute("y", i*(eh+strokeWidth)+0.5*eh);
+                text.setAttribute("style", "font-size:"+Math.min(ew,eh)*0.50+
+                                  "px; font-weight:bold; text-anchor:middle; alignment-baseline:central;");
+                mySvg.appendChild(text);
+            }
+            for (var j=1; j<=cols; j++) {
+                var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.textContent = j;
+                text.setAttribute("x", j*(ew+strokeWidth)+0.5*ew);
+                text.setAttribute("y", 0.5*eh);
+                text.setAttribute("style", "font-size:"+Math.min(ew,eh)*0.50+
+                                  "px; font-weight:bold; text-anchor:middle; alignment-baseline:central;");
+                mySvg.appendChild(text);
+            }
+            for (var i=1; i<=rows; i++) {
+                for (var j=1; j<=cols; j++) {
+                    var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                    rect.setAttribute("id", (i+9).toString(36).toUpperCase()+j);
+                    rect.setAttribute("width",  ew);
+                    rect.setAttribute("height", eh);
+                    rect.setAttribute("x", j*(ew+strokeWidth));
+                    rect.setAttribute("y", i*(eh+strokeWidth));
+                    rect.setAttribute("style", "fill:"+clearColor+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+                    mySvg.appendChild(rect);
+            
+                    // Add event listener
+                    rect.addEventListener("mouseover", rectOverHandler);
+                    rect.addEventListener("mouseout", rectOutHandler);
+                }
+            }
+    
+            // Clear table
+            function clearTable() {
+                for (var i=1; i<=rows; i++) {
+                    for (var j=1; j<=cols; j++) {
+                        var rect = document.getElementById((i+9).toString(36).toUpperCase()+j);
+                        rect.setAttribute("style", "fill:"+clearColor+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+                        rect.removeAttribute("class");
+                    }
+                }
+            }
+    
+            // Update table
+            function updateTable(data) {
+                // Clean up table
+                clearTable();
+                while (myTable.rows.length > 0) {
+                    myTable.deleteRow(myTable.rows.length-1);
+                }
+        
+                var jobs = data.jobs;
+                for (var i=0; i<jobs.length; i++) {
+                    var nodes = jobs[i].nodes;
+                    var color = jobs[i].color;
+            
+                    // Tabluate in table
+                    var row = myTable.insertRow(i); row.className = "job"; row.id = "job"+i;
+                    var c0 = row.insertCell(0); c0.className = "number";
+                    var c1 = row.insertCell(1); c1.className = "color";
+                    var c2 = row.insertCell(2); c2.className = "nodes";
+                    c0.innerHTML = i+1;
+                    c1.innerHTML = "<input type=\"color\" value=\""+color+"\" disabled />";
+                    c2.innerHTML = nodes;
+            
+                    // Mouse stay message
+                    row.title = "nodes: "+nodes+"\n" + "color: "+color;
+            
+                    // Add event listener
+                    row.addEventListener("mouseover", itemOverHandler);
+                    row.addEventListener("mouseout", itemOutHandler);
+            
+                    // Visualize on svg
+                    for (var n=0; n<nodes.length; n++) {
+                        var rect = document.getElementById(nodes[n]);
+                        if (!!rect) {
+                            rect.setAttribute("style", "fill:"+color+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+                            rect.setAttribute("class", "job"+i);
+                        }
+                    }
+                }
+            }
+    
+            var iter = 1;
+            jsonArea.value = JSON.stringify(dataList[1], null, 2);
+            myButton.addEventListener("click", updateClickHandler);
+            function updateClickHandler() {
+                data = dataList[iter%dataList.length];
+                jsonArea.value = JSON.stringify(data, null, 2);
+                updateTable(data);
+                iter++;
+            }
+    
+            function itemOverHandler() {
+                // Hightlight
+                this.style.backgroundColor = "#dddddd";
+                document.body.style.cursor = "pointer";
+        
+                var nodes = this.getElementsByClassName("nodes")[0].innerHTML.split(",");
+                var color = this.getElementsByClassName("color")[0].firstChild.value;
+                for (var i=0; i<nodes.length; i++) {
+                    var rect = document.getElementById(nodes[i]);
+                    if (!!rect) {
+                        rect.setAttribute("style", "fill:"+color+"; stroke:#000000; stroke-width:"+strokeWidth+";");
+                    }
+                }
+            }
+            function itemOutHandler() {
+                // De-highlight
+                this.style.backgroundColor = "#ffffff";
+                document.body.style.cursor = "auto";
+        
+                var nodes = this.getElementsByClassName("nodes")[0].innerHTML.split(",");
+                var color = this.getElementsByClassName("color")[0].firstChild.value;
+                for (var i=0; i<nodes.length; i++) {
+                    var rect = document.getElementById(nodes[i]);
+                    if (!!rect) {
+                        rect.setAttribute("style", "fill:"+color+"; stroke:"+strokeColor+"; stroke-width:"+strokeWidth+";");
+                    }
+                }
+            }
+    
+            function rectOverHandler() {
+                var jobId = this.getAttribute("class");
+                var item = document.getElementById(jobId);
+                if (!!item) {
+                    var event = document.createEvent("HTMLEvents");
+                    event.initEvent("mouseover", true, false);
+                    item.dispatchEvent(event);
+                }
+            }
+            function rectOutHandler() {
+                // De-highlight
+                var jobId = this.getAttribute("class");
+                var item = document.getElementById(jobId);
+                if (!!item) {
+                    var event = document.createEvent("HTMLEvents");
+                    event.initEvent("mouseout", true, false);
+                    item.dispatchEvent(event);
+                }
+            }
+        }
+        </script>
+        <hgroup>
+            <h2>Parse JSON</h2>
+        </hgroup>
+        <article>
+            <div style="width:50%; float:left;">
+                <svg id="mySvg" xmlns="http://www.w3.org/2000/svg"></svg>
+            </div>
+            <div style="width:50%; float:left;">
+                <textarea id="jsonArea" readonly></textarea><br />
+                <table id="pgmTable">
+                    <tbody id="myTable"></tbody>
+                </table>
+                <input id="myButton" type="button" value="update">
+            </div>
+        </article>
+    </slide>
+    
+    
+    <slide class="thank-you-slide segue nobackground">
+        <article class="flexbox vleft auto-fadein">
+            <h2>&lt;Thank You!&gt;</h2>
+            <p>
+            Qian Zhang<br />
+            Doctoral student<br /><br />
+            
+            Jülich Supercomputing Centre<br />
+            Forschungszentrum Jülich GmbH<br />
+            52425 Jülich | Germany
+            </p>
+        </article>
+    </slide>
+    
+    <slide class="backdrop"></slide>
+</slides>
+
+</body>
+</html>

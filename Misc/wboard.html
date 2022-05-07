@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <script type="text/javascript">
+    window.addEventListener("load", windowLoadHandler);
+    function windowLoadHandler() {
+        // Get HTML elements
+        var demoCanvas  = document.getElementById("demoCanvas");
+        var clearButton = document.getElementById("clearButton");
+        
+        var ctxt = demoCanvas.getContext("2d");
+        var rect = demoCanvas.getBoundingClientRect();
+        ctxt.lineWidth = 3;
+        
+        // Event handling
+        demoCanvas.addEventListener("mousedown", mouseDownHandler);
+        demoCanvas.addEventListener("mousemove", mouseMoveHandler);
+        demoCanvas.addEventListener("mouseup",   mouseUpHandler);
+        demoCanvas.addEventListener("mouseout",  mouseUpHandler);
+        clearButton.addEventListener("click", clearClickHandler);
+        
+        var mouseIsDown = false;
+        function mouseDownHandler(evt) {
+            mouseIsDown = true;
+            ctxt.beginPath();
+            ctxt.moveTo(evt.clientX-rect.left, evt.clientY-rect.top);
+        }
+        function mouseMoveHandler(evt) {
+            if (mouseIsDown) {
+                ctxt.lineTo(evt.clientX-rect.left, evt.clientY-rect.top);
+                ctxt.stroke();
+            }
+        }
+        function mouseUpHandler() {
+            mouseIsDown = false;
+        }
+        function clearClickHandler() {
+            ctxt.clearRect(0, 0, demoCanvas.width, demoCanvas.height);
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <h1>Whiteboard</h1>
+    <div style="text-align:center;">
+        <canvas id="demoCanvas" width="600" height="400" style="border:solid;"></canvas><br />
+        <input id="clearButton" type="button" value="Clear" />
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+/* Tomorrow Theme */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+/* Pretty printing styles. Used with prettify.js. */
+/* SPAN elements with the classes below are added by prettyprint. */
+/* plain text */
+.pln {
+    color: #3E3E3D;
+}
+
+.str {
+    color: #00AA00;
+}
+
+/* a keyword */
+.kwd {
+    color: #CC00CC;
+}
+
+/* a comment */
+.com {
+    color: #80827E;
+}
+
+/* a type name */
+.typ {
+    color: #3333FF;
+}
+
+/* a literal value */
+.lit {
+    color: #FFAA00;
+}
+
+/* punctuation */
+.pun {
+    color: #3E3E3D;
+}
+
+/* lisp open bracket */
+.opn {
+    color: #3E3E3D;
+}
+
+/* lisp close bracket */
+.clo {
+    color: #3E3E3D;
+}
+
+/* a markup tag name */
+.tag {
+    color: #c82829;
+}
+
+/* a markup attribute name */
+.atn {
+    color: #f5871f;
+}
+
+/* a markup attribute value */
+.atv {
+    color: #3e999f;
+}
+
+/* a declaration */
+.dec {
+    color: #f5871f;
+}
+
+/* a variable name */
+.var {
+    color: #c82829;
+}
+
+/* a function name */
+.fun {
+    color: #4271ae;
+}
+
+/* Style */
+/*
+pre.prettyprint {
+  background: white;
+  font-family: Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  border: 1px solid #ccc;
+  padding: 10px; }
+*/
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* IE indents via margin-left */
+li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9 { /* */
+    
+}
+
+/* Alternate shading for lines */
+li.L1,li.L3,li.L5,li.L7,li.L9 { /* */
+    
+}

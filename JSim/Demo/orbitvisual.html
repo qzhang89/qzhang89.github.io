@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Atomic Orbtial Visualization</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="JS/glMatrix.min.js"></script>
+<script type="text/javascript" src="JS/Complex.js"></script>
+<script type="text/javascript" src="JS/DensVisual.js"></script>
+
+<style type="text/css">
+body { font: 13px/18px Arial, sans-serif; background-color: black; color: white; overflow: hidden; }
+h1 { font: bold italic 20px/20px Georgia; text-align: center; }
+h2 { font: bold italic 15px/15px Georgia; padding-top: 10px; }
+a { font: 13px/18px Arial, sans-serif; color: white; }
+input[type="button"] { width: 6.5em; height: 2.5em; text-align: center; }
+input[type="range"] { width: 60%; }
+img { display: block; margin: auto; }
+#demo { position: absolute; left: 0; top: 0; right: 400px; bottom: 0; text-align: center; }
+#panel { position: absolute; background-color: #252525; top: 0; right: 0; bottom: 0; width: 380px; padding-left: 5px; padding-right: 5px; overflow: auto; }
+#fileList { width: 14em; height: 8em }
+</style>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+attribute vec3 aVertexPosition;
+attribute vec4 aVertexColor;
+
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+
+varying vec4 vColor;
+
+void main() {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    gl_PointSize = 1.5;
+    vColor = aVertexColor;
+}
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec4 vColor;
+
+void main() {
+    gl_FragColor = vColor;
+}
+</script>
+</head>
+
+<body>
+<div id="demo">
+    <div class="dv"><br />Loading...</div>
+</div>
+
+<div id="panel">
+    <h1>Atomic orbital visualization</h1>
+    
+    <h2>Problem</h2>
+    
+    <p>This application visualizes atomic orbitals of many-electron systems:</p>
+    \[ \hat{H} = \sum_i \left[ -\frac{\hbar^2}{2m}\nabla_i^2 - \frac{1}{4\pi\epsilon_0} \frac{Ze^2}{r_i} \right] + \sum_{i \lt j} \frac{1}{4\pi\epsilon_0} \frac{e^2}{r_{ij}} \]
+    
+    <p>Solutions are obtained from the local density approximation to the density functional theory. <a href="../chapter8.html" target="_blank">Details</a></p>
+    
+    <h2>Inputs</h2>
+    
+    <div style="text-align: center;">
+        <select id="fileList" multiple></select><br /><br />
+        <input id="loadButton" type="button" value="Load data" />
+    </div>
+    
+    <h2>Orbital select</h2>
+    
+    <div style="text-align: center;">
+        <select id="nlList"></select>
+        <select id="mList"></select><br />
+    </div>
+    
+    <h2>Density control</h2>
+    
+    <div style="text-align: center;">
+        <input id="densRange" type='range'><br />
+    </div>
+    
+    <h2>Instructions</h2>
+    
+    <ul>
+        <li>Drag with mouse to rotate graphics.</li>
+        <li>Press "shift" and drag to shift graphics.</li>
+        <li>Use mouse wheel to zoom.</li>
+    </ul>
+    
+    <br />
+    <a href="demo.html"><img src="Images/GrsLogo.png" title="German Research School for Simulation Sciences" alt="German Research School for Simulation Sciences" /></a>
+    <br />
+</div>
+</body>
+
+</html>

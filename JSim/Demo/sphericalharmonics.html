@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Spherical Harmonics</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="JS/Complex.js"></script>
+<script type="text/javascript" src="JS/glMatrix.min.js"></script>
+<script type="text/javascript" src="JS/WebGLSetup.js"></script>
+<script type="text/javascript" src="JS/SpHa.js"></script>
+
+<style type="text/css">
+body { font: 13px/18px Arial, sans-serif; background-color: black; color: white; overflow: hidden; }
+h1 { font: bold italic 20px/20px Georgia; text-align: center; }
+h2 { font: bold italic 15px/15px Georgia; padding-top: 10px; }
+select { display: block; margin: auto; }
+input[type="button"] { width: 6.0em; height: 2.5em; text-align: center; }
+table { text-align: center; width: 60%; margin: auto; }
+img { display: block; margin: auto; }
+#demo { position: absolute; left: 0; top: 0; right: 400px; bottom: 0; text-align: center; }
+#panel { position: absolute; background-color: #252525; top: 0; right: 0; bottom: 0; width: 380px; padding-left: 5px; padding-right: 5px; overflow: auto; }
+</style>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+attribute vec3 aVertexPosition;
+attribute vec3 aVertexNormal;
+attribute vec4 aVertexColor;
+
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+uniform mat4 uNMatrix;
+
+varying vec3 vNormal;
+varying vec3 vEyeVec;
+varying vec4 vColor;
+
+void main() {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vNormal = vec3(uNMatrix*vec4(aVertexNormal, 1.0));
+    vEyeVec = -vec3((uMVMatrix*vec4(aVertexPosition, 1.0)).xyz);
+    vColor = aVertexColor;
+}
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform vec3 uLightDirection;
+uniform vec3 uLightAmbient;
+uniform vec3 uLightDiffuse;
+uniform vec3 uLightSpecular;
+uniform float uShininess;
+
+uniform bool uUseLight;
+
+varying vec3 vNormal;
+varying vec3 vEyeVec;
+varying vec4 vColor;
+
+void main() {
+    vec3 lightWeight;
+    if (!uUseLight) {
+        lightWeight = vec3(1.0, 1.0, 1.0);
+    } else {
+        vec3 L = normalize(uLightDirection);
+        vec3 N = normalize(vNormal);
+        vec3 R = reflect(-L, N);
+        vec3 V = normalize(vEyeVec);
+        
+        float diffuseWeight = max(dot(L, N), 0.0);
+        float specularWeight = pow(max(dot(R, V), 0.0), uShininess);
+        
+        lightWeight = uLightAmbient + uLightDiffuse*diffuseWeight + uLightSpecular*specularWeight;
+    }
+    gl_FragColor = vec4(vColor.rgb*lightWeight, vColor.a);
+}
+</script>
+</head>
+
+<body>
+<div id="demo">
+    <div class="spha"><br />Loading...</div>
+</div>
+
+<div id="panel">
+    <h1>Spherical harmonics</h1>
+    
+    <h2>Problem</h2>
+    
+    <p>This application visualizes the complex function - spherical harmonics:</p>
+    \[ Y_{lm}(\theta, \phi) = \epsilon \sqrt{\frac{2l+1}{4\pi} \frac{(l-|m|)!}{(l+|m|)!}} e^{im\phi} P_{lm}(\cos{\theta}) \]
+    <p>where \( P_{lm} \) is the associated Legendre function.</p>
+    
+    <h2>Pre-defined orbitals</h2>
+    
+    <select id="orbtList">
+    <optgroup label="Pure harmonics">
+    <option>l = 0, m = 0</option>
+    <option>l = 1, m =-1</option>
+    <option>l = 1, m = 0</option>
+    <option>l = 1, m = 1</option>
+    <option>l = 2, m =-2</option>
+    <option>l = 2, m =-1</option>
+    <option>l = 2, m = 0</option>
+    <option>l = 2, m = 1</option>
+    <option>l = 2, m = 2</option>
+    <option>l = 3, m =-3</option>
+    <option>l = 3, m =-2</option>
+    <option>l = 3, m =-1</option>
+    <option>l = 3, m = 0</option>
+    <option>l = 3, m = 1</option>
+    <option>l = 3, m = 2</option>
+    <option>l = 3, m = 3</option>
+    </optgroup>
+    <optgroup label="Real harmonics">
+    <option>s</option>
+    <option>p_z</option>
+    <option>p_x</option>
+    <option>p_y</option>
+    <option>d_3zz-1</option>
+    <option>d_xz</option>
+    <option>d_yz</option>
+    <option>d_xx-yy</option>
+    <option>d_xy</option>
+    <option>f_z(5zz-3)</option>
+    <option>f_x(5zz-1)</option>
+    <option>f_y(5zz-1)</option>
+    <option>f_z(xx-yy)</option>
+    <option>f_xyz</option>
+    <option>f_x(xx-3yy)</option>
+    <option>f_y(3xx-yy)</option>
+    </optgroup>
+    <optgroup label="Hybrid orbitals">
+    <option>sp3_1</option>
+    <option>sp3_2</option>
+    <option>sp3_3</option>
+    <option>sp3_4</option>
+    <option>sp2_1</option>
+    <option>sp2_2</option>
+    <option>sp2_3</option>
+    <option>sp_1</option>
+    <option>sp_2</option>
+    </optgroup>
+    </select>
+    
+    <h2>Linear combination</h2>
+    
+    <p>You can type into the table to make your combinations.</p>
+    
+    <table id="linTable">
+    <tr><th>Y<sub>lm</sub></th><th>coeff</th><th>l</th><th>m</th></tr>
+    <tr><td>1</td>
+    <td><span class="c" contenteditable="true">0.5</span></td>
+    <td><span class="l" contenteditable="true">1</span></td>
+    <td><span class="m" contenteditable="true">0</span></td></tr>
+    <tr><td>2</td>
+    <td><span class="c" contenteditable="true">1.0i</span></td>
+    <td><span class="l" contenteditable="true">5</span></td>
+    <td><span class="m" contenteditable="true">3</span></td></tr>
+    <tr><td>3</td>
+    <td><span class="c" contenteditable="true">0.5+0.5i</span></td>
+    <td><span class="l" contenteditable="true">7</span></td>
+    <td><span class="m" contenteditable="true">-3</span></td></tr>
+    </table>
+    <div style="text-align: center;">
+        <input id="addButton" type="button" value="Add row" />
+        <input id="delButton" type="button" value="Delete row" />
+        <input id="creButton" type="button" value="Create" />
+    </div>
+    
+    <h2>Instructions</h2>
+    
+    <ul>
+        <li>Drag with mouse to rotate graphics.</li>
+        <li>Press "shift" and drag to shift graphics.</li>
+        <li>Use mouse wheel to zoom.</li>
+    </ul>
+    
+    <br />
+    <a href="demo.html"><img src="Images/GrsLogo.png" title="German Research School for Simulation Sciences" alt="German Research School for Simulation Sciences" /></a>
+    <br />
+</div>
+</body>
+
+</html>

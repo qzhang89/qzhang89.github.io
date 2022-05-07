@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Wave Packet</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="JS/glMatrix.min.js"></script>
+<script type="text/javascript" src="JS/WebGLSetup.js"></script>
+<script type="text/javascript" src="JS/Complex.js"></script>
+<script type="text/javascript" src="JS/CrankNicolson.js"></script>
+<script type="text/javascript" src="JS/WavePacket2D.js"></script>
+
+<style type="text/css">
+body { font: 13px/18px Arial, sans-serif; background-color: black; color: white; overflow: hidden; }
+h1 { font: bold italic 20px/20px Georgia; text-align: center; }
+h2 { font: bold italic 15px/15px Georgia; padding-top: 10px; }
+input[type="button"] { width: 3.5em; height: 2.0em; font-size: 1.5em; text-align: center; }
+table { text-align: center; width: 60%; margin: auto; }
+input[type="range"] { width: 100%; }
+img { display: block; margin: auto; }
+#demo { position: absolute; left: 0; top: 0; right: 400px; bottom: 0; text-align: center; }
+#panel { position: absolute; background-color: #252525; top: 0; right: 0; bottom: 0; width: 380px; padding-left: 5px; padding-right: 5px; overflow: auto; }
+#kx0Text, #ky0Text, #stdText { text-align: left; width: 5.5em; }
+#timeText { font-size: 1.5em; }
+</style>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+attribute vec3 aVertexPosition;
+attribute vec3 aVertexNormal;
+attribute vec4 aVertexColor;
+
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+uniform mat4 uNMatrix;
+
+varying vec3 vNormal;
+varying vec3 vEyeVec;
+varying vec4 vColor;
+
+void main() {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vNormal = vec3(uNMatrix*vec4(aVertexNormal, 1.0));
+    vEyeVec = -vec3((uMVMatrix*vec4(aVertexPosition, 1.0)).xyz);
+    if (aVertexColor[0]==1.0 && aVertexColor[1]==1.0 && aVertexColor[2]==1.0) {
+        vColor = aVertexColor;
+    }
+    else {
+        float a = 0.5;
+        float b = 0.01;
+        float c = 50.0;
+        float A = (c-1.0)/(a-b);
+        float B = 1.0-A*b;
+        if (aVertexPosition[2] > a) {
+            vColor = aVertexColor;
+        } else if (aVertexPosition[2] > b) {
+            vColor = aVertexColor * vec4(log(A*aVertexPosition[2]+B)/log(c), log(A*aVertexPosition[2]+B)/log(c), log(A*aVertexPosition[2]+B)/log(c), 1.0);
+        } else {
+            vColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }
+    }
+}
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform vec3 uLightDirection;
+uniform vec3 uLightAmbient;
+uniform vec3 uLightDiffuse;
+uniform vec3 uLightSpecular;
+uniform float uShininess;
+
+uniform bool uUseLight;
+
+varying vec3 vNormal;
+varying vec3 vEyeVec;
+varying vec4 vColor;
+
+void main() {
+    vec3 lightWeight;
+    if (!uUseLight) {
+        lightWeight = vec3(1.0, 1.0, 1.0);
+    } else {
+        vec3 L = normalize(uLightDirection);
+        vec3 N = normalize(vNormal);
+        vec3 R = reflect(-L, N);
+        vec3 V = normalize(vEyeVec);
+        
+        float diffuseWeight = max(dot(L, N), 0.0);
+        float specularWeight = pow(max(dot(R, V), 0.0), uShininess);
+        
+        lightWeight = uLightAmbient + uLightDiffuse*diffuseWeight + uLightSpecular*specularWeight;
+    }
+    gl_FragColor = vec4(vColor.rgb*lightWeight, vColor.a);
+}
+</script>
+</head>
+
+<body>
+<div id="demo">
+    <div class="wp2d"><br />Loading...</div>
+</div>
+
+<div id="panel">
+    <h1>Time-dependent Schrödinger equation in 2D space</h1>
+    
+    <h2>Problem</h2>
+    
+    <p>This application solves the time-dependent Schrödinger equation in 2-dimensional space:</p>
+    \[ - \frac{\hbar^2}{2m} \left( \frac{\partial^2\Psi}{\partial x^2} + \frac{\partial^2\Psi}{\partial y^2} \right) + V(x,y) \Psi = i \hbar \frac{\partial \Psi}{\partial t} \]
+    
+    <h2>Parameters</h2>
+    
+    <p>2D wave packet initial condition:</p>
+    
+    <table>
+        <tr><td id="kx0Text">kx<sub>0</sub> = 0.0</td>
+        <td><input id="kx0Range" type="range" step="0.1" /></td></tr>
+        <tr><td id="ky0Text">ky<sub>0</sub> = 0.0</td>
+        <td><input id="ky0Range" type="range" step="0.1" /></td></tr>
+        <tr><td id="stdText">std = 1.5</td>
+        <td><input id="stdRange" type="range" step="0.1" /></td></tr>
+    </table>
+    
+    <h2>Instructions</h2>
+    
+    <ul>
+        <li>Drag with mouse to rotate graphics.</li>
+        <li>Press "shift" and drag to shift graphics.</li>
+        <li>Use mouse wheel to zoom.</li>
+    </ul>
+    
+    <br />
+    <a href="demo.html"><img src="Images/GrsLogo.png" title="German Research School for Simulation Sciences" alt="German Research School for Simulation Sciences" /></a>
+    <br />
+</div>
+</body>
+
+</html>

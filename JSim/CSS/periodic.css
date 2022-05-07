@@ -1,0 +1,56 @@
+.elem:hover {
+    outline-style: solid !important;
+    outline-color: #00FF00 !important;
+    cursor: pointer;
+}
+
+.at_num {
+    font-size: 0.75em;
+    padding: 0;
+    margin: 1px 0 0;
+    line-height: 1em;
+}
+
+.sym {
+    font-size: 1em;
+    padding: 0;
+    line-height: 1em;
+    margin: 0;
+    font-weight: bold;
+    border-style: none;
+}
+
+.at_wt {
+    font-size: 0.6em;
+    padding: 0;
+    line-height: 1em;
+    margin: 2px 0 1px;
+}
+
+.xs {
+    color: #333333;
+    background-color: #6699ff;
+    border: 1px solid #336699;
+    text-align: center;
+}
+
+.xp {
+    color: #333333;
+    background-color: #ffcc00;
+    border: 1px solid #cc9900;
+    text-align: center;
+}
+
+.xd {
+    color: #333333;
+    background-color: #ff9999;
+    border: 1px solid #cc6666;
+    text-align: center;
+}
+
+.xf {
+    color: #333333;
+    background-color: #00cc33;
+    border: 1px solid #009900;
+    text-align: center;
+}

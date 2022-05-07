@@ -1,0 +1,1341 @@
+\chapter{Construction of multiplet states} \label{ch:5}
+
+\section{Setting up the basis and Hamiltonian}
+Oh, this is probably the most crucial step. All of our efforts spent so far on the
+Slater-Condon parameters and the Gaunt coefficients are aimed at calculating
+the matrix elements
+\begin{equation} \label{eq:Uelem}
+U_{\alpha\beta\gamma\delta} =
+\delta_{\sigma_1\sigma_4} \delta_{\sigma_2\sigma_3}
+\sum_{k(\text{sum rule})} \frac{4\pi}{2k+1} R^{(k)}(n_1l_1,n_2l_2,n_3l_3,n_4l_4)
+A^{(k)}(l_1m_1,l_2m_2,l_3m_3,l_4m_4)
+\end{equation}
+so that we can build up the Coulomb repulsion Hamiltonian.
+
+We called $U_{\alpha\beta\gamma\delta}$ the matrix element.
+But as you might have noticed already, it has four indices
+$\alpha$, $\beta$, $\gamma$ and $\delta$. It is not really a ``matrix'' in our
+common sense. Indeed, $U_{\alpha\beta\gamma\delta}$ is not the matrix that we will
+directly work with. The actual matrix we will be using is the 
+matrix representation of the Hamiltonian $H_U$. Now, to obtain the matrix
+representation, we must ask ourselves what basis do we work with.
+
+Our first step is to set up a basis in the electron configuration space.
+As a demonstration, we will do a case study for a $p^2$ orbital.
+According to Pauli exclusion principle, one $p$ shell can at most contain
+6 electrons with orbital and spin angular projection momenta $m=1,0,-1$ and
+$\sigma=\uparrow,\downarrow$, respectively. One can think the problem as
+6 boxes where we can put (up to) 6 electrons (see the diagram below).
+\vspace{-0.5em}
+\begin{equation*}
+\begin{array}{c|c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{\phantom{,}1\phantom{,}} & \multicolumn{1}{c}{\phantom{,}0\phantom{,}} & \multicolumn{1}{c}{-1} \\ \cline{2-4}
+\uparrow &  &  &  \\ \cline{2-4}
+\downarrow &  &  &  \\
+\cline{2-4}
+\end{array}
+\end{equation*}
+In our problem we have 2 electrons. How many possible ways are there
+to put them into our boxes? This is simply a combinatorics problem.
+\begin{center}
+\vspace{-0.5em}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+ &  & $\bullet$ \\
+\hline
+\end{tabular} \\
+\vspace{0.5em}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\bullet$ \\ \hline
+ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+ &  & $\bullet$ \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular} \\
+\vspace{0.5em}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+ &  & $\bullet$ \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ &  & $\bullet$ \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+ & $\bullet$ & $\bullet$ \\
+\hline
+\end{tabular}
+\end{center}
+6 boxes put 2 electrons, that is ``6 choose 2''
+\begin{equation*}
+\binom{6}{2} = \frac{6\times5}{2!} = 15
+\end{equation*}
+possible ways. They are our 15 basis states (or basis vectors\footnote{By calling ``states''
+or ``vectors'', we really mean the same. When we say a ``state'', it is more from a
+quantum mechanics perspective that ``a state of electrons''. When we use ``vector'',
+we more emphasize from the linear algebra point of view.}) of electrons in the configuration
+space. Everyone says that, but what does it mean? Imagine you put two electrons
+into the shell: Of course we can arrange them in the ways as in the diagram, but
+electrons can do things peculiar, they can form linear combinations of those basis
+states.\footnote{Linear combinations of states are also valid solutions of the Schr\"{o}dinger equation.}
+Those 15 basis states (15 vectors) span a space that the electrons can live in. Recall our Cartesian
+coordinate, we had 3 basis vectors called $\hat{\vec{x}}$, $\hat{\vec{y}}$ and $\hat{\vec{z}}$.
+Similarly, we can also assign names to those 15 basis vectors, for example, from $\hat{\vec{a}}$
+to $\hat{\vec{o}}$ (if I counted correctly). But a more convenient and sophisticated
+naming method is the bit representation.
+\begin{equation*}
+\Ket{-----\,-}
+\end{equation*}
+Here we have 6 sites, if a site is occupied by an electron, we put a ``1'',
+otherwise, we put a ``0'' (they are called occupation numbers). For example,
+\begin{equation}
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+ & \bullet &  \\
+\hline
+\end{array}
+\equiv \Ket{100010}
+\end{equation}
+%
+Therefore, our 15 basis states are:
+\begin{equation*}
+\begin{array}{c c c c c}
+\Ket{110000} & \Ket{101000} & \Ket{100100} & \Ket{100010} & \Ket{100001} \\
+\Ket{011000} & \Ket{010100} & \Ket{010010} & \Ket{010001} & \Ket{001100} \\
+\Ket{001010} & \Ket{001001} & \Ket{000110} & \Ket{000101} & \Ket{000011}
+\end{array}
+\end{equation*}
+%
+The bit representation is convenient in the sense that they can be easily
+stored in the computer. For instance, a binary number 100010 is nothing but a 34 in decimal.
+To store $\Ket{100010}$ we simply store an integer 34 in the computer.
+Yet, the pictorial meaning can be easily seen from its binary format.
+
+A simple algorithm of the basis setup for a given shell \texttt{l} and a
+given number of electrons \texttt{Ne} is shown Algorithm~\ref{alg:basis}.
+Notice that the function \texttt{countBit()} counts for the number
+of 1's in a given binary number.
+
+After setting up the basis, we are now able to build the matrix representation of the Hamiltonian.
+To obtain one entry at row $i$ and column $j$, it means to evaluate the matrix
+element between two basis state $\Ket{i}$ and $\Ket{j}$.
+\begin{equation} \label{eq:Huij}
+\Bra{i} H_U \Ket{j} = 
+\Bra{i} \frac{1}{2} \sum_{\alpha,\beta,\gamma,\delta} U_{\alpha\beta\gamma\delta} c_\alpha^\dag c_\beta^\dag c_\gamma c_\delta \Ket{j}
+\end{equation}
+%
+It is not trivial at all to evaluate Eqn.~(\ref{eq:Huij}). One needs to implement a program
+that loops over all six indices ($i,j,\alpha,\beta,\gamma,\delta$). For each pair of ($i,j$),
+we sum up all the corresponding $U_{\alpha\beta\gamma\delta}$ to obtain the entry $\Bra{i}H_U\Ket{j}$.
+Notice that the factor $1/2$ in front is used to compensate the double counting over
+electron pairs. A simplified algorithm is shown in Algorithm~\ref{alg:Huij}.
+
+\begin{algorithm}[h!]
+\caption{Set up basis}\label{alg:basis}
+\begin{algorithmic}[1]
+\Function{Basis}{$l$, $N_e$}
+\State $N_{\text{site}} \gets 4*l+2$
+\State $dim \gets$ \Call{Binomial}{$N_{\text{site}}$, $N_e$}
+\State $index_i \gets 0$
+\For {$conf_i \gets 0$ to $2^{N_{\text{site}}}$}
+\If {\Call{countBit}{$conf_i$} $=N_e$}
+\State $index[conf_i] \gets index_i$
+\State $conf[index_i] \gets conf_i$
+\State $index_i \gets index_i + 1$
+\EndIf
+\EndFor
+\State $basis.dim \gets dim$
+\State $basis.index \gets index$
+\State $basis.conf \gets conf$
+\State \Return $basis$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h!]
+\caption{Set up Hamiltonian}\label{alg:Huij}
+\begin{algorithmic}[1]
+\Function{Hamiltonian}{$basis$}
+\State $dim \gets basis.dim$
+\For {$i \gets 0$ to $dim$}
+\State $conf_i \gets basis.conf[i]$
+\ForAll {$\alpha$}
+\If {\Call{isBit}{$\alpha$, $conf_i$}}
+\State $conf_\alpha \gets$ \Call{clearBit}{$\alpha$, $conf_i$}
+\ForAll {$\beta$}
+\If {\Call{isBit}{$\beta$, $conf_\alpha$}}
+\State $conf_\beta \gets$ \Call{clearBit}{$\beta$, $conf_\alpha$}
+\ForAll {$\gamma$}
+\If {\Call{!isBit}{$\gamma$, $conf_\beta$}}
+\State $conf_\gamma \gets$ \Call{setBit}{$\gamma$, $conf_\beta$}
+\ForAll {$\delta$}
+\If {\Call{!isBit}{$\delta$, $conf_\gamma$}}
+\State $conf_\delta \gets$ \Call{setBit}{$\delta$, $conf_\gamma$}
+\State $conf_j \gets conf_\delta$
+\State $j \gets basis.index[conf_j]$
+\State $H_U[i,j] \gets H_U[i,j] + fsign*0.5*U_{\alpha\beta\gamma\delta}$
+\EndIf
+\EndFor
+\EndIf
+\EndFor
+\EndIf
+\EndFor
+\EndIf
+\EndFor
+\EndFor
+\State \Return $H_U$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+The function \texttt{clearBit()} clears a bit in a given configuration. For example,
+\texttt{clearBit(2,111111)} returns \texttt{110111} (in binary). Similarly,
+\texttt{setBit()} sets a bit in a given configuration. The function \texttt{isBit()}
+tests whether a specific site is occupied by an electron or not, from which we
+know if we can clear or set a bit on that site. It is (always) tricky that
+we have to pay extra attention to the fermi-sign \texttt{fsign}. Every time
+we call a function \texttt{clearBit()} or \texttt{setBit()}, it means that we applied
+an electron annihilation or creation operator. But when we apply an annihilation or
+creation operator, a fermi-sign ($\pm1$) is involved \cite{GBK}.
+
+\section{Construction of eigen-states}
+Our problem is almost solved.
+What we want to know ultimately are the eigen-vectors and eigen-energies
+of the Hamiltonian. But how big is this business? Since we have the matrix,
+to get the eigen-vectors and eigen-energies, we can simply throw it into a matrix
+diagonalization solver (e.g.\ \texttt{Lapack}), then we are done.
+But, is this the end of our story?
+
+We continue our case study for the $p^2$ orbital. In our previous section, we set
+the basis up by 15 basis vectors (let's first sort the basis vectors
+in an ascending order of binary numbers). Under this basis, we built up a 15-by-15
+Hamiltonian. It has the following pattern:
+\begin{equation*}
+H_U =
+\begin{blockarray}{cccccccccccccccc}
+\begin{block}{[ccccccccccccccc]c}
+\otimes &  &  &  &  &  &  &  &  &  &  &  &  &  &  & \Ket{000011} \\
+ & \otimes &  &  &  &  &  &  &  &  &  &  &  &  &  & \Ket{000101} \\
+ &  & \otimes &  &  &  &  &  &  &  &  &  &  &  &  & \Ket{000110} \\
+ &  &  & \otimes &  &  &  &  &  &  &  &  &  &  &  & \Ket{001001} \\
+ &  &  &  & \otimes &  & \otimes &  &  &  &  &  &  &  &  & \Ket{001010} \\
+ &  &  &  &  & \otimes &  & \otimes &  &  & \otimes &  &  &  &  & \Ket{001100} \\
+ &  &  &  & \otimes &  & \otimes &  &  &  &  &  &  &  &  & \Ket{010001} \\
+ &  &  &  &  & \otimes &  & \otimes &  &  & \otimes &  &  &  &  & \Ket{010010} \\
+ &  &  &  &  &  &  &  & \otimes &  &  & \otimes &  &  &  & \Ket{010100} \\
+ &  &  &  &  &  &  &  &  & \otimes &  &  &  &  &  & \Ket{011000} \\
+ &  &  &  &  & \otimes &  & \otimes &  &  & \otimes &  &  &  &  & \Ket{100001} \\
+ &  &  &  &  &  &  &  & \otimes &  &  & \otimes &  &  &  & \Ket{100010} \\
+ &  &  &  &  &  &  &  &  &  &  &  & \otimes &  &  & \Ket{100100} \\
+ &  &  &  &  &  &  &  &  &  &  &  &  & \otimes &  & \Ket{101000} \\
+ &  &  &  &  &  &  &  &  &  &  &  &  &  & \otimes & \Ket{110000} \\
+\end{block}
+\end{blockarray}
+\end{equation*}
+The empty elements are killed by the $\delta_{\sigma_1\sigma_4}\delta_{\sigma_2\sigma_3}$
+in Eqn.~(\ref{eq:Uelem}) (conservation of spin angular momentum)
+and the vanishing Gaunt coefficients. Recall Eqn.~(\ref{eq:AkBKone}),
+the sum rule requires $m_1+m_2 = m_3+m_4$ (conservation of orbital angular momentum).
+At this stage, we can throw $H_U$ into a matrix diagonalization solver,
+then we will obtain 15 eigen-energies plus 15 corresponding eigen-vectors.
+For people who are only interested in the eigen-energies (spectral lines)
+of the system, calling a matrix diagonalization solver will be enough
+to solve the problem. But if one wants to understand more physics about the system,
+asking, ``What exactly are the quantum numbers of those eigen-states?'', our solutions
+from the ``brute-force'' diagonalization cannot explain. As we shall find out later,
+it turns out that those 15 eigen-energies are highly
+degenerate. Among those 15 energies, we will obtain something like:
+$9\times E_1$, $5\times E_2$, $1\times E_3$.
+Now the problem is, if the eigen-energies are degenerate, the corresponding
+eigen-vectors are not uniquely defined. They live in a space where any
+linear combinations can be eigen-vectors. Thus it is difficult to address
+each eigen-vector by a specific set of quantum numbers.
+This high degeneracy that we claimed seems to be a mystery.
+In fact, the reason behind is that there is a special symmetry in the Hamiltonian $H_U$.
+Based on this symmetry, we can use a special technique to diagonalize this matrix
+without calling a matrix diagonalization routine like \texttt{Lapack}.
+More importantly, with this technique, eigen-vectors can be identified uniquely with beautiful quantum numbers.
+The idea is to use the angular momentum ladder operators. First, we need to prove that
+the Hamiltonian $H_U$ commutes with the total angular momenta $\vec{L}$ and $\vec{S}$.
+
+\paragraph{Proof:} By definition, the total angular momenta are
+$\vec{L}=\sum_{i=1}^N\boldsymbol{\ell}_i$ and $\vec{S}=\sum_{i=1}^N\vec{s}_i$.
+
+$[H_U,\,\vec{S}]=0$ is trivial, since
+\begin{equation}
+H_U = \sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|}
+\end{equation}
+has no dependence on spin.
+
+$[H_U,\,\vec{L}]=0$ is a bit more difficult. We need
+\begin{equation}
+\boldsymbol{\ell}_i = -i\vec{r}_i \times \boldsymbol{\nabla}_i
+\end{equation}
+Now,
+\begin{align}
+\left[\frac{1}{|\vec{r}_i-\vec{r}_j|},\,\boldsymbol{\ell}_i \right] & = \frac{1}{|\vec{r}_i-\vec{r}_j|}(-i\vec{r}_i \times \boldsymbol{\nabla}_i) - (-i\vec{r}_i \times \boldsymbol{\nabla}_i)\frac{1}{|\vec{r}_i-\vec{r}_j|} \nonumber \\
+& = i\vec{r}_i \times \left( \boldsymbol{\nabla}_i \frac{1}{|\vec{r}_i-\vec{r}_j|} \right) \nonumber \\
+& = i\vec{r}_i \times \left( -\frac{\vec{r}_i-\vec{r}_j}{|\vec{r}_i-\vec{r}_j|^3} \right) \nonumber \\
+& = i \frac{\vec{r}_i \times \vec{r}_j}{|\vec{r}_i-\vec{r}_j|^3} \nonumber \\
+& = i\vec{r}_j \times \frac{\vec{r}_j-\vec{r}_i}{|\vec{r}_j-\vec{r}_i|^3} \nonumber \\
+& = -i\vec{r}_j \times \left( \boldsymbol{\nabla}_j \frac{1}{|\vec{r}_j-\vec{r}_i|} \right)
+= -\left[\frac{1}{|\vec{r}_i-\vec{r}_j|},\,\boldsymbol{\ell}_j \right]
+\end{align}
+Therefore,
+\begin{align}
+\left[\frac{1}{|\vec{r}_i-\vec{r}_j|},\,\boldsymbol{\ell}_i+\boldsymbol{\ell}_j \right] & = 0 \\
+\left[\sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|},\,\sum_{i=0}^N\boldsymbol{\ell}_i \right] & = 0 \qquad \text{Q.E.D.}
+\end{align}
+
+Given that $[H_U,\,\vec{L}]=0$ and $[H_U,\,\vec{S}]=0$,
+we have the following relations:
+\begin{equation*}
+[H_U,\,L^2]=0 \qquad [H_U,\,L_z]=0 \qquad
+[H_U,\,S^2]=0 \qquad [H_U,\,S_z]=0
+\end{equation*}
+%
+As a result, an eigen-vector of $H_U$ is simultaneously
+eigen-vectors of $L^2$, $L_z$, $S^2$, $S_z$. Thus, we can denote
+an eigen-vector as $\Ket{L, M_L, S, M_S}$.\footnote{At this stage, we
+denote an eigen-vector with the four quantum numbers $\Ket{L, M_L, S, M_S}$,
+which is normally sufficient.
+However, in the next section, we will find the situation in which $\Ket{L, M_L, S, M_S}$
+is not able to address an eigen-vector uniquely. Then we would require
+an additional quantum number (called seniority number) to address the
+eigen-vector.}
+The commutation relations also lead to $[H_U,\,L_\pm]=0$ and $[H_U,\,S_\pm]=0$.
+Therefore, for a given eigen-vector $\Ket{L, M_L, S, M_S}$ of $H_U$,
+we can find new eigen-vectors using the ladder operators, for example,
+\begin{align} \label{eq:LmOp}
+\begin{split}
+L_- H_U \Ket{L, M_L, S, M_S} & = L_- E \Ket{L, M_L, S, M_S} \\
+H_U L_- \Ket{L, M_L, S, M_S} & = E L_- \Ket{L, M_L, S, M_S} \\
+H_U \Ket{L, M_L-1, S, M_S} & = E \Ket{L, M_L-1, S, M_S}
+\end{split}
+\end{align}
+Similarly,
+\begin{align} \label{eq:SmOp}
+\begin{split}
+S_- H_U \Ket{L, M_L, S, M_S} & = S_- E \Ket{L, M_L, S, M_S} \\
+H_U S_- \Ket{L, M_L, S, M_S} & = E S_- \Ket{L, M_L, S, M_S} \\
+H_U \Ket{L, M_L, S, M_S-1} & = E \Ket{L, M_L, S, M_S-1}
+\end{split}
+\end{align}
+%
+The idea is,
+\begin{equation}
+\boxed{
+\begin{aligned}
+& \textbf{Starting from a leading vector, we can construct subsequent} \\
+& \textbf{vectors by applying ladder operators.}
+\end{aligned}
+}
+\end{equation}
+This is the technique we will use to diagonalize our Hamiltonian.
+
+In Cartesian coordinates, we are used to arrange the basis vectors as
+$[\hat{\vec{x}},\,\hat{\vec{y}},\,\hat{\vec{z}}]$. But it really doesn't hurt if we
+do $[\hat{\vec{y}},\,\hat{\vec{x}},\,\hat{\vec{z}}]$. Previously we arranged the basis
+vectors in an ascending order of binary numbers. But we can also arrange
+the order such that we see clearly the pattern of the Hamiltonian.
+\begin{equation*}
+H_U =
+\begin{blockarray}{ccccccccccccccccc}
+ &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  & \Ket{M_{L}\,M_{S}} \\
+\begin{block}{[ccccccccccccccc]cc}
+\otimes &  &  &  &  &  &  &  &  &  &  &  &  &  &  & \Ket{100100} & \Ket{{\phantom{-}2}\ {\phantom{-}0}} \\
+ & \otimes &  &  &  &  &  &  &  &  &  &  &  &  &  & \Ket{110000} & \Ket{{\phantom{-}1}\ {\phantom{-}1}} \\
+ &  & \otimes & \otimes &  &  &  &  &  &  &  &  &  &  &  & \Ket{010100} & \Ket{{\phantom{-}1}\ {\phantom{-}0}} \\
+ &  & \otimes & \otimes &  &  &  &  &  &  &  &  &  &  &  & \Ket{100010} & \Ket{{\phantom{-}1}\ {\phantom{-}0}} \\
+ &  &  &  & \otimes &  &  &  &  &  &  &  &  &  &  & \Ket{000110} & \Ket{{\phantom{-}1}\ {-1}} \\
+ &  &  &  &  & \otimes &  &  &  &  &  &  &  &  &  & \Ket{101000} & \Ket{{\phantom{-}0}\ {\phantom{-}1}} \\
+ &  &  &  &  &  & \otimes & \otimes & \otimes &  &  &  &  &  &  & \Ket{001100} & \Ket{{\phantom{-}0}\ {\phantom{-}0}} \\
+ &  &  &  &  &  & \otimes & \otimes & \otimes &  &  &  &  &  &  & \Ket{010010} & \Ket{{\phantom{-}0}\ {\phantom{-}0}} \\
+ &  &  &  &  &  & \otimes & \otimes & \otimes &  &  &  &  &  &  & \Ket{100001} & \Ket{{\phantom{-}0}\ {\phantom{-}0}} \\
+ &  &  &  &  &  &  &  &  & \otimes &  &  &  &  &  & \Ket{000101} & \Ket{{\phantom{-}0}\ {-1}} \\
+ &  &  &  &  &  &  &  &  &  & \otimes &  &  &  &  & \Ket{011000} & \Ket{{-1}\ {\phantom{-}1}} \\
+ &  &  &  &  &  &  &  &  &  &  & \otimes & \otimes &  &  & \Ket{001010} & \Ket{{-1}\ {\phantom{-}0}} \\
+ &  &  &  &  &  &  &  &  &  &  & \otimes & \otimes &  &  & \Ket{010001} & \Ket{{-1}\ {\phantom{-}0}} \\
+ &  &  &  &  &  &  &  &  &  &  &  &  & \otimes &  & \Ket{000011} & \Ket{{-1}\ {-1}} \\
+  &  &  &  &  &  &  &  &  &  &  &  &  &  & \otimes & \Ket{001001} & \Ket{{-2}\ {\phantom{-}0}} \\
+\end{block}
+\end{blockarray}
+\end{equation*}
+%
+Why this pattern? Consider the configurations $\Ket{001100}$, $\Ket{010010}$ and $\Ket{100001}$:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+ &  & $\bullet$ \\
+\hline
+\end{tabular}
+\end{center}
+Those configurations have the same total $M_L = 0$ and total $M_S = 0$.
+Because of conservation of angular momentum, the electrons can move freely
+among those three configurations. This gives us the 3-by-3 block in the middle
+of the Hamiltonian. But a configuration like $\Ket{100100}$
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular}
+\end{center}
+has no where to go. It has the maximum $M_L = 1+1 = 2$.
+Any other configuration will give a lower $M_L$. Consequently, there is only
+one element in the corresponding row and column in the matrix.
+Hence, the state $\Ket{100100}$ is an eigen-state of the Hamiltonian.
+But, as you might have noticed already, $\Ket{100100}$ is not the only basis
+state with the unique $\Ket{M_{L}\,M_{S}}$. It is extremely useful to make
+a table to count how many basis states are there for a given
+$\Ket{M_{L}\,M_{S}}$.
+\begin{center}
+\begin{tabular}{c c|r c r}
+      &  &  & $M_S$ & \\
+      &  & $-1$ & $0$ & $1$ \\ \hline
+      & $\phantom{-}2$ & 0 & 1 & 0 \\
+      & $\phantom{-}1$ & 1 & 2 & 1 \\
+$M_L$ & $\phantom{-}0$ & 1 & 3 & 1 \\
+      & $-1$ & 1 & 2 & 1 \\
+      & $-2$ & 0 & 1 & 0 \\
+\end{tabular}
+\end{center}
+
+We labeled our basis states using two quantum numbers $M_L$ and $M_S$ and we found out
+that there could be more than one basis state sharing the same $M_L$ and $M_S$.
+An eigen-vector of the Hamiltonian is, in general, a linear combination of the basis states
+with the same $M_L$ and $M_S$. If we are lucky, we find some basis states with unique
+quantum numbers. Then those states are eigen-vectors by themselves.
+
+Here comes the technique for constructing the eigen-vectors.
+We start from the basis state with the largest $M_S$ and the corresponding largest
+$M_L$ (which is unique):
+\begin{center}
+\begin{tabular}{c c|r c c}
+      &  &  & $M_S$ & \\
+      &  & $-1$ & $0$ & $1$ \\ \hline
+      & $\phantom{-}2$ & 0 & 1 & 0 \\
+      & $\phantom{-}1$ & 1 & 2 & $\boxed{1}$ \\
+$M_L$ & $\phantom{-}0$ & 1 & 3 & 1 \\
+      & $-1$ & 1 & 2 & 1 \\
+      & $-2$ & 0 & 1 & 0 \\
+\end{tabular}
+\end{center}
+
+This gives us an eigen-vector $\Ket{1,1,1,1}$. By applying $L_-$ and $S_-$ operators,
+we obtain 
+\begin{center}
+\begin{tabular}{c c|r c c r r r}
+      &  &  & $M_S$ &  &  &  \\
+      &  & $-1$ & $0$ & $1$ &  &  \\ \cline{1-5}
+      & $\phantom{-}2$ & 0 & 1 & 0 &  &  &  \\
+      & $\phantom{-}1$ & $\boxed{1}$ & $\boxed{2}$ & $\boxed{1}$ & $\quad\Ket{1,\phantom{-}1,1,-1}$ & $\Ket{1,\phantom{-}1,1,\phantom{-}0}$ & $\Ket{1,\phantom{-}1,1,\phantom{-}1}$ \\
+$M_L$ & $\phantom{-}0$ & $\boxed{1}$ & $\boxed{3}$ & $\boxed{1}$ & $\quad\Ket{1,\phantom{-}0,1,-1}$ & $\Ket{1,\phantom{-}0,1,\phantom{-}0}$ & $\Ket{1,\phantom{-}0,1,\phantom{-}1}$ \\
+      & $-1$ & $\boxed{1}$ & $\boxed{2}$ & $\boxed{1}$ & $\quad\Ket{1,-1,1,-1}$ & $\Ket{1,-1,1,\phantom{-}0}$ & $\Ket{1,-1,1,\phantom{-}1}$ \\
+      & $-2$ & 0 & 1 & 0 &  &  &  \\
+\end{tabular}
+\end{center}
+
+Since we have extracted one vector out of each entry, we decrement each entry by 1.
+\begin{center}
+\begin{tabular}{c c|r c c}
+      &  &  & $M_S$ & \\
+      &  & $-1$ & $0$ & $1$ \\ \hline
+      & $\phantom{-}2$ & 0 & 1 & 0 \\
+      & $\phantom{-}1$ & 0 & 1 & 0 \\
+$M_L$ & $\phantom{-}0$ & 0 & 2 & 0 \\
+      & $-1$ & 0 & 1 & 0 \\
+      & $-2$ & 0 & 1 & 0 \\
+\end{tabular}
+\end{center}
+
+Again, we start from the basis state with the largest $M_S$ and the corresponding
+largest $M_L$:
+\begin{center}
+\begin{tabular}{c c|r c c}
+      &  &  & $M_S$ & \\
+      &  & $-1$ & $0$ & $1$ \\ \hline
+      & $\phantom{-}2$ & 0 & $\boxed{1}$ & 0 \\
+      & $\phantom{-}1$ & 0 & 1 & 0 \\
+$M_L$ & $\phantom{-}0$ & 0 & 2 & 0 \\
+      & $-1$ & 0 & 1 & 0 \\
+      & $-2$ & 0 & 1 & 0 \\
+\end{tabular}
+\end{center}
+
+This gives us an eigen-vector $\Ket{2,2,0,0}$. Now apply both $L_-$ and $S_-$
+operators (in this case only $L_-$), we obtain
+\begin{center}
+\begin{tabular}{c c|r c c r}
+      &  &  & $M_S$ &  & \\
+      &  & $-1$ & $0$ & $1$ & \\ \cline{1-5}
+      & $\phantom{-}2$ & 0 & $\boxed{1}$ & 0 & $\quad\Ket{2,\phantom{-}2,0,\phantom{-}0}$ \\
+      & $\phantom{-}1$ & 0 & $\boxed{1}$ & 0 & $\quad\Ket{2,\phantom{-}1,0,\phantom{-}0}$ \\
+$M_L$ & $\phantom{-}0$ & 0 & $\boxed{2}$ & 0 & $\quad\Ket{2,\phantom{-}0,0,\phantom{-}0}$ \\
+      & $-1$ & 0 & $\boxed{1}$ & 0 & $\quad\Ket{2,-1,0,\phantom{-}0}$ \\
+      & $-2$ & 0 & $\boxed{1}$ & 0 & $\quad\Ket{2,-2,0,\phantom{-}0}$ \\
+\end{tabular}
+\end{center}
+
+Now we decrement each entry by 1.
+\begin{center}
+\begin{tabular}{c c|r c c}
+      &  &  & $M_S$ & \\
+      &  & $-1$ & $0$ & $1$ \\ \hline
+      & $\phantom{-}2$ & 0 & 0 & 0 \\
+      & $\phantom{-}1$ & 0 & 0 & 0 \\
+$M_L$ & $\phantom{-}0$ & 0 & \boxed{1} & 0 \\
+      & $-1$ & 0 & 0 & 0 \\
+      & $-2$ & 0 & 0 & 0 \\
+\end{tabular}
+\end{center}
+
+$\Ket{0,0,0,0}$ is the last eigen-vector in our example. It cannot be read off directly, since there are 3 basis
+vectors corresponding to this $M_L$ and $M_S$. But two eigen-vectors have been constructed already, namely,
+$\Ket{1,0,1,0}$ and $\Ket{2,0,0,0}$. The last one, $\Ket{0,0,0,0}$, should be obtained from the
+orthogonality relation from the previous two eigen-vectors.
+
+Once we applied a ladder operator $L_-$ or $S_-$, we changed only the ``projection'' quantum number
+$M_L$ or $M_S$. The amplitude of angular momenta $L$ and $S$ are never changed by ladder operators.
+From Eqns.~(\ref{eq:LmOp}) and (\ref{eq:SmOp}) we can conclude
+that eigen-vectors with the same $L$ and $S$ have the same eigen-energy.
+In other words, the eigen-vectors obtained from the ladder operators have degenerate
+eigen-energies. If we review the previous example, we can summarize that there are three
+groups of eigen-vectors:
+\begin{center}
+\begin{tabular}{|c c c|c|c|}
+\hline
+ & $^3P$ &  & $^1D$ & $^1S$  \\ \hline
+ &  &  & $\Ket{2,\phantom{-}2,0,\phantom{-}0}$ & \\
+ $\Ket{1,\phantom{-}1,1,-1}$ & $\Ket{1,\phantom{-}1,1,\phantom{-}0}$ & $\Ket{1,\phantom{-}1,1,\phantom{-}1}$ & $\Ket{2,\phantom{-}1,0,\phantom{-}0}$ & \\
+ $\Ket{1,\phantom{-}0,1,-1}$ & $\Ket{1,\phantom{-}0,1,\phantom{-}0}$ & $\Ket{1,\phantom{-}0,1,\phantom{-}1}$ & $\Ket{2,\phantom{-}0,0,\phantom{-}0}$ & $\Ket{0,\phantom{-}0,0,\phantom{-}0}$ \\
+ $\Ket{1,-1,1,-1}$ & $\Ket{1,-1,1,\phantom{-}0}$ & $\Ket{1,-1,1,\phantom{-}1}$ & $\Ket{2,-1,0,\phantom{-}0}$ & \\
+ &  &  & $\Ket{2,-2,0,\phantom{-}0}$ & \\
+\hline
+\end{tabular}
+\end{center}
+
+Each group is called a multiplet. All vectors from the same group have the same eigen-energy
+(this confirmed the ``$9\times E_1$, $5\times E_2$, $1\times E_3$'' mystery we claimed in
+the beginning of this section). Eigen-energies are highly degenerate,
+that is why ``multi''-plet. The convention of naming is the term symbol:
+\begin{equation} \label{eq:mtp}
+^{2S+1}L
+\end{equation}
+with
+\begin{equation} \label{eq:mtpDegen}
+\mathrm{degeneracy} = (2S+1)(2L+1)
+\end{equation}
+%
+There is also a convention of pronouncing the multiplets. For example,
+$^3P$, $^1D$ and $^1S$ are pronounced ``triplet pee'', ``singlet dee'' and
+``singlet ess''. A table for mapping the superscript $2S+1$ (called multiplicity)
+and their names:
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+ $2S+1$ & name \\ \hline
+ 1 & singlet \\
+ 2 & doublet \\
+ 3 & triplet \\
+ 4 & quartet \\
+ 5 & quintet \\
+ 6 & sextet \\
+ 7 & septet \\
+ 8 & octet \\
+ 9 & nonet \\
+\hline
+\end{tabular}
+\end{center}
+
+The first few symbols of $L$ are: (oh, don't ask me why there is no ``$J$'')
+\begin{center}
+\begin{tabular}{|c|c c c c c c c c c c c c c c c c c|}
+\hline
+ $L$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\ \hline
+     & $S$ & $P$ & $D$ & $F$ & $G$ & $H$ & $I$ & $K$ & $L$ & $M$ & $N$ & $O$ & $Q$ & $R$ & $T$ & $U$ & $V$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Of course, all eigen-vectors should be expressed in terms of our 15 basis states. It won't
+tell us anything if we just have a name like $\Ket{2,1,0,0}$. Those expression are
+obtained when we apply the ladder operators. For example, (vectors should be normalized)
+\begin{align} \label{eq:LmBas}
+L_-
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+\bullet &  &  \\
+\hline
+\end{array} & =
+\sqrt{(1+1)(1-1+1)}
+\begin{array}{|c|c|c|}
+\hline
+\phantom{\bullet} & \bullet & \phantom{\bullet} \\ \hline
+\bullet &  &  \\
+\hline
+\end{array} +
+\sqrt{(1+1)(1-1+1)}
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+ & \bullet &  \\
+\hline
+\end{array} \nonumber \\
+L_-\Ket{2,2,0,0} & = \qquad \qquad \qquad \quad \,
+\sqrt{2}\:
+\begin{array}{|c|c|c|}
+\hline
+\phantom{\bullet} & \bullet & \phantom{\bullet} \\ \hline
+\bullet &  &  \\
+\hline
+\end{array} + \qquad \qquad \qquad \quad \,
+\sqrt{2}\:
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+ & \bullet &  \\
+\hline
+\end{array} \nonumber \\
+\Ket{2,1,0,0} & = \qquad \qquad \qquad \quad \,
+\frac{1}{\sqrt{2}}
+\begin{array}{|c|c|c|}
+\hline
+\phantom{\bullet} & \bullet & \phantom{\bullet} \\ \hline
+\bullet &  &  \\
+\hline
+\end{array} + \qquad \qquad \qquad \quad \,
+\frac{1}{\sqrt{2}}
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+ & \bullet &  \\
+\hline
+\end{array}
+\end{align}
+%
+In second quantization, Eqn~(\ref{eq:LmBas}) can be written as
+\begin{equation}
+\Ket{2,1,0,0} =
+\frac{1}{\sqrt{2}} \left( c_{1\downarrow}^\dagger c_{0\uparrow}^\dagger
++ c_{0\downarrow}^\dagger c_{1\uparrow}^\dagger \right) \Ket{0}
+\end{equation}
+\vspace{1em}
+
+We made the convention that the order of creation operators are arranged
+according to the configuration:
+\begin{equation}
+\begin{array}{c|c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{\phantom{,}1\phantom{,}} & \multicolumn{1}{c}{\phantom{,}0\phantom{,}} & \multicolumn{1}{c}{-1} \\ \cline{2-4}
+\uparrow & 1 & 2 & 3 \\ \cline{2-4}
+\downarrow & 4 & 5 & 6 \\
+\cline{2-4}
+\multicolumn{1}{c}{}
+\end{array} =
+c_6^\dagger c_5^\dagger c_4^\dagger
+c_3^\dagger c_2^\dagger c_1^\dagger
+\Ket{0}
+\end{equation}
+%
+Hence,
+\begin{equation} \label{eq:createorder}
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \bullet & \bullet \\ \hline
+\bullet & \bullet & \bullet \\
+\hline
+\end{array} =
+c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger
+c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger
+\Ket{0}
+\end{equation}
+
+In summary, our 15 eigen-vectors are listed below:
+\begin{equation*}
+\renewcommand\arraystretch{1.8}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c >{\displaystyle}c >{\displaystyle}l|}
+\hline
+& |1,\phantom{-}1,1,\phantom{-}1\rangle & = & c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger |0\rangle \\ 
+& |1,\phantom{-}1,1,\phantom{-}0\rangle & = & \frac{1}{\sqrt{2}} \left( -c_{1\downarrow}^\dagger c_{0\uparrow}^\dagger +c_{0\downarrow}^\dagger c_{1\uparrow}^\dagger \right)|0\rangle \\ 
+& |1,\phantom{-}1,1,-1\rangle & = & c_{0\downarrow}^\dagger c_{1\downarrow}^\dagger |0\rangle \\ 
+& |1,\phantom{-}0,1,\phantom{-}1\rangle & = & c_{-1\uparrow}^\dagger c_{1\uparrow}^\dagger |0\rangle \\ 
+^{3}P & |1,\phantom{-}0,1,\phantom{-}0\rangle & = & \frac{1}{\sqrt{2}} \left( -c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger +c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger \right)|0\rangle \\ 
+& |1,\phantom{-}0,1,-1\rangle & = & c_{-1\downarrow}^\dagger c_{1\downarrow}^\dagger |0\rangle \\ 
+& |1,-1,1,\phantom{-}1\rangle & = & c_{-1\uparrow}^\dagger c_{0\uparrow}^\dagger |0\rangle \\ 
+& |1,-1,1,\phantom{-}0\rangle & = & \frac{1}{\sqrt{2}} \left( -c_{0\downarrow}^\dagger c_{-1\uparrow}^\dagger +c_{-1\downarrow}^\dagger c_{0\uparrow}^\dagger \right)|0\rangle \\ 
+& |1,-1,1,-1\rangle & = & c_{-1\downarrow}^\dagger c_{0\downarrow}^\dagger |0\rangle \\
+\hline
+& |2,\phantom{-}2,0,\phantom{-}0\rangle & = & c_{1\downarrow}^\dagger c_{1\uparrow}^\dagger |0\rangle \\ 
+& |2,\phantom{-}1,0,\phantom{-}0\rangle & = & \frac{1}{\sqrt{2}} \left( c_{1\downarrow}^\dagger c_{0\uparrow}^\dagger +c_{0\downarrow}^\dagger c_{1\uparrow}^\dagger \right)|0\rangle \\ 
+^{1}D & |2,\phantom{-}0,0,\phantom{-}0\rangle & = & \frac{1}{\sqrt{6}} \left( c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger +2c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger +c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger \right)|0\rangle \\ 
+& |2,-1,0,\phantom{-}0\rangle & = & \frac{1}{\sqrt{2}} \left( c_{0\downarrow}^\dagger c_{-1\uparrow}^\dagger +c_{-1\downarrow}^\dagger c_{0\uparrow}^\dagger \right)|0\rangle \\ 
+& |2,-2,0,\phantom{-}0\rangle & = & c_{-1\downarrow}^\dagger c_{-1\uparrow}^\dagger |0\rangle \\ 
+\hline 
+^{1}S & |0,\phantom{-}0,0,\phantom{-}0\rangle & = & \frac{1}{\sqrt{3}} \left( c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger -c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger +c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger \right)|0\rangle \\
+\hline
+\end{array}
+\end{equation*}
+
+As a remark, we started from the basis state with the largest $M_S$ and the corresponding largest
+$M_L$. Equivalently, we could also start from the largest $M_L$ and the corresponding largest
+$M_S$, since they are both eigen-states. Actually, it is just a matter of taste that
+we start from either
+\begin{equation*}
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \bullet & \phantom{\bullet} \\ \hline
+\phantom{\bullet} & \phantom{\bullet} & \phantom{\bullet} \\
+\hline
+\multicolumn{3}{c}{S_\text{max}}
+\end{array}
+\quad \text{or} \quad
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \phantom{\bullet} & \phantom{\bullet} \\ \hline
+\bullet & \phantom{\bullet} & \phantom{\bullet} \\
+\hline
+\multicolumn{3}{c}{L_\text{max}}
+\end{array} \quad .
+\end{equation*}
+Here, we prefer to start from the former one (maximum spin), which is naturally
+suggested from the famous Hund's rule. It states that the multiplet
+with the maximum $S$ has the lowest energy, from which we start our multiplet construction.
+
+\section{Seniority}
+We are so far lucky enough to diagonalize the Hamiltonian using ladder operators.
+Recall how we constructed the multiplets for a $p^2$ orbital. We always start from
+the largest $M_S$ and the corresponding largest $M_L$:
+\begin{equation*}
+\begin{matrix}
+0 & 1 & 0 \\
+1 & 2 & \boxed{1} \\
+1 & 3 & 1 \\
+1 & 2 & 1 \\
+0 & 1 & 0
+\end{matrix}
+\quad \rightarrow \quad
+\begin{matrix}
+0 & \boxed{1} & 0 \\
+0 & 1 & 0 \\
+0 & 2 & 0 \\
+0 & 1 & 0 \\
+0 & 1 & 0
+\end{matrix}
+\quad \rightarrow \quad
+\begin{matrix}
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & \boxed{1} & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0
+\end{matrix}
+\end{equation*}
+%
+We were lucky because every time we started from a ``1''. This single vector
+can be determined uniquely (by the basis vector itself or by the orthogonality relation).
+But are we guaranteed to always start from a ``1''?
+No, we are not. For example, the $M_L$-$M_S$ tables for the $d^3$ orbital:
+\begin{equation*}
+\begin{matrix}
+0 & 1 & 1 & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+1 & 4 & 4 & \boxed{1} \\ 
+1 & 6 & 6 & 1 \\ 
+2 & 8 & 8 & 2 \\ 
+2 & 8 & 8 & 2 \\ 
+2 & 8 & 8 & 2 \\ 
+1 & 6 & 6 & 1 \\ 
+1 & 4 & 4 & 1 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 1 & 1 & 0
+\end{matrix}
+\ \rightarrow \
+\begin{matrix}
+0 & 1 & 1 & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 5 & 5 & 0 \\ 
+1 & 7 & 7 & \boxed{1} \\ 
+1 & 7 & 7 & 1 \\ 
+1 & 7 & 7 & 1 \\ 
+0 & 5 & 5 & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 1 & 1 & 0
+\end{matrix}
+\ \rightarrow \
+\begin{matrix}
+0 & 1 & \boxed{1} & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 5 & 5 & 0 \\ 
+0 & 6 & 6 & 0 \\ 
+0 & 6 & 6 & 0 \\ 
+0 & 6 & 6 & 0 \\ 
+0 & 5 & 5 & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 1 & 1 & 0
+\end{matrix}
+\ \rightarrow \
+\begin{matrix}
+0 & 0 & 0 & 0 \\ 
+0 & 1 & \boxed{1} & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 4 & 4 & 0 \\ 
+0 & 5 & 5 & 0 \\ 
+0 & 5 & 5 & 0 \\ 
+0 & 5 & 5 & 0 \\ 
+0 & 4 & 4 & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 1 & 1 & 0 \\ 
+0 & 0 & 0 & 0
+\end{matrix}
+\ \rightarrow \
+\begin{matrix}
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 1 & \boxed{1} & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 4 & 4 & 0 \\ 
+0 & 4 & 4 & 0 \\ 
+0 & 4 & 4 & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 1 & 1 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0
+\end{matrix}
+\ \rightarrow \
+\begin{matrix}
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 2 & \boxed{2} & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 3 & 3 & 0 \\ 
+0 & 2 & 2 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0
+\end{matrix}
+\end{equation*}
+%
+We encounter a ``2'', disaster! This ``2'' means there are two undetermined
+eigen-vectors with $M_L=2$ and $M_S=1/2$. By the orthogonality relation,
+we can at most find out an eigen-space (a plane) which is spanned by the two eigen-vectors.
+But we cannot tell where exactly those two eigen-vectors are. That is the
+limitation of using ladder operators. After all, we were doing something
+peculiar: we diagonalized the matrix without using the matrix elements but only symmetries.
+At this stage, we really have to ask help from the matrix elements. With the given
+numerical values, we will be able to diagonalize the matrix completely.
+But as we mentioned already, although we cannot obtain the eigen-vectors,
+we can find the eigen-space spanned by these two eigen-vectors. To continue our work, we can generate two random
+vectors and by applying the orthogonality relation, we get two random vectors
+in the eigen-space. For example,
+\begin{align}
+|2,2,\frac{1}{2},\frac{1}{2}\rangle_1 = {} & \left( 0.211c_{2\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{1\uparrow}^\dagger -0.259c_{1\downarrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger -0.702c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger c_{2\uparrow}^\dagger \right. \nonumber \\
+& \left. +0.490c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{2\uparrow}^\dagger -0.279c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger c_{2\uparrow}^\dagger +0.279c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger \right)|0\rangle \label{eq:randv1} \\ 
+|2,2,\frac{1}{2},\frac{1}{2}\rangle_2 = {} & \left( 0.382c_{2\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{1\uparrow}^\dagger -0.468c_{1\downarrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger -0.236c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger c_{2\uparrow}^\dagger \right. \nonumber \\
+& \left. -0.146c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{2\uparrow}^\dagger +0.528c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger c_{2\uparrow}^\dagger -0.528c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger \right)|0\rangle \label{eq:randv2}
+\end{align}
+%
+Now apply both $L_-$ and $S_-$ to these two vectors, we obtain all other
+vectors in this (2-dimensional) multiplet:
+\begin{equation*}
+\begin{matrix}
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & \boxed{2} & \boxed{2} & 0 \\ 
+0 & \boxed{3} & \boxed{3} & 0 \\ 
+0 & \boxed{3} & \boxed{3} & 0 \\ 
+0 & \boxed{3} & \boxed{3} & 0 \\ 
+0 & \boxed{2} & \boxed{2} & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0
+\end{matrix}
+\quad \rightarrow \quad
+\begin{matrix}
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 1 & 1 & 0 \\ 
+0 & 1 & 1 & 0 \\ 
+0 & 1 & 1 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0
+\end{matrix}
+\end{equation*}
+%
+This step gives us two $^2D$ multiplets. We will denote it as $\stackrel{2\times}{^{2}D}$.
+Once we encounter a multiplet which appears multiple times, it implies we could only find its
+eigen-spaces but not eigen-vectors by using the ladder operator technique. We don't need to
+worry about this problem for $s$ and $p$ shells. But for $d$ and higher shells, we will encounter
+this problem quite often. A summary of atomic multiplets for open $s$, $p$, $d$ and $f$ shells
+are tabulated in \ref{table:mtp}.
+
+Recall the random vectors we generated in Eqns.~(\ref{eq:randv1}) and (\ref{eq:randv2}).
+If we repeat the generation of random vectors, we might obtain a different set of vectors. They
+span the same space but the vectors will have different directions. There is a very smart
+method which allows us to construct those vectors uniquely (also with beautiful coefficients
+like $1/\sqrt{3}$), although they are still not eigen-vectors.
+
+This new concept is called seniority \cite{RIII}. The idea is that since we cannot uniquely determine
+the vectors in the eigen-spaces of $\stackrel{2\times}{^{2}D}$ in $d^3$ shell, we start from
+the $^2D$ in $d^1$ shell whose eigen-vectors can be uniquely determined.
+
+\begin{center}
+\begin{tabular}{l|l l l l l l l l}
+\hline
+ $d^1$ & & & $\boxed{^{2}D}$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $d^2$ & $^{1}S$ & $^{3}P$ & $^{1}D$ & $^{3}F$ & $^{1}G$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $d^3$ & & $^{2}P\,^{4}P$ & $\boxed{\stackrel{2\times}{^{2}D}}$ & $^{2}F\,^{4}F$ & $^{2}G$ & $^{2}H$ \\
+\hline
+\end{tabular}
+\end{center}
+
+The $d^1$ and $d^3$ shells are different by, of course, two electrons. To go from
+$d^1$ to $d^3$, we need to add two more electrons. But the additional electrons
+should not affect the angular momenta in $^2D$. Therefore, we should add electrons
+according to the $^1S$ multiplet in $d^2$, which has $L=0$ and $S=0$.
+This put-electron operation is called a seniority operation, one can think
+the $^2D$ in $d^1$ as the parent and the $\stackrel{2\times}{^{2}D}$ in $d^3$ as the children.
+The $^1S$ multiplet has one eigen-state
+\begin{equation}
+|0,0,0,0\rangle = \frac{1}{\sqrt{5}} \left( c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger -c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger +c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger -c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger +c_{-2\downarrow}^\dagger c_{2\uparrow}^\dagger \right)|0\rangle
+\end{equation}
+%
+The ``put-electron-operator'' (seniority operator) is simply
+\begin{equation}
+T = c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger -c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger +c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger -c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger +c_{-2\downarrow}^\dagger c_{2\uparrow}^\dagger
+\end{equation}
+%
+Apply this seniority operator to the leading vector of $^2D$ in $d^1$:
+\begin{align}
+T\, |2,2,\frac{1}{2},\frac{1}{2}\rangle & = T\, c_{2\uparrow}^\dagger |0\rangle \nonumber \\
+& = \left( c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger -c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger +c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger -c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger +c_{-2\downarrow}^\dagger c_{2\uparrow}^\dagger \right) c_{2\uparrow}^\dagger |0\rangle \nonumber \\
+& = \left( c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger c_{2\uparrow}^\dagger -c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{2\uparrow}^\dagger +c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger c_{2\uparrow}^\dagger -c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger \right) |0\rangle
+\end{align}
+%
+We obtain the first leading vector of $^2D$ in $d^3$: (vectors should be normalized)
+\begin{equation} \label{eq:snv1}
+|2,2,\frac{1}{2},\frac{1}{2},0\rangle = \frac{1}{\sqrt{4}} \left( c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger c_{2\uparrow}^\dagger -c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{2\uparrow}^\dagger +c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger c_{2\uparrow}^\dagger -c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger \right)|0\rangle
+\end{equation}
+%
+The fifth index $W=0$ is called the seniority number. One can think it as
+the index of an array.\footnote{A more standard way to assign the seniority number
+is to name according to their parents. For example, our first vector is produced from
+$^2D$ in $d^1$, hence it has a seniority number 1. The second vector is produced
+in $d^3$ from the orthogonality relation, hence a seniority number 3. However,
+this ancestry relation gets much more complicated for an $f$ shell. We would
+like to assign the seniority number just as the array index. Actually
+it doesn't matter how we name the seniority number since it does not really
+have a physical meaning. We chose it for convenience as long as it can label
+a vector uniquely.}
+The remaining leading vector $|2,2,\frac{1}{2},\frac{1}{2},1\rangle$
+can then be uniquely determined from the orthogonality relation.
+in shell $d^3$.
+\begin{align} \label{eq:snv2}
+|2,2,\frac{1}{2},\frac{1}{2},1\rangle & = \frac{1}{\sqrt{84}} \left( 4c_{2\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{1\uparrow}^\dagger -\sqrt{24}c_{1\downarrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger -5c_{2\downarrow}^\dagger c_{-2\uparrow}^\dagger c_{2\uparrow}^\dagger \right. \nonumber \\
+& \left. \qquad\qquad +c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{2\uparrow}^\dagger +3c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger c_{2\uparrow}^\dagger -3c_{-1\downarrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger \right)|0\rangle
+\end{align}
+%
+The vectors in Eqns.~(\ref{eq:snv1}) and (\ref{eq:snv2}) span the same space
+as the vectors in Eqns.~(\ref{eq:randv1}) and (\ref{eq:randv2}). Now those vectors
+can be uniquely determined and addressed by five quantum numbers $\Ket{L,M_L,S,M_S,W}$.
+By applying ladder operators to these two leading vectors,
+we obtain the complete set of vectors in the multiplet $\stackrel{2\times}{^2D}$.
+One must be alerted that $\Ket{L,M_L,S,M_S,W}$ is, in general, not an eigen-vector.
+But the complete set $\Ket{L,M_L,S,M_S,0}\ldots\, \Ket{L,M_L,S,M_S,n-1}$ spans the complete
+eigen-space of multiplets $\stackrel{\qquad n\times}{^{2S+1}L}$.
+
+\clearpage
+\begin{table}[h!]
+\begin{center}
+\small
+\rotatebox{-90}{
+\begin{minipage}{\textheight}
+\caption{Atomic multiplets for open $s$, $p$, $d$ and $f$ shells.
+All closed shells have $^1S$.}
+\label{table:mtp}
+\makebox[1.05\textheight]{
+\begin{tabular}{l|l l l l l l l l l l l l l}
+\hline
+ Orbital & \multicolumn{2}{l}{Multiplets} \\
+\hline\hline
+ $s^1$ & $^{2}S$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+\hline
+ $p^1$ $p^5$ & & $^{2}P$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $p^2$ $p^4$ & $^{1}S$ & $^{3}P$ & $^{1}D$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $p^3$ & $^{4}S$ & $^{2}P$ & $^{2}D$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+\hline
+ $d^1$ $d^9$ & & & $^{2}D$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $d^2$ $d^8$ & $^{1}S$ & $^{3}P$ & $^{1}D$ & $^{3}F$ & $^{1}G$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $d^3$ $d^7$ & & $^{2}P\,^{4}P$ & $\stackrel{2\times}{^{2}D}$ & $^{2}F\,^{4}F$ & $^{2}G$ & $^{2}H$ \\
+ $d^4$ $d^6$ & $\stackrel{2\times}{^{1}S}$ & $\stackrel{2\times}{^{3}P}$ & $\stackrel{2\times}{^{1}D} {^{3}D}\,^{5}D$ & ${^{1}F} \stackrel{2\times}{^{3}F}$ & $\stackrel{2\times}{^{1}G} {^{3}G}$ & $^{3}H$ & $^{1}I$ \\
+ $d^5$ & $^{2}S\,^{6}S$ & $^{2}P\,^{4}P$ & $\stackrel{3\times}{^{2}D} {^{4}D}$ & $\stackrel{2\times}{^{2}F} {^{4}F}$ & $\stackrel{2\times}{^{2}G} {^{4}G}$ & $^{2}H$ & $^{2}I$ \\
+\hline
+ $f^1$ $f^{13}$ & & & & $^{2}F$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $f^2$ $f^{12}$ & $^{1}S$ & $^{3}P$ & $^{1}D$ & $^{3}F$ & $^{1}G$ & $^{3}H$ & $^{1}I$ & $\phantom{\stackrel{2\times}{^{2}D}}$ \\
+ $f^3$ $f^{11}$ & $^{4}S$ & $^{2}P$ & $\stackrel{2\times}{^{2}D} {^{4}D}$ & $\stackrel{2\times}{^{2}F} {^{4}F}$ & $\stackrel{2\times}{^{2}G} {^{4}G}$ & $\stackrel{2\times}{^{2}H}$ & $^{2}I\,^{4}I$ & $^{2}K$ & $^{2}L$ \\
+ $f^4$ $f^{10}$ & $\stackrel{2\times}{^{1}S} {^{5}S}$ & $\stackrel{3\times}{^{3}P}$ & $\stackrel{4\times}{^{1}D}\,\stackrel{2\times}{^{3}D} {^{5}D}$ & ${^{1}F} \stackrel{4\times}{^{3}F} {^{5}F}$ & $\stackrel{4\times}{^{1}G}\,\stackrel{3\times}{^{3}G} {^{5}G}$ & $\stackrel{2\times}{^{1}H}\,\stackrel{4\times}{^{3}H}$ & $\stackrel{3\times}{^{1}I}\,\stackrel{2\times}{^{3}I} {^{5}I}$ & ${^{1}K} \stackrel{2\times}{^{3}K}$ & $\stackrel{2\times}{^{1}L} {^{3}L}$ & $^{3}M$ & $^{1}N$ \\
+ $f^5$ $f^9$ & $^{4}S$ & $\stackrel{4\times}{^{2}P}\,\stackrel{2\times}{^{4}P} {^{6}P}$ & $\stackrel{5\times}{^{2}D}\,\stackrel{3\times}{^{4}D}$ & $\stackrel{7\times}{^{2}F}\,\stackrel{4\times}{^{4}F} {^{6}F}$ & $\stackrel{6\times}{^{2}G}\,\stackrel{4\times}{^{4}G}$ & $\stackrel{7\times}{^{2}H}\,\stackrel{3\times}{^{4}H} {^{6}H}$ & $\stackrel{5\times}{^{2}I}\,\stackrel{3\times}{^{4}I}$ & $\stackrel{5\times}{^{2}K}\,\stackrel{2\times}{^{4}K}$ & $\stackrel{3\times}{^{2}L} {^{4}L}$ & $\stackrel{2\times}{^{2}M} {^{4}M}$ & $^{2}N$ & $^{2}O$ \\
+ $f^6$ $f^8$ & $\stackrel{4\times}{^{1}S} {^{5}S}$ & ${^{1}P} \stackrel{6\times}{^{3}P} {^{5}P}$ & $\stackrel{6\times}{^{1}D}\,\stackrel{5\times}{^{3}D}\,\stackrel{3\times}{^{5}D}$ & $\stackrel{4\times}{^{1}F}\,\stackrel{9\times}{^{3}F}\,\stackrel{2\times}{^{5}F} {^{7}F}$ & $\stackrel{8\times}{^{1}G}\,\stackrel{7\times}{^{3}G}\,\stackrel{3\times}{^{5}G}$ & $\stackrel{4\times}{^{1}H}\,\stackrel{9\times}{^{3}H}\,\stackrel{2\times}{^{5}H}$ & $\stackrel{7\times}{^{1}I}\,\stackrel{6\times}{^{3}I}\,\stackrel{2\times}{^{5}I}$ & $\stackrel{3\times}{^{1}K}\,\stackrel{6\times}{^{3}K} {^{5}K}$ & $\stackrel{4\times}{^{1}L}\,\stackrel{3\times}{^{3}L} {^{5}L}$ & $\stackrel{2\times}{^{1}M}\,\stackrel{3\times}{^{3}M}$ & $\stackrel{2\times}{^{1}N} {^{3}N}$ & $^{3}O$ & $^{1}Q$ \\
+ $f^7$ & $\stackrel{2\times}{^{2}S}\,\stackrel{2\times}{^{4}S} {^{8}S}$ & $\stackrel{5\times}{^{2}P}\,\stackrel{2\times}{^{4}P} {^{6}P}$ & $\stackrel{7\times}{^{2}D}\,\stackrel{6\times}{^{4}D} {^{6}D}$ & $\stackrel{10\times}{^{2}F}\,\stackrel{5\times}{^{4}F} {^{6}F}$ & $\stackrel{10\times}{^{2}G}\,\stackrel{7\times}{^{4}G} {^{6}G}$ & $\stackrel{9\times}{^{2}H}\,\stackrel{5\times}{^{4}H} {^{6}H}$ & $\stackrel{9\times}{^{2}I}\,\stackrel{5\times}{^{4}I} {^{6}I}$ & $\stackrel{7\times}{^{2}K}\,\stackrel{3\times}{^{4}K}$ & $\stackrel{5\times}{^{2}L}\,\stackrel{3\times}{^{4}L}$ & $\stackrel{4\times}{^{2}M} {^{4}M}$ & $\stackrel{2\times}{^{2}N} {^{4}N}$ & $^{2}O$ & $^{2}Q$ \\
+\hline
+\end{tabular}
+}
+\end{minipage}
+}
+\end{center}
+\end{table}
+\clearpage
+
+\section{Eigen-energy of multiplet states}
+As we emphasized earlier, the eigen-energies of the Hamiltonian could be
+obtained by throwing the matrix into a diagonalization solver. However, from this
+``brute-force'' approach, it cannot be seen that which eigen-energy corresponds to which
+multiplet. Now, since we have constructed the eigen-vectors already (up to seniority),
+we can easily compute the eigen-energies by matrix-vector multiplications.
+For a given eigen-vector $\Ket{\vec{v}_n}$, the corresponding eigen-energy is simply
+\begin{equation}\label{eq:En}
+E_n = \Bra{\vec{v}_n} H_U \Ket{\vec{v}_n}
+\end{equation}
+%
+The Hamiltonian consists of two major parts: the Slater-Condon
+parameters and the Gaunt coefficients. For on-shell interactions, the Slater-Condon
+parameters enter as pre-factors $F^{(k)}$ since they depend on only $n$ and $l$ (see
+Eqn.~(\ref{eq:Fk})). It is more convenient to take out those pre-factors
+and to write our Hamiltonian as,
+\begin{equation}\label{eq:Hk}
+H_U = \sum_{k=0(+2)}^{2l} F^{(k)} \tilde{H}_U^{(k)}
+\end{equation}
+where $\tilde{H}_U^{(k)}$ has only a dependence on the Gaunt coefficients,
+which are system independent.
+For a given shell, the sum rule in Eqn.~(\ref{eq:kRule}) requires $k=0,2,\ldots,2l$.
+The routine for setting up $\tilde{H}_U^{(k)}$ is identical to Algorithm~\ref{alg:Huij},
+except that one needs to replace $U_{\alpha\beta\gamma\delta}$ by
+$\delta_{\sigma_1\sigma_4} \delta_{\sigma_2\sigma_3} \frac{4\pi}{2k+1} A^{(k)}(lm_1,lm_2,lm_3,lm_4)$.
+The eigenvalues $\tilde{E}_n^{(k)}$ from $\tilde{H}_U^{(k)}$ are universal for all atoms.
+We can easily compute $\tilde{E}_n^{(k)}$ by applying our eigen-vectors to $\tilde{H}_U^{(k)}$:
+\begin{equation}\label{eq:Ekn}
+\tilde{E}_n^{(k)} = \Bra{\vec{v}_n} \tilde{H}_U^{(k)} \Ket{\vec{v}_n}
+\end{equation}
+%
+It is not trivial that the eigen-vectors of $H_U$ are simultaneously eigen-vectors of
+$\tilde{H}_U^{(k)}$. This is because $\tilde{H}_U^{(k)}$ also commute with $\vec{L}$
+and $\vec{S}$ (up to seniority). Now, system independently, we can write the eigen-energies
+as (think $F^{(k)}$ as pre-factors)
+\begin{equation}\label{eq:Eksum}
+E_n = \sum_{k=0(+2)}^{2l} F^{(k)} \tilde{E}_n^{(k)}
+\end{equation}
+%
+Those pre-factors $F^{(k)}$ are subject to the input wave functions which
+are determined by different atoms, electronic
+configurations and approximation methods (e.g. self-consistent field approximation).
+Table~\ref{table:eig} summarizes the multiplet eigen-energies for a few selected
+atomic shells. The terms are sorted in the descending order of multiplicity
+$2S+1$. For a given multiplicity, terms are sorted in the descending order
+of $L$. The first term of each individual table is the multiplet with the
+lowest energy (Hund's rule).
+
+To get a direct impression of how Table~\ref{table:eig} works, we take the $p^2$
+configuration as an example. A carbon atom with electronic configuration
+$1s^2$ $2s^2$ $2p^2$ would be a good candidate for this demonstration.
+From the self-consistent calculation, we obtained the eigen-energy of the
+$2p$ orbital to be $-0.199186$ Hartree (see Table~\ref{table:SCFeigE}).
+From the resulting wave function $u_{2p}$, we can easily compute the
+Slater-Condon parameters using Eqn.~(\ref{eq:Fk}),
+\begin{align} \label{eq:p2Fk}
+\begin{split}
+F^{(0)}(2p) & = 0.520216\ (\text{Hartree}) \\
+F^{(2)}(2p) & = 0.229662\ (\text{Hartree})
+\end{split}
+\end{align}
+Putting (\ref{eq:p2Fk}) into Table~\ref{table:eig}, we obtain the multiplet energies,
+\begin{align} \label{eq:p2mtpE}
+\begin{split}
+^3P: &\ 0.474284\ (\text{Hartree}) \\
+^1D: &\ 0.529402\ (\text{Hartree}) \\
+^1S: &\ 0.612081\ (\text{Hartree})
+\end{split}
+\end{align}
+%
+These are the three split eigen-energies of the $2p^2$ configuration.\footnote{We
+limited our basis within the open shell. This gives reasonably good approximations since
+multiplet splittings are normally much smaller than the energy differences among electronic
+shells (first order perturbation theory).}
+It is important to understand that they are the eigen-energies
+from the Coulomb repulsion Hamiltonian
+\begin{equation}
+H_U = \sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|}
+\end{equation}
+But not the full Hamiltonian
+\begin{equation}
+H = \sum_{i=1}^N \left[ -\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i} \right] + \sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|}
+\end{equation}
+%
+The eigen-energies in (\ref{eq:p2mtpE}) are not the absolute energies.
+They are correct up to a constant shift. Nevertheless, their energy splittings
+are normally the quantities that we are interested in.
+\begin{figure}[h!]
+\begin{center}
+\begin{tikzpicture}[scale=0.175]
+\draw[very thick] (0,13.7797) -- (15,13.7797);
+\draw[very thick] (40,0) -- (55,0);
+\draw[very thick] (40,11.0236) -- (55,11.0236);
+\draw[very thick] (40,27.5594) -- (55,27.5594);
+%
+\node at (8,15.7797) {$p^2$};
+\node at (47,2) {$^3P$};
+\node at (47,13.0236) {$^1D$};
+\node at (47,29.5594) {$^1S$};
+%
+\draw[very thin, gray, dashed] (15,13.7797) -- (40,0);
+\draw[very thin, gray, dashed] (15,13.7797) -- (40,11.0236);
+\draw[very thin, gray, dashed] (15,13.7797) -- (40,27.5594);
+%
+\draw[triangle 45-triangle 45] (52,0) -- (52,11.0236);
+\draw[triangle 45-triangle 45] (52,11.0236) -- (52,27.5594);
+%
+\node at (60,5.5118) {$\Delta E = 0.055118$};
+\node at (60,19.2915) {$\Delta E = 0.082679$};
+\end{tikzpicture}
+\end{center}
+\caption{Energy splitting of the $p^2$ configuration of a carbon atom.
+Energies are given in units of Hartree (a.u.).}
+\label{fig:p2split}
+\end{figure}
+
+We should keep in mind that we didn't obtain all eigen-vectors from the ladder operator
+technique. For the case where the seniority numbers are required,
+we can at most construct a small eigen-space that the eigen-vectors live in.
+From this eigen-space, namely, a set of vectors $\Ket{\vec{v}_i}$, we compute
+the matrix
+\begin{equation}\label{eq:Ekij}
+\tilde{E}_{ij}^{(k)} = \Bra{\vec{v}_i} \tilde{H}_U^{(k)} \Ket{\vec{v}_j}
+\end{equation}
+which contains the eigen-energies. Similar to Table~\ref{table:eig}, we also provide
+the eigen-energies of multiplets with seniority in Table~\ref{table:eigm}.
+But instead of numbers being coefficients, we have small matrices as the coefficients.
+For a given set of $F^{(k)}$, we can sum up the small matrices and diagonalize
+to obtain the eigen-energies numerically.
+
+\clearpage
+\begin{table}
+\caption{Multiplet (without seniority cases) eigen-energies for a few selected atomic shells.}
+\label{table:eig}
+\vspace{1em}
+\begin{minipage}{0.5\textwidth}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.8}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+p^2 & ^3P & F^{(0)} & - & \frac{1}{5} F^{(2)} \\
+    & ^1D & F^{(0)} & + & \frac{1}{25} F^{(2)} \\
+    & ^1S & F^{(0)} & + & \frac{2}{5} F^{(2)} \\[0.5em]
+\hline
+\end{array}
+\end{equation*}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.8}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+p^3 & ^4S & 3 F^{(0)} & - & \frac{3}{5} F^{(2)} \\
+    & ^2D & 3 F^{(0)} & - & \frac{6}{25} F^{(2)} \\
+    & ^2P & 3 F^{(0)} &   &  \\[0.5em]
+\hline
+\end{array}
+\end{equation*}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.8}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^2 & ^3F & F^{(0)} & - & \frac{8}{49} F^{(2)} & - & \frac{1}{49} F^{(4)} \\
+    & ^3P & F^{(0)} & + & \frac{1}{7} F^{(2)} & - & \frac{4}{21} F^{(4)} \\
+    & ^1G & F^{(0)} & + & \frac{4}{49} F^{(2)} & + & \frac{1}{441} F^{(4)} \\
+    & ^1D & F^{(0)} & - & \frac{3}{49} F^{(2)} & + & \frac{4}{49} F^{(4)} \\
+    & ^1S & F^{(0)} & + & \frac{2}{7} F^{(2)} & + & \frac{2}{7} F^{(4)} \\[0.5em]
+\hline
+\end{array}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.8}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^5 & ^6S & 10 F^{(0)} & - & \frac{5}{7} F^{(2)} & - & \frac{5}{7} F^{(4)} \\
+    & ^4G & 10 F^{(0)} & - & \frac{25}{49} F^{(2)} & - & \frac{190}{441} F^{(4)} \\
+    & ^4F & 10 F^{(0)} & - & \frac{13}{49} F^{(2)} & - & \frac{20}{49} F^{(4)} \\
+    & ^4D & 10 F^{(0)} & - & \frac{18}{49} F^{(2)} & - & \frac{25}{49} F^{(4)} \\
+    & ^4P & 10 F^{(0)} & - & \frac{4}{7} F^{(2)} & - & \frac{5}{21} F^{(4)} \\
+    & ^2I & 10 F^{(0)} & - & \frac{24}{49} F^{(2)} & - & \frac{10}{49} F^{(4)} \\
+    & ^2H & 10 F^{(0)} & - & \frac{22}{49} F^{(2)} & - & \frac{10}{147} F^{(4)} \\
+    & ^2P & 10 F^{(0)} & + & \frac{20}{49} F^{(2)} & - & \frac{80}{147} F^{(4)} \\
+    & ^2S & 10 F^{(0)} & - & \frac{3}{49} F^{(2)} & - & \frac{65}{147} F^{(4)} \\[0.5em]
+\hline
+\end{array}
+\end{equation*}
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.8}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^3 & ^4F & 3 F^{(0)} & - & \frac{15}{49} F^{(2)} & - & \frac{8}{49} F^{(4)} \\
+    & ^4P & 3 F^{(0)} &   &   & - & \frac{1}{3} F^{(4)} \\
+    & ^2H & 3 F^{(0)} & - & \frac{6}{49} F^{(2)} & - & \frac{4}{147} F^{(4)} \\
+    & ^2G & 3 F^{(0)} & - & \frac{11}{49} F^{(2)} & + & \frac{13}{441} F^{(4)} \\
+    & ^2F & 3 F^{(0)} & + & \frac{9}{49} F^{(2)} & - & \frac{29}{147} F^{(4)} \\
+    & ^2P & 3 F^{(0)} & - & \frac{6}{49} F^{(2)} & - & \frac{4}{147} F^{(4)} \\[0.5em]
+\hline
+\end{array}
+\end{equation*}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.8}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^4 & ^5D & 6 F^{(0)} & - & \frac{3}{7} F^{(2)} & - & \frac{3}{7} F^{(4)} \\
+    & ^3H & 6 F^{(0)} & - & \frac{17}{49} F^{(2)} & - & \frac{23}{147} F^{(4)} \\
+    & ^3G & 6 F^{(0)} & - & \frac{12}{49} F^{(2)} & - & \frac{94}{441} F^{(4)} \\
+    & ^3D & 6 F^{(0)} & - & \frac{5}{49} F^{(2)} & - & \frac{43}{147} F^{(4)} \\
+    & ^1I & 6 F^{(0)} & - & \frac{15}{49} F^{(2)} & - & \frac{1}{49} F^{(4)} \\
+    & ^1F & 6 F^{(0)} &   &   & - & \frac{4}{21} F^{(4)} \\[0.5em]
+\hline
+\end{array}
+\end{equation*}
+\end{minipage}
+\end{table}
+\clearpage
+\begin{table}
+\captionof{table}{Multiplet (seniority cases) eigen-energies for a few selected atomic shells.}
+\label{table:eigm}
+\begin{equation*}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^3 & \stackrel{2\times}{^2D} & \begin{bmatrix}3 & 0 \\ 0 & 3\end{bmatrix} F^{(0)} & - & \begin{bmatrix}-\frac{1}{7} & \frac{3\sqrt{21}}{49} \\ \frac{3\sqrt{21}}{49} & -\frac{3}{49}\end{bmatrix} F^{(2)} & + & \begin{bmatrix}\frac{1}{7} & \frac{5\sqrt{21}}{147} \\ \frac{5\sqrt{21}}{147} & -\frac{19}{147}\end{bmatrix} F^{(4)} \\
+\hline
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^4 & \stackrel{2\times}{^3F} & \begin{bmatrix}6 & 0 \\ 0 & 6\end{bmatrix} F^{(0)} & - & \begin{bmatrix}\phantom{0}\frac{2}{49}\phantom{0} & \phantom{0}\frac{12}{49}\phantom{0} \\ \frac{12}{49} & \frac{8}{49}\end{bmatrix} F^{(2)} & + & \begin{bmatrix}\,-\frac{13}{147} & \frac{20}{147} \\ \,\frac{20}{147} & -\frac{38}{147}\phantom{,}\end{bmatrix} F^{(4)} \\[1.2em]
+    & \stackrel{2\times}{^3P} & \begin{bmatrix}6 & 0 \\ 0 & 6\end{bmatrix} F^{(0)} & + & \begin{bmatrix}-\frac{1}{7} & \frac{4\sqrt{14}}{49} \\ \frac{4\sqrt{14}}{49} & -\frac{3}{49}\end{bmatrix} F^{(2)} & - & \begin{bmatrix}\frac{2}{63} & \frac{20\sqrt{14}}{441} \\ \frac{20\sqrt{14}}{441} & \frac{139}{441}\end{bmatrix} F^{(4)} \\[1.2em]
+    & \stackrel{2\times}{^1G} & \begin{bmatrix}6 & 0 \\ 0 & 6\end{bmatrix} F^{(0)} & - & \begin{bmatrix}\frac{6}{49} & \frac{4\sqrt{11}}{49} \\ \frac{4\sqrt{11}}{49} & \frac{4}{49}\end{bmatrix} F^{(2)} & + & \begin{bmatrix}\frac{17}{147} & \frac{20\sqrt{11}}{441} \\ \frac{20\sqrt{11}}{441} & -\frac{64}{441}\end{bmatrix} F^{(4)} \\[1.2em]
+    & \stackrel{2\times}{^1D} & \begin{bmatrix}6 & 0 \\ 0 & 6\end{bmatrix} F^{(0)} & + & \begin{bmatrix}\frac{15}{49} & \frac{12\sqrt{2}}{49} \\ \frac{12\sqrt{2}}{49} & \frac{3}{49}\end{bmatrix} F^{(2)} & - & \begin{bmatrix}\phantom{,}\frac{6}{49} & \,\frac{20\sqrt{2}}{147}\phantom{,} \\ \phantom{,}\frac{20\sqrt{2}}{147} & \frac{11}{49}\end{bmatrix} F^{(4)} \\[1.2em]
+    & \stackrel{2\times}{^1S} & \begin{bmatrix}6 & 0 \\ 0 & 6\end{bmatrix} F^{(0)} & - & \begin{bmatrix}-\frac{2}{7} & \frac{6\sqrt{21}}{49} \\ \frac{6\sqrt{21}}{49} & -\frac{6}{49}\end{bmatrix} F^{(2)} & + & \begin{bmatrix}\frac{2}{7} & \frac{10\sqrt{21}}{147} \\ \frac{10\sqrt{21}}{147} & -\frac{38}{147}\end{bmatrix} F^{(4)} \\
+\hline
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^5 & \stackrel{2\times}{^2G} & \begin{bmatrix}10 & 0 \\ 0 & 10\end{bmatrix} F^{(0)} & + & \begin{bmatrix}\frac{3}{49} & 0 \\ 0 & -\frac{13}{49}\end{bmatrix} F^{(2)} & - & \begin{bmatrix}\frac{155}{441} & 0 \\ 0 & \frac{145}{441}\end{bmatrix} F^{(4)} \\[1.2em]
+    & \stackrel{2\times}{^2F} & \begin{bmatrix}10 & 0 \\ 0 & 10\end{bmatrix} F^{(0)} & - & \begin{bmatrix}\frac{25}{49} & 0 \\ 0 & \phantom{0}\frac{9}{49}\phantom{,}\end{bmatrix} F^{(2)} & - & \begin{bmatrix}\frac{5}{147} & 0 \\ 0 & \frac{55}{147}\end{bmatrix} F^{(4)} \\
+\hline
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{|>{\displaystyle}c|>{\displaystyle}c|>{\displaystyle}r >{\displaystyle}c >{\displaystyle}r >{\displaystyle}c >{\displaystyle}r|}
+\hline
+d^5 & \stackrel{3\times}{^2D} & \begin{bmatrix}10 & 0 & 0 \\ 0 & 10 & 0 \\ 0 & 0 & 10\end{bmatrix} F^{(0)} & - & \begin{bmatrix}0 & 0 & \frac{6\sqrt{14}}{49} \\ 0 & \frac{4}{49} & 0 \\ \frac{6\sqrt{14}}{49} & 0 & \frac{6}{49}\end{bmatrix} F^{(2)} & + & \begin{bmatrix}0 & 0 & \frac{10\sqrt{14}}{147} \\ 0 & -\frac{40}{147} & 0 \\ \frac{10\sqrt{14}}{147} & 0 & -\frac{20}{49}\end{bmatrix} F^{(4)} \\
+\hline
+\end{array}
+\end{equation*}
+\end{table}
+\clearpage

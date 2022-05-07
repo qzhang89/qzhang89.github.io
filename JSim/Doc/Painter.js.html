@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Painter.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Painter.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file Painter class for plotting 2D graphs on HTML canvas element
+ * @author Qian Zhang
+ */
+
+/**
+ * Creates an instance of Painter
+ * 
+ * @class Painter class for plotting 2D graphs on HTML canvas element
+ * @param    {DOMElement} canvas            - HTML canvas element
+ * @property {DOMElement} this.canvas       - HTML canvas element
+ * @property {CanvasRenderingContext2D} this.cntx - canvas 2d context
+ * @property {Number}     this.canvasWidth  - canvas width (unit px) (default 300)
+ * @property {Number}     this.canvasHeight - canvas height (unit px) (default 150)
+ * @property {Number}     this.marginWidth  - margin width (unit px) (default 45)
+ * @property {Number}     this.marginHeight - margin height (unit px) (default 30)
+ * @property {Number}     this.plotWidth    - plotWidth = canvasWidth-2*marginWidth
+ * @property {Number}     this.plotHeight   - plotHeight = canvasHeight-2*marginHeight
+ * @property {Number}     this.xScale       - ratio to plotWidth of one unit in x (default 0.1)
+ * @property {Number}     this.yScale       - ratio to plotHeight of one unit in y (default 0.1)
+ * @property {Number}     this.xScalePX     - number of pixels of one unit in x
+ * @property {Number}     this.yScalePX     - number of pixels of one unit in y
+ * @property {Number}     this.xScaleInit   - initial xScale for restoring zoomed plot
+ * @property {Number}     this.yScaleInit   - initial yScale for restoring zoomed plot
+ * @property {Number}     this.xOrigin      - ratio to plotWidth of x origin position (default 0.5)
+ * @property {Number}     this.yOrigin      - ratio to plotHeight of y origin position (default 0.5)
+ * @property {Number}     this.xOriginPX    - x origin position (unit px)
+ * @property {Number}     this.yOriginPX    - y origin position (unit px)
+ * @property {Number}     this.xOriginInit  - initial xOrigin for restoring panned plot
+ * @property {Number}     this.yOriginInit  - initial yOrigin for restoring panned plot
+ * @property {String}     this.xLabel       - x label (default "")
+ * @property {String}     this.yLabel       - y label (default "")
+ * @property {String}     this.title        - plot title (default "")
+ * @property {Boolean}    this.holdOn       - hold on property (true or false) (default false)
+ * @property {Boolean}    this.control      - control property (true or false) (default true)
+ * @property {Boolean}    this.refreshFlag  - used by refresh() method
+ * @property {Array}      this.xycolorList  - [[x1,y1,color1], [x2,y2,color2], ...]
+ * @property {Array}      this.xyphaseList  - [[x1,y1,phase1,offset1], [x2,y2,phase2,offset2], ...]
+ * @property {Array}      this.EList        - [[E1,text1,color1], [E2,text2,color2], ...]
+ * @example
+ * var myCanvas = document.getElementsByTagName("canvas")[0]; // Get a canvas element from HTML
+ * var myPainter = new Painter(myCanvas);                     // Create a Painter object
+ */
+function Painter(canvas) {
+    // Attributes
+    this.canvas       = canvas;
+    this.cntx         = this.canvas.getContext("2d");
+    this.canvasWidth  = 300;
+    this.canvasHeight = 150;
+    this.marginWidth  = 45;
+    this.marginHeight = 30;
+    this.plotWidth    = this.canvasWidth-2*this.marginWidth;
+    this.plotHeight   = this.canvasHeight-2*this.marginHeight;
+    this.xScale       = 0.1;
+    this.yScale       = 0.1;
+    this.xScalePX     = this.xScale*this.plotWidth;
+    this.yScalePX     = this.yScale*this.plotHeight;
+    this.xScaleInit   = this.xScale;
+    this.yScaleInit   = this.yScale;
+    this.xOrigin      = 0.5;
+    this.yOrigin      = 0.5;
+    this.xOriginPX    = this.plotWidth*this.xOrigin+this.marginWidth;
+    this.yOriginPX    = this.plotHeight*this.yOrigin+this.marginHeight;
+    this.xOriginInit  = this.xOrigin;
+    this.yOriginInit  = this.yOrigin;
+    this.xLabel       = "";
+    this.yLabel       = "";
+    this.title        = "";
+    this.holdOn       = false;
+    this.control      = true;
+    this.refreshFlag  = false;
+    
+    // Data lists
+    this.xycolorList = [];
+    this.xyphaseList = [];
+    this.EList = [];
+    
+    // Make the canvas focusable
+    this.canvas.setAttribute("tabindex", "0");
+    
+    // Set control message
+    this.setControl(this.control);
+    
+    // Add event listeners
+    // Click to focus the canvas
+    function addClickHandler(canvas, painter) {
+        canvas.addEventListener("click", function(evt) {
+            canvas.focus();
+        }, false);
+    }
+    addClickHandler(this.canvas, this);
+    
+    // WSAD to zoom the plot
+    function addKeyDownHandler(canvas, painter) {
+        canvas.addEventListener("keydown", function(evt) {
+            if(painter.control) {
+                var zoomX = 0, zoomY = 0;
+                if (evt.keyCode == 87) {
+                    zoomY = 1;
+                } else if (evt.keyCode == 83) {
+                    zoomY = -1;
+                } else if (evt.keyCode == 65) {
+                    zoomX = -1;
+                } else if (evt.keyCode == 68) {
+                    zoomX = 1;
+                }
+                // Zoom
+                painter.xScale   = painter.xScale*(1+0.05*zoomX);
+                painter.yScale   = painter.yScale*(1+0.05*zoomY);
+                painter.xScalePX = painter.xScale*painter.plotWidth;
+                painter.yScalePX = painter.yScale*painter.plotHeight;
+                painter.refresh();
+            }
+        }, false);
+    }
+    addKeyDownHandler(this.canvas, this);
+    
+    // Shift + Drag to pan the plot
+    function addShiftDragHandler(canvas, painter) {
+        var oldX = 0, oldY = 0;
+        var newX = 0, newY = 0;
+        var shiftIsDown = false;
+        var mouseIsDown = false;
+        canvas.addEventListener("keydown", function(evt) {
+            if (painter.control) {
+                if (evt.keyCode==16) {
+                    shiftIsDown = true;
+                }
+            }
+        }, false);
+        canvas.addEventListener("keyup", function(evt) {
+            if (painter.control) {
+                if (evt.keyCode==16) {
+                    shiftIsDown = false;
+                }
+            }
+        }, false);
+        canvas.addEventListener("mousedown", function(evt) {
+            evt.preventDefault();
+            if (painter.control) {
+                mouseIsDown = true;
+                oldX = evt.clientX;
+                oldY = evt.clientY;
+            }
+        }, false);
+        canvas.addEventListener("mouseup", function(evt) {
+            if (painter.control) {
+                mouseIsDown = false;
+            }
+        }, false);
+        canvas.addEventListener("mouseout", function(evt) {
+            if (painter.control) {
+                mouseIsDown = false;
+            }
+        }, false);
+        canvas.addEventListener("mousemove", function(evt) {
+            if (painter.control) {
+                if (mouseIsDown) {
+                    newX = evt.clientX;
+                    newY = evt.clientY;
+                    var dX = newX - oldX;
+                    var dY = newY - oldY;
+                    if (shiftIsDown) {
+                        // Pan
+                        painter.xOriginPX = painter.xOriginPX+dX;
+                        painter.yOriginPX = painter.yOriginPX+dY;
+                        painter.xOrigin   = (painter.xOriginPX-painter.marginWidth)/painter.plotWidth;
+                        painter.yOrigin   = (painter.yOriginPX-painter.marginHeight)/painter.plotHeight;
+                        painter.refresh();
+                    }
+                    oldX = newX;
+                    oldY = newY;
+                }
+            }
+        }, false);
+    }
+    addShiftDragHandler(this.canvas, this);
+    
+    // Double-click to restore plot
+    function addDoubleClickHandler(canvas, painter) {
+        canvas.addEventListener("dblclick", function(evt) {
+            evt.preventDefault();
+            if(painter.control) {
+                painter.setScale(painter.xScaleInit, painter.yScaleInit);
+                painter.setOrigin(painter.xOriginInit, painter.yOriginInit);
+                painter.refresh();
+            }
+        }, false);
+    }
+    addDoubleClickHandler(this.canvas, this);
+}
+
+/**
+ * Set width and height of the plot size
+ * 
+ * @method
+ * @param {Number} canvasWidth  - canvas width (unit px)
+ * @param {Number} canvasHeight - canvas height (unit px)
+ * @param {Number} marginWidth  - margin width (unit px)
+ * @param {Number} marginHeight - margin height (unit px)
+ * @example
+ * myPainter.setWidthHeight(300, 200, 30, 20); // canvasWidth = 300px; canvasHeight = 200px;
+ *                                             // marginWidth = 30px;  marginHeight = 20px;
+ *                                             // plotWidth  = canvasWidth - 2*marginWidth;
+ *                                             // plotHeight = canvasHeight - 2*marginHeight;
+ */
+Painter.prototype.setWidthHeight = function(canvasWidth, canvasHeight, marginWidth, marginHeight) {
+    this.canvasWidth  = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.marginWidth  = marginWidth;
+    this.marginHeight = marginHeight;
+    this.plotWidth    = this.canvasWidth-2*this.marginWidth;
+    this.plotHeight   = this.canvasHeight-2*this.marginHeight;
+};
+
+/**
+ * Set x and y scales of the plot (ratio-wise)
+ * 
+ * @method
+ * @param {Number} xScale - ratio to plotWidth of one unit in x
+ * @param {Number} yScale - ratio to plotHeight of one unit in y
+ * @example
+ * myPainter.setScale(0.3, 0.2); // one unit in x = 0.3*plotWidth px
+ *                               // one unit in y = 0.2*plotHeight px
+ */
+Painter.prototype.setScale = function(xScale, yScale) {
+    this.xScale     = xScale;
+    this.yScale     = yScale;
+    this.xScalePX   = xScale*this.plotWidth;
+    this.yScalePX   = yScale*this.plotHeight;
+    this.xScaleInit = xScale;
+    this.yScaleInit = yScale;
+};
+
+/**
+ * Set x and y scales of the plot (pixel-wise)
+ * 
+ * @method
+ * @param {Number} xScalePX - number of pixels of one unit in x
+ * @param {Number} yScalePX - number of pixels of one unit in y
+ * @example
+ * myPainter.setScalePX(10, 5); // one unit in x = 10 px
+ *                              // one unit in y = 5 px
+ */
+Painter.prototype.setScalePX = function(xScalePX, yScalePX) {
+    this.xScalePX   = xScalePX;
+    this.yScalePX   = yScalePX;
+    this.xScale     = xScalePX/this.plotWidth;
+    this.yScale     = yScalePX/this.plotHeight;
+    this.xScaleInit = xScale;
+    this.yScaleInit = yScale;
+};
+
+/**
+ * Set position of the origin (ratio-wise)
+ * 
+ * @method
+ * @param {Number} xOrigin - ratio to plotWidth of x origin position
+ * @param {Number} yOrigin - ratio to plotHeight of y origin position
+ * @example
+ * myPainter.setOrigin(0.5, 0.5); // Set the origin to the center
+ */
+Painter.prototype.setOrigin = function(xOrigin, yOrigin) {
+    this.xOrigin     = xOrigin;
+    this.yOrigin     = yOrigin;
+    this.xOriginPX   = xOrigin*this.plotWidth+this.marginWidth;
+    this.yOriginPX   = yOrigin*this.plotHeight+this.marginHeight;
+    this.xOriginInit = xOrigin;
+    this.yOriginInit = yOrigin;
+};
+
+/**
+ * Set position of the origin (pixel-wise)
+ * 
+ * @method
+ * @param {Number} xOriginPX - x origin position (unit px)
+ * @param {Number} yOriginPX - y origin position (unit px)
+ * @example
+ * myPainter.setOriginPX(150, 75); // Set the origin to pixel coordinate (150, 75)
+ */
+Painter.prototype.setOriginPX = function(xOriginPX, yOriginPX) {
+    this.xOriginPX   = xOriginPX;
+    this.yOriginPX   = yOriginPX;
+    this.xOrigin     = (xOriginPX-this.marginWidth)/this.plotWidth;
+    this.yOrigin     = (yOriginPX-this.marginHeight)/this.plotHeight;
+    this.xOriginInit = xOrigin;
+    this.yOriginInit = yOrigin;
+};
+
+/**
+ * Set x and y labels
+ * 
+ * @method
+ * @param {String} xLabel - x Label
+ * @param {String} yLabel - y Label
+ * @example
+ * myPainter.setLabel("x-axis", "y-axis"); // Set the labels of x and y axes
+ */
+Painter.prototype.setLabel = function(xLabel, yLabel) {
+    this.xLabel = xLabel;
+    this.yLabel = yLabel;
+};
+
+/**
+ * Set plot title
+ * 
+ * @method
+ * @param {String} title - plot title
+ * @example
+ * myPainter.setTitle("My fancy plot"); // Set the title of the plot
+ */
+Painter.prototype.setTitle = function(title) {
+    this.title = title;
+};
+
+/**
+ * Set hold on property
+ * 
+ * @method
+ * @param {Boolean} holdOn - hold on property (true or false)
+ * @example
+ * myPainter.setHoldOn(true); // Set hold on to true
+ *                            // We can over plot graphs
+ */
+Painter.prototype.setHoldOn = function(holdOn) {
+    this.holdOn = holdOn;
+};
+
+/**
+ * Set control property
+ * 
+ * @method
+ * @param {Boolean} true - control property (true or false)
+ * @example
+ * myPainter.setControl(true); // Set control to true
+ *                             // We can zoom and pan the plot
+ */
+Painter.prototype.setControl = function(control) {
+    this.control = control;
+    if (control) {
+        this.canvas.title = "1. Click to focus on the plot\n" +
+                            "2. Press \"WSAD\" to zoom the plot\n" +
+                            "3. Press \"Shift\" and drag to pan the plot\n" +
+                            "4. Double click to restore the plot";
+    } else {
+        this.canvas.title = "";
+    }
+};
+
+/**
+ * Two dimensional line plot
+ * 
+ * @method
+ * @param {Array.Number} x     - x coordinate data
+ * @param {Array.Number} y     - y coordinate data
+ * @param {String}       color - rgb color string
+ * @example
+ * var x = [-3, -1, 1, 3];                 // x array
+ * var y = [-2, 2, 2, -2];                 // y array
+ * myPainter.plot(x, y, "rgb(0, 0, 255)"); // Plot a nice blue graph
+ */
+Painter.prototype.plot = function(x, y, color) {
+    var cntx = this.cntx;
+    
+    // Check data length
+    if (x.length!=y.length) {
+        console.log("Painter warning: x length != y length");
+    }
+    
+    if (!this.refreshFlag) {
+        // Clear data
+        if (!this.holdOn) {
+            this.xycolorList.length = 0;
+            this.xyphaseList.length = 0;
+            this.EList.length   = 0;
+            this.drawAxis();
+        }
+        // Register data to painter
+        this.xycolorList.push([x, y, color]);
+    }
+    
+    // Save current clipping region
+    cntx.save();
+    
+    // Clip plotting region
+    cntx.beginPath();
+    cntx.rect(this.marginWidth, this.marginHeight, this.plotWidth, this.plotHeight);
+    cntx.clip();
+    
+    // Draw graph
+    cntx.strokeStyle = color;
+    cntx.beginPath();
+    var n = x.length;
+    var pointX, pointY;
+    for (var i=0; i&lt;n; i++) {
+        pointX = Math.round(this.xScalePX*x[i]);
+        pointY = Math.round(this.yScalePX*y[i]);
+        if (i==0) {
+            cntx.moveTo(this.xOriginPX+pointX, this.yOriginPX-pointY);
+        } else {
+            cntx.lineTo(this.xOriginPX+pointX, this.yOriginPX-pointY);
+        }
+    }
+    cntx.stroke();
+    
+    // Restore clipping region
+    cntx.restore();
+};
+
+/**
+ * Bar-chart plot colored by phase
+ * 
+ * @method
+ * @param {Array.Number} x      - x coordinate data
+ * @param {Array.Number} y      - y coordinate data
+ * @param {Array.Number} phase  - phase data (color of plot)
+ * @param {Number}       offset - offset of the bar-chart
+ * @example
+ * var x = [-3, -1, 1, 3];                           // x array
+ * var y = [-2, 2, 2, -2];                           // y array
+ * var phase = [0, Math.PI/2, Math.PI, Math.PI*3/2]; // phase array
+ * var offset = -4;                                  // offset of the bar-chart
+ * myPainter.plotPhase(x, y, phase, offset);         // Plot a colorful bar-chart
+ */
+Painter.prototype.plotPhase = function(x, y, phase, offset) {
+    var cntx = this.cntx;
+    
+    // Check data length
+    if (x.length!=y.length) {
+        console.log("Painter warning: x length != y length");
+    }
+    
+    if (!this.refreshFlag) {
+        // Clear data
+        if (!this.holdOn) {
+            this.xycolorList.length = 0;
+            this.xyphaseList.length = 0;
+            this.EList.length       = 0;
+            this.drawAxis();
+        }
+        // Register data to painter
+        this.xyphaseList.push([x, y, phase, offset]);
+    }
+    
+    // Phase colors
+    var colors = [];
+    for (var i=0; i&lt;phase.length; i++) {
+        if (phase[i]>=0&amp;&amp;phase[i]&lt;Math.PI/3) {
+            var r = 255*phase[i]/(Math.PI/3);
+            colors[i] = "rgb(255,"+Math.round(r)+",0)";
+        } else if (phase[i]>=Math.PI/3&amp;&amp;phase[i]&lt;Math.PI*2/3) {
+            var r = 255*(phase[i]-Math.PI/3)/(Math.PI/3);
+            colors[i] = "rgb("+Math.round(255-r)+",255,0)";
+        } else if (phase[i]>=Math.PI*2/3&amp;&amp;phase[i]&lt;Math.PI) {
+            var r = 255*(phase[i]-Math.PI*2/3)/(Math.PI/3);
+            colors[i] = "rgb(0,255,"+Math.round(r)+")";
+        } else if (phase[i]>=Math.PI&amp;&amp;phase[i]&lt;Math.PI*4/3) {
+            var r = 255*(phase[i]-Math.PI)/(Math.PI/3);
+            colors[i] = "rgb(0,"+Math.round(255-r)+",255)";
+        } else if (phase[i]>=Math.PI*4/3&amp;&amp;phase[i]&lt;Math.PI*5/3) {
+            var r = 255*(phase[i]-Math.PI*4/3)/(Math.PI/3);
+            colors[i] = "rgb("+Math.round(r)+",0,255)";
+        } else {
+            var r = 255*(phase[i]-Math.PI*5/3)/(Math.PI/3);
+            colors[i] = "rgb(255,0,"+Math.round(255-r)+")";
+        }
+    }
+    
+    // Save current clipping region
+    cntx.save();
+    
+    // Clip plotting region
+    cntx.beginPath();
+    cntx.rect(this.marginWidth, this.marginHeight, this.plotWidth, this.plotHeight);
+    cntx.clip();
+    
+    // Draw graph
+    var n = x.length;
+    var dx = this.xScalePX*(x[1]-x[0]);
+    var yF = this.yScalePX*offset;
+    var pointX, pointY;
+    for (var i=0; i&lt;n; i++) {
+        pointX = Math.round(this.xScalePX*x[i]);
+        pointY = Math.round(this.yScalePX*y[i]);
+        cntx.beginPath();
+        cntx.fillStyle = colors[i];
+        cntx.rect(Math.floor(this.xOriginPX+pointX-0.5*dx), this.yOriginPX-pointY, Math.ceil(dx), pointY-yF);
+        cntx.fill();
+    }
+    
+    // Restore clipping region
+    cntx.restore();
+};
+
+/**
+ * Energy level plot
+ * 
+ * @method
+ * @param {Number}  E     - energy level
+ * @param {String}  text  - description text
+ * @param {String}  color - rgb color string
+ * @example
+ * var E     = -2.0;                     // Energy level
+ * var text  = "2p6";                    // Descriptions
+ * var color = "rgb(255, 0, 255)";       // Color
+ * myPainter.plotEnergy(E, text, color); // Plot energy level
+ */
+Painter.prototype.plotEnergy = function(E, text, color) {
+    var cntx         = this.cntx;
+    var marginWidth  = this.marginWidth;
+    var marginHeight = this.marginHeight;
+    var plotWidth    = this.plotWidth;
+    var plotHeight   = this.plotHeight;
+    
+    if (!this.refreshFlag) {
+        // Clear data
+        if (!this.holdOn) {
+            this.xycolorList.length = 0;
+            this.xyphaseList.length = 0;
+            this.EList.length       = 0;
+            this.drawAxis();
+        }
+        // Register data to painter
+        this.EList.push([E, text, color]);
+    }
+    
+    var EyPX = this.yOriginPX-E*this.yScalePX;
+    
+    // Draw energy
+    cntx.strokeStyle = color;
+    if (EyPX>marginHeight&amp;&amp;EyPX&lt;marginHeight+plotHeight) {
+        cntx.beginPath();
+        cntx.moveTo(marginWidth, EyPX);
+        cntx.lineTo(marginWidth+plotWidth, EyPX);
+        cntx.stroke();
+    }
+    
+    // Energy label
+    cntx.font = "12px Times New Roman";
+    cntx.textAlign = "right";
+    cntx.fillStyle = color;
+    if (EyPX-11>marginHeight&amp;&amp;EyPX-5&lt;marginHeight+plotHeight) {
+        cntx.fillText(text+"    "+"E = "+E.toFixed(3), marginWidth+plotWidth-10, EyPX-5);
+    }
+};
+
+/**
+ * Draw a box of x and y axes
+ * 
+ * @method
+ * @example
+ * myPainter.drawAxis(); // Draw a box of axes
+ */
+Painter.prototype.drawAxis = function() {
+    var cntx         = this.cntx;
+    var canvasWidth  = this.canvasWidth;
+    var canvasHeight = this.canvasHeight;
+    var marginWidth  = this.marginWidth;
+    var marginHeight = this.marginHeight;
+    var plotWidth    = this.plotWidth;
+    var plotHeight   = this.plotHeight;
+    var xScalePX     = this.xScalePX;
+    var yScalePX     = this.yScalePX;
+    var xOriginPX    = this.xOriginPX;
+    var yOriginPX    = this.yOriginPX;
+    
+    // Clear canvas
+    cntx.clearRect(0, 0, canvasWidth, canvasHeight);
+    
+    // Fill white rectangle in plotting area
+    cntx.fillStyle = "#FFFFFF";
+    cntx.fillRect(marginWidth, marginHeight, plotWidth, plotHeight);
+    
+    // Draw box
+    cntx.strokeStyle = "rgb(0, 0, 0)";
+    cntx.beginPath();
+    cntx.rect(marginWidth, marginHeight, plotWidth, plotHeight);
+    cntx.stroke();
+    
+    // Grid
+    var xLog = Math.log(plotWidth/xScalePX)/Math.log(10);
+    var yLog = Math.log(plotHeight/yScalePX)/Math.log(10);
+    var xOdr = xLog-Math.floor(xLog)&lt;Math.log(2)/Math.log(10) ? Math.floor(xLog)-1 : Math.floor(xLog);
+    var yOdr = yLog-Math.floor(yLog)&lt;Math.log(2)/Math.log(10) ? Math.floor(yLog)-1 : Math.floor(yLog);
+    var xFix = xOdr>=0 ? 0 : Math.abs(xOdr);
+    var yFix = yOdr>=0 ? 0 : Math.abs(yOdr);
+    var xGrid = Math.pow(10, xOdr);
+    var yGrid = Math.pow(10, yOdr);
+    
+    cntx.fillStyle = "rgb(0, 0, 0)";
+    cntx.font = "15px Times New Roman";
+    cntx.beginPath();
+    var xTickP, xTickN, yTickP, yTickN;
+    var xTickLabelHeight = marginHeight+plotHeight+15;
+    var yTickLabelWidth  = marginWidth-6;
+    for (var i=0; i&lt;10000; i++) {
+        xTickP = xOriginPX+xGrid*i*xScalePX;
+        xTickN = xOriginPX-xGrid*i*xScalePX;
+        yTickP = yOriginPX-yGrid*i*yScalePX;
+        yTickN = yOriginPX+yGrid*i*yScalePX;
+        if (xTickP>=marginWidth&amp;&amp;xTickP&lt;=marginWidth+plotWidth) {
+            cntx.textAlign = "center";
+            cntx.moveTo(xTickP, marginHeight+plotHeight);
+            cntx.lineTo(xTickP, marginHeight+plotHeight-10);
+            if (Math.abs(xOdr)&lt;4) {
+                cntx.fillText((xGrid*i).toFixed(xFix), xTickP, xTickLabelHeight);
+            } else {
+                cntx.fillText((xGrid*i).toExponential(1), xTickP, xTickLabelHeight);
+            }
+        }
+        if (i!=0&amp;&amp;xTickN>=marginWidth&amp;&amp;xTickN&lt;=marginWidth+plotWidth) {
+            cntx.textAlign = "center";
+            cntx.moveTo(xTickN, marginHeight+plotHeight);
+            cntx.lineTo(xTickN, marginHeight+plotHeight-10);
+            if (Math.abs(xOdr)&lt;4) {
+                cntx.fillText((-xGrid*i).toFixed(xFix), xTickN, xTickLabelHeight);
+            } else {
+                cntx.fillText((-xGrid*i).toExponential(1), xTickN, xTickLabelHeight);
+            }
+        }
+        if (yTickP>=marginHeight&amp;&amp;yTickP&lt;=marginHeight+plotHeight) {
+            cntx.textAlign = "right";
+            cntx.moveTo(marginWidth, yTickP);
+            cntx.lineTo(marginWidth+10, yTickP);
+            if (Math.abs(yOdr)&lt;4) {
+                cntx.fillText((yGrid*i).toFixed(yFix), yTickLabelWidth, yTickP+4);
+            } else {
+                cntx.fillText((yGrid*i).toExponential(1), yTickLabelWidth, yTickP+4);
+            }
+        }
+        if (i!=0&amp;&amp;yTickN>=marginHeight&amp;&amp;yTickN&lt;=marginHeight+plotHeight) {
+            cntx.textAlign = "right";
+            cntx.moveTo(marginWidth, yTickN);
+            cntx.lineTo(marginWidth+10, yTickN);
+            if (Math.abs(yOdr)&lt;4) {
+                cntx.fillText((-yGrid*i).toFixed(yFix), yTickLabelWidth, yTickN+4);
+            } else {
+                cntx.fillText((-yGrid*i).toExponential(1), yTickLabelWidth, yTickN+4);
+            }
+        }
+        if (xTickP>marginWidth+plotWidth&amp;&amp;xTickN&lt;marginWidth&amp;&amp;
+            yTickP&lt;marginHeight&amp;&amp;yTickN>marginHeight+plotHeight) {
+            break;
+        }
+    }
+    cntx.stroke();
+    
+    // Label and Title
+    cntx.font = "18px Times New Roman";
+    cntx.textAlign = "center";
+    cntx.fillText(this.xLabel, canvasWidth*0.5, marginHeight+plotHeight+29);
+    cntx.rotate(-Math.PI/2);
+    cntx.fillText(this.yLabel, -canvasHeight*0.5, 15);
+    cntx.rotate(Math.PI/2);
+    cntx.fillText(this.title, canvasWidth*0.5, 15);
+};
+
+/**
+ * Update canvas size and re-plot all data that is registered to the painter
+ * 
+ * @method
+ * @example
+ * var x = [-3, -1, 1, 3];                 // x array
+ * var y = [-2, 2, 2, -2];                 // y array
+ * myPainter.plot(x, y, "rgb(0, 0, 255)"); // Plot a nice blue graph
+ * 
+ * // Resize the HTML canvas element
+ * myCanvas.width  = 500;
+ * myCanvas.height = 300;
+ * myPainter.refresh();
+ * 
+ * // Rescale the plot
+ * myPainter.setScale(0.5, 0.3);
+ * myPainter.refresh();
+ * 
+ * // Retitle the plot
+ * myPainter.setTitle("My super-fancy plot");
+ * myPainter.refresh();
+ */
+Painter.prototype.refresh = function() {
+    // Get width and height from the actual canvas
+    var canvasWidth  = this.canvas.width;
+    var canvasHeight = this.canvas.height;
+    
+    // Adjust settings of painter
+    if (canvasWidth>2*this.marginWidth&amp;&amp;canvasHeight>2*this.marginHeight) {
+        this.setWidthHeight(canvasWidth, canvasHeight, this.marginWidth, this.marginHeight);
+        this.xScalePX  = this.xScale*this.plotWidth;
+        this.yScalePX  = this.yScale*this.plotHeight;
+        this.xOriginPX = this.xOrigin*this.plotWidth+this.marginWidth;
+        this.yOriginPX = this.yOrigin*this.plotHeight+this.marginHeight;
+    }
+    
+    // Re-plot all registered data
+    this.refreshFlag = true;
+    this.drawAxis();
+    var x, y, color;
+    for (var i=0; i&lt;this.xycolorList.length; i++) {
+        x = this.xycolorList[i][0];
+        y = this.xycolorList[i][1];
+        color = this.xycolorList[i][2];
+        this.plot(x, y, color);
+    }
+    var x, y, phase, offset;
+    for (var i=0; i&lt;this.xyphaseList.length; i++) {
+        x = this.xyphaseList[i][0];
+        y = this.xyphaseList[i][1];
+        phase = this.xyphaseList[i][2];
+        offset = this.xyphaseList[i][3];
+        this.plotPhase(x, y, phase, offset);
+    }
+    var E, text, color;
+    for (var i=0; i&lt;this.EList.length; i++) {
+        E = this.EList[i][0];
+        text = this.EList[i][1];
+        color = this.EList[i][2];
+        this.plotEnergy(E, text, color);
+    }
+    this.refreshFlag = false;
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Complex.html">Complex</a></li><li><a href="Painter.html">Painter</a></li><li><a href="Painter3D.html">Painter3D</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Sun Feb 16 2014 16:03:02 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

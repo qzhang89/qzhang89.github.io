@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Chapter 1</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" media="all" href="CSS/theme.css" />
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="JS/Painter.js"></script>
+<script type="text/javascript" src="JS/Shooting.js"></script>
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="header">
+        <h1>JavaScript Simulation</h1>
+    </div>
+
+    <div id="menu">
+        <ul>
+            <li><a title="Home" href="index.html">Home</a></li>
+            <li><a title="Chapter 1" class="currentLink" href="chapter1.html">Chapter 1</a></li>
+            <li><a title="Chapter 2" href="chapter2.html">Chapter 2</a></li>
+            <li><a title="Chapter 3" href="chapter3.html">Chapter 3</a></li>
+            <li><a title="Chapter 4" href="chapter4.html">Chapter 4</a></li>
+            <li><a title="Chapter 5" href="chapter5.html">Chapter 5</a></li>
+            <li><a title="Chapter 6" href="chapter6.html">Chapter 6</a></li>
+            <li><a title="Chapter 7" href="chapter7.html">Chapter 7</a></li>
+            <li><a title="Chapter 8" href="chapter8.html">Chapter 8</a></li>
+            <li><a title="Chapter 9" href="chapter9.html">Chapter 9</a></li>
+            <li><a title="Documentation" href="documentation.html">Documentation</a></li>
+            <li><a title="Discussion" href="discussion.html">Discussion</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <h2>Time-independent Schrödinger equation</h2>
+
+        <p>The time-independent Schrödinger equation for an elementary particle in three dimensions is:</p>
+           \[ - \frac{\hbar^2}{2m} \nabla^2 \psi + V(\vec{r}) \psi = E \psi \]
+        <p>where \( \hbar \) is the reduced Planck's constant, \( m \) is the mass of the particle, \( V \) is
+           the potential energy, \( E \) is the energy of the particle, and \( \psi \) is the wave function.</p>
+
+        <p>For simplicity, we assume that the space is one-dimensional. The time-independent Schrödinger
+           equation then becomes:</p>
+           \[ - \frac{\hbar^2}{2m} \frac{d^2\psi}{dx^2} + V(x) \psi = E \psi \]
+
+        <p>Here, we will solve this ordinary differential equation numerically. We discretize space in steps of
+           size \( \Delta x \). The second derivative in the equation above can be written in the finite-difference
+           form:</p>
+           \[ \frac{d^2\psi}{dx^2} \approx \frac{\psi_{i+1} - 2\psi_i + \psi_{i-1}}{(\Delta x)^2} \]
+
+        <p>where \( \psi_i = \psi (x_0 + i \Delta x) \). Substituting this into the time-independent Schrödinger
+           equation, we have:</p>
+           \[ \psi_{i+1} = \frac{2m}{\hbar^2} (V_i - E) (\Delta x)^2 \psi_i + 2\psi_i - \psi_{i-1} \]
+
+        <p>This is a simple recursion, from which we can easily obtain \( \psi_2,\,\psi_3,\,\ldots,\,\psi_{N-1}
+           \) (where \( N \) is the total number of grid points) if \( \psi_0 \) and \( \psi_1 \) are initialized.</p>
+
+        <h2>Constant potential: Plane waves</h2>
+
+        <p>First of all, we must know the potential distribution that the particle experiences in. Let's first
+           consider the simplest case: A constant potential.</p>
+           \[ V(x) = 0 \]
+
+        <p>Let's try to work this problem out and see what result we will obtain. The recursion now becomes:</p>
+           \[ \psi_{i+1} = \frac{2m}{\hbar^2} (0 - E) (\Delta x)^2 \psi_i + 2\psi_i - \psi_{i-1} \]
+
+        <p>For convenience, we employ units in which \( \hbar = 1 \), \( m = 1 \). We take \( \psi_0 = 1.0 \)
+           and \( \psi_1 = 1.0 \) as initial conditions to obtain \( \psi_2,\,\psi_3,\,\ldots,\,\psi_{N-1} \). In
+           this problem, \( x_0 = -2.5 \), \( x_{N-1} = 2.5 \) and \( \Delta x = 0.001 \).</p>
+
+        <p>The energy of the particle \( E \) is an unknown. Choosing different values of \( E \) will result in
+           different shapes of the wave function. As illustrated in the simulations below, the solutions are simply
+           plane waves. The energy difference between \( E \) (<span style="color: rgb(220, 0, 220);">purple</span>
+           line) and \( V = 0 \) (<span style="color: rgb(0, 220, 0);">green</span> line) determines the frequency
+           of the plane wave, which agrees with our expectation: the higher energy of the particle, the stronger
+           oscillation of the wave function. (the wave functions in the plot are properly scaled for better
+           plotting)</p>
+
+        <div class="shootManu" style="float: none; margin: auto;">
+        { "xMin":-2.5, "xMax":2.5, "dx":0.001, "VType":0, "EMin":0, "EMax":60,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-2, 65] }
+        </div>
+
+        <h2>Linear potential: Airy functions</h2>
+
+        <p>Constant potential was simple enough. Let see what will happen if we change our potential a little
+           bit: a linear potential.</p>
+           \[ V(x) = kx + b \]
+
+        <p>The procedure for solving this problem is identical to the one for solving the constant potential
+           problem except we have different potential distributions. We employ units in which \( \hbar = 1 \), \( m
+           = 1 \), \( k = -20 \) and \( b = 15 \). We take \( \psi_0 = 1.0 \) and \( \psi_1 = 1.0 \) as initial
+           conditions to obtain \( \psi_2,\,\psi_3,\,\ldots,\,\psi_{N-1} \). In this problem, \( x_0 = -2.5 \), \(
+           x_{N-1} = 2.5 \) and \( \Delta x = 0.001 \).</p>
+
+        <p>The resulting solutions are called the Airy functions. One interesting property is that their shapes
+           are independent of \( E \), as you might expect from the symmetry point of view. The wave functions
+           vanish in the left region, because the energy of the particle is lower than the potential and hence the
+           particle cannot penetrate into this region. Nevertheless, we still see some "tail" in this classical
+           forbidden region. That is the so called tunnelling effect in quantum mechanics.</p>
+
+        <div class="shootManu" style="float: none; margin: auto;">
+        { "xMin":-2.5, "xMax":2.5, "dx":0.001, "VType":1, "EMin":0, "EMax":60,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-2, 65] }
+        </div>
+
+        <p>However, the wave functions in the previous two examples are not normalizable. The wave functions extend
+           into infinity. They are called the <strong>scatterd</strong> solutions, as the potential cannot "trap"
+           the particles. In this case, the particle can take any positive energy.</p>
+
+        <p>In the examples below, we will study the <strong>bounded</strong> solutions, which require potential
+           "wells" to trap the particles. For bounded solutions, the particle cannot take arbitrary energy anymore.
+           They must satisfy the boundary condition, thus discrete solutions arise.</p>
+
+        <h2>Infinite potential well (Particle-in-a-box)</h2>
+
+        <p>As the first example of a potential "well", let's first consider the simplest case: Particle-in-a-box
+           problem. We assume that the potential is \( V = 0 \) inside the box and \( V = \infty \) outside the
+           box:</p>
+           \[
+           V(x) = \left\{
+           \begin{array}{rl}
+           0 &amp; \text{if } |x| \lt L,\\
+           \infty &amp; \text{if } |x| \ge L. \ \text{numerically we take } 1000
+           \end{array} \right.
+           \]
+
+        <p>This is one famous quantum mechanics problem that can be solved analytically. Here we will use the
+           shooting method to solve this problem numerically. Again, choosing different values of \( E \) will
+           result in different shapes of the wave function. But only a set of precisely discrete values of \( E \)
+           can lead the wave functions to be normalizable. All of the other values of \( E \) will lead the wave
+           functions to diverge to \( + \infty \) or \( - \infty \) at larger \( x \), which are not allowed wave
+           functions for our particle. Those precisely discrete energy values are called the <strong>eigen-engeries</strong>
+           and the corresponding wave functions are called the <strong>eigen-functions</strong>.
+        </p>
+
+        <p>We obtain the eigen-energy by trial-and-error so that the wave function vanishes at the two ends.
+           This approach for solving a differential equation that has boundary conditions that must be satisfied at
+           both ends of an interval is known as the shooting method. This method is analogous to trying to throw a
+           basketball into a basket with a proper initial velocity.</p>
+
+        <div class="shootManu">
+        { "xMin":-1.5, "xMax":1.5, "dx":0.001, "VType":2, "EMin":0, "EMax":60,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-2, 65] }
+        </div>
+
+        <div class="shootAuto">
+        { "xMin":-1.5, "xMax":1.5, "dx":0.001, "VType":2, "lLim":0.0, "uLim":60.0,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-2, 65] }
+        </div>
+
+        <h2>Harmonic oscillator</h2>
+
+        <p>In classical mechanics, harmonic oscillator is a mass \( m \) attached to a spring of force constant
+           \( k \). The motion is governed by Hooke's law:</p>
+           \[ F = -kx = m \frac{d^2x}{dt^2} \]
+
+        <p>The potential energy of the harmonic oscillator is:</p>
+           \[ V(x) = \frac{1}{2} kx^2 = \frac{1}{2} m \omega^2 x^2 \]
+        <p>where \( \omega \equiv \sqrt{\frac{k}{m}} \) is the angular frequency of oscillation.</p>
+
+        <p>In quantum mechanics, the harmoic oscillator problem is to solve the Schrödinger equation with this
+           potential. The time-independent Schrödinger equation leads to:</p>
+           \[ - \frac{\hbar^2}{2m} \frac{d^2\psi}{dx^2} + \frac{1}{2} m \omega^2 x^2 \psi = E \psi \]
+
+        <p>The harmonic oscillator problem is also a well known quantum mechanics problem that can be solved
+           analytically. The exact value of eigen-energies obtained from analytical solution is given by \( E_n =
+           (n + \frac{1}{2}) \hbar \omega \), where \( n = 0,\,1,\,2,\,\ldots \). The eigen-energies are
+           distributed uniformly with a energy gap \( \hbar \omega \) (in this example \( \hbar \omega = 5 \)). We
+           can easily compare our numerical results with the exact solutions from the belowing simulations.</p>
+
+        <div class="shootManu">
+        { "xMin":-2.0, "xMax":2.0, "dx":0.001, "VType":3, "EMin":0, "EMax":60,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-2, 65] }
+        </div>
+
+        <div class="shootAuto">
+        { "xMin":-2.0, "xMax":2.0, "dx":0.001, "VType":3, "lLim":0.0, "uLim":60.0,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-2, 65] }
+        </div>
+
+        <h2>W-shape potential well (Quartic potential)</h2>
+
+        <p>In the previous two examples, we solved the eigen-energy eigen-function problem of the infinite
+           potential well and the harmonic oscillator numerically. Analytical solutions are well known for these
+           two problems. Thus, we can easily compare our numerical solutions with those exact solutions. This
+           approach is called confirmative analysis, which means we confirm the correctness of our numercial
+           methods by comparing the simulated results with the exact solutions.</p>
+
+        <p>There are only a few problems in quantum mechanics that can be solved exactly. Nearly all the
+           nontrivial quantum mechanics problems either have no known analytical solutions or can be attacked
+           analytically only with extreme difficulty. That is why numerical methods play an important role in the
+           study of quantum mechanics problems. In this example, we switch our confirmative analysis into
+           explorative analysis. We consider a "W-shape" potential well, namely, a quartic potential.</p>
+
+        <p>The quartic potential distribution is given by the following expression:</p>
+           \[ V(x) = 30 x^4 + \alpha x^2 \]
+        <p>where \( \alpha \in [-50,\ 10] \) is adjustable in the slider under the belowing graphs.</p>
+
+        <div class="shootManu">
+        { "xMin":-2.0, "xMax":2.0, "dx":0.001, "VType":4, "EMin":-20, "EMax":50,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-23, 55] }
+        </div>
+
+        <div class="shootAuto">
+        { "xMin":-2.0, "xMax":2.0, "dx":0.001, "VType":4, "lLim":-20.0, "uLim":50.0,
+          "cw":0.90, "ch":0.75, "xRange":[-2.5, 2.5], "yRange":[-23, 55] }
+        </div>
+
+        <p>We can choose any potential distribution we are interested in and obtain the simulation results.</p>
+    </div>
+
+    <div id="footer">Contact me: x@y, where x=qian.zhang, y=rwth-aachen.de</div>
+</div>
+</body>
+
+</html>

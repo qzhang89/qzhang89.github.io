@@ -1,0 +1,105 @@
+\documentclass[12pt,a4paper,BCOR4mm]{grsthesis}
+
+\graphicspath{{img/}}
+
+\usepackage[UKenglish]{babel}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{tikz,fp}
+\usepackage{braket}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{longtable}
+\usepackage{mathtools}
+\usepackage{blkarray}
+\usepackage{hyperref}
+\usepackage[pagestyles, explicit, rm, bf]{titlesec}
+\usepackage{titletoc}
+
+\usetikzlibrary{shapes,arrows}
+
+% Margins
+\topmargin = -0.45in
+\evensidemargin = 0in
+\oddsidemargin = 0in
+\textwidth = 6.3in
+\textheight = 9.0in
+\headsep = 0.25in
+\parindent = 0in
+\parskip = 0.1in
+\makeatletter
+\renewcommand{\@makefntext}[1]{%
+  \parindent 1em%
+  \normalfont$^{\@thefnmark}$#1
+}
+\makeatother
+
+% Page head line
+\renewpagestyle{plain}{
+\headrule
+\sethead[\textbf\usepage][][\hfill\textbf\chaptertitle]
+{\textbf\sectiontitle}{}{\textbf\usepage}}
+\renewcommand{\chapterpagestyle}{empty}
+
+% Table of contents format
+\titlecontents{chapter}[3.0em]{\addvspace{1.0pc}\large\bf} {\contentslabel{2.0em}}{\hspace*{-2.0em}}{\titlerule*[1pc]{.}\contentspage}
+\titlecontents{section}[5.0em]{\addvspace{0.3pc}} {\contentslabel{2.0em}}{\hspace*{-2.0em}}{\titlerule*[1pc]{.}\contentspage}
+
+% Numbering format
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+\numberwithin{algorithm}{chapter}
+\makeatletter
+\@addtoreset{footnote}{chapter}
+\makeatother
+
+% Bold vectors
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% Complex conjugate
+\newcommand{\conj}[1]{\overline{#1}}
+
+\begin{document}
+
+\frontmatter{}
+
+\maketitle
+\input{content/license}
+\input{content/abstract}
+
+\pagestyle{plain}
+\tableofcontents
+
+\mainmatter{}
+
+\input{content/chapter1}
+\input{content/chapter2}
+\input{content/chapter3}
+\input{content/chapter4}
+\input{content/chapter5}
+\input{content/chapter6}
+\input{content/summary}
+
+\appendix
+\input{content/appendix1}
+\input{content/appendix2}
+
+\backmatter{}
+
+\input{content/acknowledgement}
+
+\input{content/reference}
+
+\input{content/authorship}
+
+% Empty page at the end
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\end{document}  

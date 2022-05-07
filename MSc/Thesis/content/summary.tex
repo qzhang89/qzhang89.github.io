@@ -1,0 +1,75 @@
+\chapter{Summary}
+
+If your friend asks you, ``What is multiplet?'' A short answer is,
+``Multiplets are the many-electron eigen-states in atoms.'' But probably
+he won't be satisfied since he knows the name but doesn't really understand
+the problem. Then you give him the following box and two electrons,
+\begin{equation*}
+\begin{array}{c|c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{\phantom{,}1\phantom{,}} & \multicolumn{1}{c}{\phantom{,}0\phantom{,}} & \multicolumn{1}{c}{-1} \\ \cline{2-4}
+\uparrow &  &  &  \\ \cline{2-4}
+\downarrow &  &  &  \\
+\cline{2-4}
+\multicolumn{1}{c}{}
+\end{array}
+\quad \text{and} \quad
+\bullet \ \bullet
+\end{equation*}
+
+\vspace{-1.5em}
+and ask, ``Let's put these two electrons into this $p$ shell.
+In which configuration do you think this system has the highest energy?''
+(don't ask for the lowest one, since it can be known easily from
+Hund's rule) If he complains there is no difference in the way of putting
+electrons, then he is speaking mean-field language, which is exactly what
+we assumed in our Chapter~\ref{ch:3}. Fortunately, your friend is convinced
+that electrons with different orbital and spin angular momenta
+do repel each other differently (you showed him the plots in
+Appendix~\ref{app:A}). But still, he won't
+recognize which configuration has the highest energy, because this is
+not at all a trivial problem! If you are also curious for the answer, I put
+it here directly: the state
+\begin{equation*}
+\frac{1}{\sqrt{3}}
+\begin{array}{|c|c|c|}
+\hline
+ & \phantom{\bullet} & \bullet \\ \hline
+\bullet &  &  \\
+\hline
+\end{array}
+- \frac{1}{\sqrt{3}}
+\begin{array}{|c|c|c|}
+\hline
+\phantom{\bullet} & \bullet & \phantom{\bullet} \\ \hline
+ & \bullet &  \\
+\hline
+\end{array}
++ \frac{1}{\sqrt{3}}
+\begin{array}{|c|c|c|}
+\hline
+\bullet & \phantom{\bullet} & \\ \hline
+ &  & \bullet \\
+\hline
+\end{array}
+\end{equation*}
+is an eigen-state of the $p^2$ configuration with the highest eigen-energy,
+and it corresponds to the $^1S$ multiplet
+(you see, nobody could answer this easily).
+The complete problem is worked out step by step in Chapter~\ref{ch:5}.
+Finally, in addition to Coulomb repulsion, we also included
+spin-orbit coupling in Chapter~\ref{ch:6}, where we see the multiplet
+spectral lines further split into finer structures.
+Our work can be extended by introducing the $jj$-coupling,
+where we consider each electron's total angular momentum. We can also
+introduce external crystal field (our present work are in the frame of isolated
+atoms) to study how our multiplet states respond to different external potential fields.
+
+In the very end I must advertise our simulation tool: all the discussions in
+this thesis have been implemented on a web page. Programming codes are written
+in JavaScript. You can run simulations of all atoms on the periodic table
+directly in a modern browser (no installation,
+no compilation, and no plug-in).
+This simulation tool can be accessed via the link:
+\begin{center}
+\url{www.cond-mat.de/sims/multiplet}
+\end{center}

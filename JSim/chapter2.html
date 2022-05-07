@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Chapter 2</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" media="all" href="CSS/theme.css" />
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="JS/Painter.js"></script>
+<script type="text/javascript" src="JS/Complex.js"></script>
+<script type="text/javascript" src="JS/CrankNicolson.js"></script>
+<script type="text/javascript" src="JS/WavePacket.js"></script>
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="header">
+        <h1>JavaScript Simulation</h1>
+    </div>
+
+    <div id="menu">
+        <ul>
+            <li><a title="Home" href="index.html">Home</a></li>
+            <li><a title="Chapter 1" href="chapter1.html">Chapter 1</a></li>
+            <li><a title="Chapter 2" class="currentLink" href="chapter2.html">Chapter 2</a></li>
+            <li><a title="Chapter 3" href="chapter3.html">Chapter 3</a></li>
+            <li><a title="Chapter 4" href="chapter4.html">Chapter 4</a></li>
+            <li><a title="Chapter 5" href="chapter5.html">Chapter 5</a></li>
+            <li><a title="Chapter 6" href="chapter6.html">Chapter 6</a></li>
+            <li><a title="Chapter 7" href="chapter7.html">Chapter 7</a></li>
+            <li><a title="Chapter 8" href="chapter8.html">Chapter 8</a></li>
+            <li><a title="Chapter 9" href="chapter9.html">Chapter 9</a></li>
+            <li><a title="Documentation" href="documentation.html">Documentation</a></li>
+            <li><a title="Discussion" href="discussion.html">Discussion</a></li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <h2>Time-dependent Schrödinger equation</h2>
+
+        <p>In the previous chapter, we solved the time-independent Schrödinger equation numerically. We called
+           the solution \( \psi(\vec{r}) \) "the wave function". But that was not very appropriate. The "true" wave
+           function \( \Psi(\vec{r}, t) \) is always time-dependent. To appreciate some of the most interesting
+           aspects of quantum mechanics, it is necessary to consider the time dependence of the wave function. The
+           time-dependent Schrödinger equation in three dimension has the form:</p>
+           \[ -\frac{\hbar^2}{2m} \nabla^2 \Psi + V(\vec{r}) \Psi = i \hbar \frac{\partial \Psi}{\partial t} \]
+        <p>where \( \hbar \) is the reduced Planck's constant, \( m \) is the mass of the particle, \( V \) is
+           the potential energy, and \( i \equiv \sqrt{-1} \). Again, for simplicity, we consider space in one
+           dimension. We then have:</p>
+           \[ -\frac{\hbar^2}{2m} \frac{\partial^2\Psi}{\partial x^2} + V(x) \Psi = i \hbar \frac{\partial
+           \Psi}{\partial t} \]
+        <p>where now \( \Psi \) is a function of \( x \) and \( t \). Solving partial differential equations is
+           much more difficult than solving ordinary differenctial equations. Here, we will use the Crank-Nicolson
+           method. It is instructive to rewrite the equation above as:</p>
+           \[ i \hbar \frac{\partial \Psi}{\partial t} = \hat{H} \Psi \]
+        <p>where the Hamiltonian operator \( \hat{H} \) is defined by:</p>
+           \[ \hat{H} \equiv - \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + V(x) \]
+
+        <p>We discretize space in steps of size \( \Delta x \) and discretize time in steps of size \( \Delta t
+           \), which leads to \( \Psi_i^n = \Psi(x_0+i\Delta x, \, t_0+n\Delta t) \). For convenience, we employ
+           units in which \( \hbar = 1 \) and \( m = 1 \). The Crank-Nicolson method in matrix form gives:</p>
+           \[
+           \begin{aligned}
+           \vec{\Psi}^{n+1} &amp; = \vec{\Psi}^n + \frac{\Delta t}{2} (-i \hat{H}) (\vec{\Psi}^n + \vec{\Psi}^{n+1}) \\
+           \vec{\Psi}^{n+1} + \frac{\Delta t}{2} i \hat{H} \vec{\Psi}^{n+1} &amp; =
+           \vec{\Psi}^n - \frac{\Delta t}{2} i \hat{H} \vec{\Psi}^{n+1} \\
+           (I + \frac{\Delta t}{2} i \hat{H}) \vec{\Psi}^{n+1} &amp; = (I - \frac{\Delta t}{2} i \hat{H}) \vec{\Psi}^n
+           \end{aligned}
+           \]
+        <p>where,</p>
+           \[
+           \begin{aligned}
+           \vec{\Psi}^n &amp; = (\Psi_0^n,\ \Psi_1^n,\ \Psi_2^n,\ \cdots,\ \Psi_{N-1}^n)^T \\
+           \vec{\Psi}^{n+1} &amp; = (\Psi_0^{n+1},\ \Psi_1^{n+1},\ \Psi_2^{n+1},\ \cdots,\ \Psi_{N-1}^{n+1})^T
+           \end{aligned}
+           \]
+           \[
+           \hat{H} = \frac{1}{\Delta x^2}
+           \begin{pmatrix}
+           (1+\widetilde{V}_0) &amp; -0.5 &amp; &amp; &amp; &amp; \\
+           -0.5 &amp; (1+\widetilde{V}_1) &amp; -0.5 &amp; &amp; &amp; \\
+           &amp; -0.5 &amp; (1+\widetilde{V}_2) &amp; -0.5 &amp; &amp; \\
+           &amp; &amp; &amp; \ddots &amp; &amp; \\
+           &amp; &amp; &amp; -0.5 &amp; (1+\widetilde{V}_{N-2}) &amp; -0.5 \\
+           &amp; &amp; &amp; &amp; -0.5 &amp; (1+\widetilde{V}_{N-1})
+           \end{pmatrix}
+           \]
+        <p>where \( \widetilde{V}_i = V_i \Delta x^2 \).</p>
+
+        <p>We are basically done. All the remaining is to develop a program to implememt this algorithm, i.e.
+           solving the linear system:</p>
+           \[ (I + \frac{\Delta t}{2} i \hat{H}) \vec{\Psi}^{n+1} = (I - \frac{\Delta t}{2} i \hat{H}) \vec{\Psi}^n \]
+
+        <p>The matrix is tridiagonal (why? because each point has two neighbors), we can solve this linear system
+           efficiently using the <a href="http://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm"
+           target="_blank">Thomas algorithm</a>.</p>
+
+        <h2>Wave packet in constant potential</h2>
+
+        <p>Our first example is to study wave packet propagation in a constant potential. The initial wave
+           function is:</p>
+           \[ \Psi(x, \, t=0) = A \exp[-(x-x_0)^2 / \sigma^2] \exp[i k_0 x] \]
+        <p>where the center of the packet is \( x_0 \), its width is \( \sigma \), the wave vector is \( k_0 \),
+           and the factor \( A \) is chosen to satisfy the normalzation condition on \( \Psi \). (The simulation
+           below magnified \( A \) for better plotting.)</p>
+
+        <p>In this problem, we choose \( x_0 = -4.0 \), \( x_{N-1} = 4.0 \) and \( \Delta x = 0.01 \); \( t_0 =
+           0.0 \), \( t_{M-1} = 5.0 \) and \( \Delta t = 0.001 \). The simulation is presented below. You can
+           select different \( x_0 \), \( \sigma \) and \( k_0 \) to see the propagation, reflection (at the
+           boundary) and interference of the wave packet under these chosen values.</p>
+
+        <div class="WavePacket">
+        { "xMin":-4.0, "xMax":4.0, "dx":0.01, "tMax":5.0, "dt":0.002, "VType":0, "BC":0,
+          "k0Min":-10, "k0Max":10, "stdMin":0.2, "stdMax":0.8, "x0Min":-2.0, "x0Max":2.0,
+          "cw":0.65, "ch":0.35, "xRange":[-4,4], "yRange":[0,85] }
+        </div>
+
+        <h2>Wave packet in harmonic potential</h2>
+
+        <p>This is an remarkable example that you might appreciate. Again, the harmonic oscillater. But this
+           time, we consider the time dependence of this special potential. We had chosen the default parameters \(
+           k_0=0.00 \), \( \sigma=0.45 \) and \( x_0=0.00 \) to be exactly matching the "ground state" of this
+           potential well. It is the ground state evidenced by the wave packet has the lowest expectation value of
+           energy (any change of the parameters will increase the energy). The interesting phenomenon is the ground
+           state is a stationary state (eigen-states are stationary states). So, if you press on the "start"
+           button, interesting thing will happen: nothing moves!</p>
+
+        <p>That is the so called stationary state. And if you switch on "show phase", you will notice the phase
+           changes with time. If we increase \( k_0 \), you will start to see oscillations. Another interesting
+           phenomenon is if we change the width \( \sigma \) of the wave packet, we will see an oscillation in the
+           width. I hope you now more or less appreciate the powerfulness of doing simulation: Without solving very
+           difficult PDE by hand, we can directly play with physical systems and get an intuitive understanding of
+           the problem.</p>
+
+        <div class="WavePacket">
+        { "xMin":-4.0, "xMax":4.0, "dx":0.01, "tMax":5.0, "dt":0.002, "VType":1, "BC":0,
+          "k0Min":-10, "k0Max":10, "stdMin":0.2, "stdMax":0.8, "x0Min":-1.0, "x0Max":1.0,
+          "cw":0.65, "ch":0.35, "xRange":[-4,4], "yRange":[0,85] }
+        </div>
+
+        <h2>Wave packet in linear potential</h2>
+
+        <p>Another interesting example is wave packet in a linear potential. This is a "quantum version" of free
+           fall process. The problem appears simple. But the analysis of this problem is very difficult. One
+           interesting aspect of this problem is the system is identical no matter how you change the position \(
+           x_0 \) of the wave packet (if we don't consider the boundary).</p>
+
+        <div class="WavePacket">
+        { "xMin":-4.0, "xMax":4.0, "dx":0.01, "tMax":5.0, "dt":0.002, "VType":2, "BC":0,
+          "k0Min":-10, "k0Max":10, "stdMin":0.2, "stdMax":0.8, "x0Min":-2.0, "x0Max":2.0,
+          "cw":0.65, "ch":0.35, "xRange":[-4,4], "yRange":[0,85] }
+        </div>
+
+        <h2>Wave packet in sinusoidal potential with periodic boundary condition</h2>
+
+        <p>It is not a trivial problem if we want to change the boundary conditions. In previous cases, we saw
+           reflecting boundaries. Don't take it as granted. Actually it is an very interesting question to think
+           about: Why are the boundaries reflecting?</p>
+
+        <p>The intrinsic reason behind is the tridiagonal matrix we used. In the first and last row in the
+           matrix, we had only two (not three) entries each row. That is where our boundary condition arises.
+           Solving linear systems with this matrix implies the solutions at "\( \Psi_{-1} \)" and "\( \Psi_N \)"
+           are always zero. This corresponds to an infinite potential wall on each side. That is why our boundaries
+           are reflecting.</p>
+
+        <p>So, the boundary condition we had before was a zero-value boundary condition. Suppose we want to
+           implement periodic boundary condition, how should we modify our equations? The answer is to change the
+           Hamiltonian matrix to:</p>
+           \[
+           \hat{H} = \frac{1}{\Delta x^2}
+           \begin{pmatrix}
+           (1+\widetilde{V}_0) &amp; -0.5 &amp; &amp; &amp; &amp; -0.5 \\
+           -0.5 &amp; (1+\widetilde{V}_1) &amp; -0.5 &amp; &amp; &amp; \\
+           &amp; -0.5 &amp; (1+\widetilde{V}_2) &amp; -0.5 &amp; &amp; \\
+           &amp; &amp; &amp; \ddots &amp; &amp; \\
+           &amp; &amp; &amp; -0.5 &amp; (1+\widetilde{V}_{N-2}) &amp; -0.5 \\
+           -0.5 &amp; &amp; &amp; &amp; -0.5 &amp; (1+\widetilde{V}_{N-1})
+           \end{pmatrix}
+           \]
+
+        <p>This matrix is quite self-explanatory: The left neighbor of \( \Psi_0 \) is set to \( \Psi_{N-1} \) and
+           the right neighbor of \( \Psi_{N-1} \) is set to \( \Psi_0 \). That is how we implement the boundary
+           condition. But now we encounter a new problem: It is not a tridiagonal matrix. Hence we cannot directly
+           use the Thomas algorithm. But it is still quite close to a tridiagonal matrix! We don't want to give up
+           our Thomas algorithm by just two small "perturbations". The method to solve this problem is called the <a
+           href="http://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula" target="_blank">Sherman-Morrison</a>
+           algorithm. An explanation of implementing this method can be found <a
+           href="http://www.cfd-online.com/Wiki/Tridiagonal_matrix_algorithm_-_TDMA_(Thomas_algorithm)"
+           target="_blank">here</a>.</p>
+
+        <div class="WavePacket">
+        { "xMin":-4.0, "xMax":4.0, "dx":0.01, "tMax":5.0, "dt":0.002, "VType":3, "BC":1,
+          "k0Min":-10, "k0Max":10, "stdMin":0.2, "stdMax":0.8, "x0Min":-2.0, "x0Max":2.0,
+          "cw":0.65, "ch":0.35, "xRange":[-4,4], "yRange":[0,85] }
+        </div>
+
+        <h2>Wave packet in reflectionless (sech<sup>2</sup>) potential with open boundary condition</h2>
+
+        <p>It is amazing that the potential of the shape \( \mathrm{sech}^2 \) has a reflectionless property. It
+           does not reflect waves and the waves will be totally transmited as we can test from the simulation
+           below. A study of this reflectionless potential can be found <a
+           href="http://ajp.aapt.org/resource/1/ajpias/v75/i12/p1151_s1" target="_blank">here</a>.</p>
+
+        <p>It would be more convenient if we consider open boundary condition in this case, as we just want the
+           wave packet to go through the window and don't want to see the interference caused by boundary
+           reflection. To implement the open boundary condition, our stratege is simply to extend the grids further
+           enough beyond the window. But this implies solving a much larger linear system. Therefore, our approach
+           is to adapt non-uniform grid, so that we have fine-grid inside the region of interest but coarse-grid
+           outside this region. The non-uniform gird we use here is:</p>
+           \[ x = [-28.0 : 0.05 : -4.0) \cup \underbrace{[-4.0 : 0.01 : 4.0]}_\text{region of interest}
+           \cup (4.0 : 0.05 : 28.0] \]
+
+        <div class="WavePacket">
+        { "xMin":-4.0, "xMax":4.0, "dx":0.01, "tMax":3.0, "dt":0.002, "VType":4, "BC":2,
+          "k0Min":-10, "k0Max":10, "stdMin":0.2, "stdMax":0.8, "x0Min":-3.0, "x0Max":3.0,
+          "cw":0.65, "ch":0.35, "xRange":[-4,4], "yRange":[0,85] }
+        </div>
+    </div>
+
+    <div id="footer">Contact me: x@y, where x=qian.zhang, y=rwth-aachen.de</div>
+</div>
+</body>
+
+</html>

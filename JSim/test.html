@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Test</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="JS/Painter.js"></script>
+<script type="text/javascript" src="JS/Painter3D.js"></script>
+</head>
+
+<body>
+    <div style="text-align:center;">
+        <canvas width="500" height="300" style="border:solid;"></canvas>
+    </div>
+    
+    <p>Try <strong>Painter</strong></p>
+    <pre>
+var myCanvas = document.getElementsByTagName("canvas")[0];
+var myPainter = new Painter(myCanvas);
+    </pre>
+    
+    <p>Try <strong>Painter3D</strong></p>
+    <pre>
+var glCanvas = document.getElementsByTagName("canvas")[0];
+var glPainter = new Painter3D(glCanvas);
+    </pre>
+</body>
+
+</html>

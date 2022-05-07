@@ -1,0 +1,913 @@
+\chapter{Spin-orbit coupling} \label{ch:6}
+
+\section{The spin-orbit interaction}
+In the very beginning of our discussion, we claimed that our problem is to solve the
+Schr\"{o}dinger equation with the Hamiltonian
+\begin{equation} \label{eq:Hamitt}
+H = \sum_{i=1}^N \left[ -\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i} \right] + \sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|}
+\end{equation}
+We see clearly that each electron experiences a Coulomb
+attraction from the nucleus and repulsions from all other electrons. However, this is
+not quite the complete story. In fact, additionally, each electron also experiences a (weak)
+magnetic force. Do you see where this magnetic force comes from?
+
+Imagine you ``sit'' on an electron. From your point of view, the positively charged
+nucleus is circling around you. This moving charge creates a current loop which
+generates a magnetic field $\vec{B}$ (can be calculated from the Biot-Savart law).
+On the other hand, the spinning electron has a magnetic dipole moment $\boldsymbol{\mu}_e$
+which experiences the force from the magnetic field
+\begin{equation} \label{eq:Bmu}
+\vec{F} = \boldsymbol{\nabla}(\boldsymbol{\mu}_e\cdot\vec{B})
+\end{equation}
+The corresponding potential energy of the electron under this magnetic field is
+\begin{equation} \label{eq:SOBmu}
+H_\text{SO} = -\boldsymbol{\mu}_e\cdot\vec{B}
+\end{equation}
+%
+It would be more convenient if we express the magnetic dipole moment in terms
+of the spin angular momentum $\vec{S}$ and the magnetic field in terms of the
+orbit angular momentum $\vec{L}$ \cite{WB},
+\begin{equation} \label{eq:SOLS}
+H_\text{SO} = \xi(r) \vec{L}\cdot\vec{S}
+\end{equation}
+where,\footnote{Some authors include an ``$\hbar^2$'' in the expression of $\xi(r)$.
+But we prefer to absorb this $\hbar^2$ into the angular momenta, since $\vec{L}=
+\vec{r}\times\vec{p}=\vec{r}\times (-i\hbar)\boldsymbol{\nabla}$ and $\vec{L}\cdot\vec{S}$
+includes the $\hbar^2$ implicitly. Notice that in atomic units $\hbar=1$.}
+\begin{equation} \label{eq:xir}
+\xi(r) = \frac{1}{2m_e^2c^2} \frac{1}{r} \frac{dV}{dr}
+\end{equation}
+and $V(r)$ is our old friend, the (spherically symmetric) electric potential.
+For hydrogen-like atoms,
+\begin{equation}
+V(r) = -\frac{1}{4\pi\epsilon_0}\frac{Ze^2}{r}
+\quad \text{and} \quad
+\xi(r) = \frac{1}{2m_e^2c^2} \frac{1}{4\pi\epsilon_0}\frac{Ze^2}{r^3}
+\end{equation}
+which agrees with the hydrogen atom spin-orbit interaction
+discussed in Griffiths' book \cite{QM}. Now consider
+an $N$-electron system, Eqn.~(\ref{eq:SOLS}) becomes
+\begin{equation} \label{eq:HSO}
+\boxed{
+H_\text{SO} = \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i
+}
+\end{equation}
+We reserved the capital letters for the total angular momentum operators
+\begin{equation}
+\vec{L} = \sum_{i=1}^N \boldsymbol{\ell}_i
+\quad \text{and} \quad
+\vec{S} = \sum_{i=1}^N \vec{s}_i
+\end{equation}
+This is the additional spin-orbit interaction Hamiltonian. It is rather a tiny
+perturbation. In Eqn.~(\ref{eq:xir}), we see a ``speed of light squared''
+factor in the denominator. Hence, spin-orbit is in general a weak interaction.
+We introduced the atomic units (a.u.) in the beginning and this is the first time
+that we encounter the speed of light. We know that in SI units, the speed of light is
+\begin{equation} \label{eq:cSI}
+c = 2.99792458\times10^8\;\mathrm{m}/\mathrm{s}
+\end{equation}
+%
+To convert the speed of light from SI to atomic unit, we need the length and time
+in atomic units:
+\begin{align}
+1\;\mathrm{a_0} & \approx 5.2918\times10^{-11}\;\mathrm{m}  \\
+1\;\mathrm{t_0} & \approx 2.4189\times10^{-17}\;\mathrm{s}
+\end{align}
+%
+We can convert easily, in a.u.\footnote{The inverse of this number is called the
+fine structure constant $\alpha\equiv\frac{e^2}{4\pi\epsilon_0\hbar c}\approx 1/137.036$,
+which is a dimensionless quantity. By the way, it is such a profound number that
+all good theoretical physicists put this number up on their wall and worry about it,
+said Mr.\ Feynman.}
+\begin{equation} \label{eq:cau}
+c \approx 137.036\;\mathrm{a_0}/\mathrm{t_0}
+\end{equation}
+%
+Now we append $H_\text{SO}$ to Hamiltonian (\ref{eq:Hamitt}),
+\begin{equation} \label{eq:HamitSO}
+H = \sum_{i=1}^N \left[ -\frac{1}{2} \nabla_i^2 - \frac{Z}{r_i} \right] + \sum_{i<j}^N \frac{1}{|\vec{r}_i - \vec{r}_j|} + \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i
+\end{equation}
+which is the full Hamiltonian with spin-orbit coupling correction.
+
+\section{Spin-orbit coupling within multiplet terms}
+If there were no spin-orbit coupling, our Hamiltonian (\ref{eq:Hamitt}) commuted
+with operators $\vec{L}$ and $\vec{S}$, which indicates that these
+quantities are conserved \cite{QM}. That is why we could label our eigen-vectors as
+\begin{equation} \label{eq:LMLSMS}
+\Ket{L,M_L,S,M_S}
+\end{equation}
+%
+Now, in the presence of spin-orbit coupling, our Hamiltonian (\ref{eq:HamitSO}) no
+longer commutes with $\vec{L}$ and $\vec{S}$. The spin-orbit interaction mixed them
+up. However, the Hamiltonian still commutes with the total angular momentum
+\begin{equation} \label{eq:JLS}
+\vec{J} = \vec{L} + \vec{S}
+\end{equation}
+%
+If we only consider the spin-orbit interaction
+within multiplet terms (for the same $L$ and $S$),
+we can represent our eigen-vectors by\footnote{Notice that $\Ket{L,S,J,M_J}$ is
+in general not an eigen-vector of the full Hamiltonian since the spin-orbit
+interaction mixes different $L$ and $S$. But if we assume the spin-orbit splitting
+$\ll$ the multiplet splitting, we can approximately take $\Ket{L,S,J,M_J}$ as our
+eigen-vector (first order perturbation theory).}
+\begin{equation} \label{eq:LSJMJ}
+\Ket{L,S,J,M_J}
+\end{equation}
+which is a Clebsch-Grodan basis transformation \cite{WB} from basis (\ref{eq:LMLSMS}).
+The possible values of $J$ are $L+S,L+S-1,\ldots,|L-S|$. For instance, for multiplet
+$^3P$ with $L=1$ and $S=1$, we have $J=2,1,0$. This splits the degenerate $^3P$ into
+$^3P_2,{^3P_1},{^3P_0}$. We now denote a term symbol as
+\begin{equation} \label{eq:SLJ}
+^{2S+1}L_J
+\end{equation}
+with
+\begin{equation} \label{eq:SLJDegen}
+\mathrm{degeneracy} = 2J+1
+\end{equation}
+which is less degenerate than a $^{2S+1}L$ term that we used previously.
+The sum over all $(2J+1)$ within the same multiplet is equal to $(2S+1)(2L+1)$.
+Now, our task is to obtain the eigen-energies of the $^{2S+1}L_J$ terms. Notice that,
+\begin{equation} \label{eq:Jsq}
+J^2 = L^2 + 2\vec{L}\cdot\vec{S} + S^2
+\end{equation}
+%
+Hence, we can evaluate the following matrix element easily,
+\begin{align} \label{eq:LSelem}
+\Bra{LSJM_J}\vec{L}\cdot\vec{S}\Ket{LSJM_J} & = \frac{1}{2}\Bra{LSJM_J}J^2-L^2-S^2\Ket{LSJM_J} \nonumber \\
+& = \frac{1}{2}[J(J+1)-L(L+1)-S(S+1)]
+\end{align}
+%
+But this is not really what we are looking for. The spin-orbit eigen-energies
+within multiplet terms should be the matrix element
+\begin{equation} \label{eq:HSOelem}
+\Bra{LSJM_J}H_\text{SO}\Ket{LSJM_J} = \Bra{LSJM_J} \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{LSJM_J}
+\end{equation}
+which is proportional to the matrix element in Eqn.~(\ref{eq:LSelem}) (see Reference \cite{WB})
+\begin{equation} \label{eq:HSOpropLS}
+\Bra{LSJM_J} \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{LSJM_J}
+= A(nl,LS) \Bra{LSJM_J}\vec{L}\cdot\vec{S}\Ket{LSJM_J}
+\end{equation}
+%
+The proportionality factor $A(nl,LS)$ depends on the radial wave function $u_{nl}$ and the
+angular momenta $L$ and $S$. The eigen-energies lifted by the spin-orbit interaction are therefore,
+\begin{equation} \label{eq:ESO}
+\boxed{
+E_\text{SO} = A(nl,LS) \frac{1}{2}[J(J+1)-L(L+1)-S(S+1)]
+}
+\end{equation}
+%
+Our problem is to find $A(nl,LS)$. Actually, we would
+get the same proportionality factor if we considered the matrix elements
+\begin{equation} \label{eq:HSOpropLS2}
+\Bra{LM_LSM_S} \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{LM_LSM_S}
+= A(nl,LS) \Bra{LM_LSM_S}\vec{L}\cdot\vec{S}\Ket{LM_LSM_S}
+\end{equation}
+from which we are able to derive the expression for $A(nl,LS)$.
+Let's first consider
+\begin{equation*}
+\Bra{LM_LSM_S}\vec{L}\cdot\vec{S}\Ket{LM_LSM_S}
+\end{equation*}
+To evaluate this matrix element, we expand the dot product
+\begin{equation} \label{eq:LSdot}
+\vec{L}\cdot\vec{S} = L_xS_x + L_yS_y + L_zS_z
+\end{equation}
+Express the $x$ and $y$ components in terms of ladder operators
+\begin{equation} \label{eq:LxyLadder}
+L_x = \frac{L_++L_-}{2} \quad \text{and} \quad L_y = \frac{L_+-L_-}{2i}
+\end{equation}
+We obtain,
+\begin{align} \label{eq:ArightExp}
+\Bra{LM_LSM_S}\vec{L}\cdot\vec{S}\Ket{LM_LSM_S} &
+= \Bra{LM_LSM_S} \frac{1}{2}L_+S_- + \frac{1}{2}L_-S_+ + L_zS_z \Ket{LM_LSM_S} \nonumber \\
+& = \Bra{LM_LSM_S} L_zS_z \Ket{LM_LSM_S} \nonumber \\
+& = M_LM_S
+\end{align}
+%
+Done! Keep in mind that our task is to find $A(nl,LS)$ in Eqn.~(\ref{eq:HSOpropLS2}).
+Now, we consider
+\begin{equation*}
+\Bra{LM_LSM_S} \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{LM_LSM_S}
+\end{equation*}
+which can be split into two independent parts
+\begin{equation*}
+\Bra{nl}\xi(r)\Ket{nl} \Bra{LM_LSM_S} \sum_{i=1}^N \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{LM_LSM_S}
+\end{equation*}
+The expectation vale $\Bra{nl}\xi(r)\Ket{nl}$ can be calculated easily by
+numerical integration methods. But we encounter some difficulties with the second part,
+where the single electron operators act on the eigen-state
+which is in general a linear combination of configuration basis vectors.
+For example, in $p^3$ configuration
+we have,
+\begin{equation}
+|1,1,\frac{1}{2},\frac{1}{2}\rangle = \frac{1}{\sqrt{2}} \left( c_{1\downarrow}^\dagger c_{-1\uparrow}^\dagger c_{1\uparrow}^\dagger -c_{0\downarrow}^\dagger c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger \right)|0\rangle
+\end{equation}
+%
+It would be convenient if we expand the eigen-vectors in terms of configuration
+basis vectors.
+\begin{align}
+\Ket{LM_LSM_S} & = \sum_{n=1}^\text{dim} a_n\, c_{m_N\sigma_N}^\dagger \ldots c_{m_2\sigma_2}^\dagger c_{m_1\sigma_1}^\dagger \Ket{0} \nonumber \\
+& = \sum_{n=1}^\text{dim} a_n \Ket{L\{m_i\}S\{\sigma_i\}}
+\end{align}
+%
+Hence,
+\vspace{-0.1em}
+\begin{align} \label{eq:mssum}
+{} & \Bra{LM_LSM_S} \sum_{i=1}^N \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{LM_LSM_S} \nonumber \\
+= {} & \left(\sum_{n=1}^\text{dim} \conj{a_n} \Bra{L\{m_i\}S\{\sigma_i\}}\right) \sum_{i=1}^N \boldsymbol{\ell}_i\cdot\vec{s}_i \left(\sum_{n=1}^\text{dim} a_n \Ket{L\{m_i\}S\{\sigma_i\}}\right) \nonumber \\
+= {} & \sum_{n=1}^\text{dim} \left( |a_n|^2 \Bra{L\{m_i\}S\{\sigma_i\}} \sum_{i=1}^N \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{L\{m_i\}S\{\sigma_i\}} \right) \nonumber \\
+= {} & \sum_{n=1}^\text{dim} \left( |a_n|^2 \sum_{i=1}^N \Bra{Lm_iS\sigma_i} \boldsymbol{\ell}_i\cdot\vec{s}_i \Ket{Lm_iS\sigma_i} \right) \nonumber \\
+= {} & \sum_{n=1}^\text{dim} \left( |a_n|^2 \sum_{i=1}^N \Bra{Lm_iS\sigma_i} \frac{1}{2}\ell_+^is_-^i + \frac{1}{2}\ell_-^is_+^i + \ell_z^is_z^i \Ket{Lm_iS\sigma_i} \right) \nonumber \\
+= {} & \sum_{n=1}^\text{dim} \left( |a_n|^2 \sum_{i=1}^N \Bra{Lm_iS\sigma_i} \ell_z^is_z^i \Ket{Lm_iS\sigma_i} \right) \nonumber \\
+= {} & \sum_{n=1}^\text{dim} \left( |a_n|^2 \sum_{i=1}^N m_i \sigma_i \right)
+\end{align}
+%
+Putting everything into Eqn.~(\ref{eq:HSOpropLS2}), we find
+\begin{equation} \label{eq:AnlLS}
+\boxed{
+A(nl,LS) = \Bra{nl}\xi(r)\Ket{nl} \frac{\sum_{n=1}^\text{dim}\left( \left|a_n\right|^2 \sum_{i=1}^N m_i \sigma_i \right)}{M_LM_S}
+}
+\end{equation}
+%
+$A(nl,LS)$ has no dependence on $M_L$ or $M_S$. The most convenient choice would be
+using the maximum values $M_L=L$ and $M_S=S$. One might worry about the denominator
+since $L$ or $S$ might be zero. However, either $L$ or $S$ is zero indicates that
+there is no spin-orbit interaction ($J=L+S=|L-S|$), hence no splitting, no worry.
+
+I understand that the expression of $A(nl,LS)$ looks a bit complicated.
+It would be nice to have a few worked examples. For convenience,
+we break Eqn.~(\ref{eq:AnlLS}) into two parts,
+\begin{align}
+X(nl) & = \Bra{nl}\xi(r)\Ket{nl} \\
+M(LS) & = \frac{\sum_{n=1}^\text{dim}\left( \left|a_n\right|^2 \sum_{i=1}^N m_i \sigma_i \right)}{M_LM_S}
+\end{align}
+
+\paragraph{Example 1:} $^3P$ multiplet in $p^2$ configuration.
+
+The leading vector
+\begin{equation*}
+|1,1,1,1\rangle = c_{0\uparrow}^\dagger c_{1\uparrow}^\dagger |0\rangle
+\end{equation*}
+\begin{equation*}
+M({^3P}) = \frac{0\times \frac{1}{2} + 1\times \frac{1}{2}}{1\times 1} = \frac{1}{2}
+\end{equation*}
+Hence,
+\begin{equation*}
+A(np, {^3P}) = \frac{1}{2} X(np)
+\end{equation*}
+
+\paragraph{Example 2:} $^2G$ multiplet in $d^3$ configuration.
+
+The leading vector
+\begin{equation*}
+|4,4,\frac{1}{2},\frac{1}{2}\rangle = \frac{1}{\sqrt{5}} \left( \sqrt{2}c_{2\downarrow}^\dagger c_{0\uparrow}^\dagger c_{2\uparrow}^\dagger -\sqrt{3}c_{1\downarrow}^\dagger c_{1\uparrow}^\dagger c_{2\uparrow}^\dagger \right)|0\rangle
+\end{equation*}
+\begin{equation*}
+M({^2G})
+= \frac{\frac{2}{5}(2\times -\frac{1}{2} + 0\times \frac{1}{2} + 2\times \frac{1}{2}) +
+\frac{3}{5}(1\times -\frac{1}{2} + 1\times \frac{1}{2} + 2\times \frac{1}{2})
+}{4\times \frac{1}{2}} = \frac{3}{10}
+\end{equation*}
+Hence,
+\begin{equation*}
+A(nd, {^2G}) = \frac{3}{10} X(nd)
+\end{equation*}
+
+There is a symmetry property of the factor $M(LS)$. If the shell is less than half-filled,
+$M(LS)>0$; if the shell is more than half-filled, $M(LS)<0$; and if the shell is
+exactly half-filled, $M(LS)=0$ (no splitting).
+
+The remaining part $X(nl)$, is relatively more straightforward.
+\begin{align} \label{eq:Xnlint}
+X(nl) & = \Bra{nl}\xi(r)\Ket{nl} = \int_0^\infty dr\,r^2\, \conj{R_{nl}}(r) \xi(r) R_{nl}(r) \nonumber \\
+& = \int_0^\infty dr\, \conj{u_{nl}}(r) \xi(r) u_{nl}(r) = \int_0^\infty dr\, |u_{nl}(r)|^2 \xi(r)
+\end{align}
+and in atomic unit,
+\begin{equation}
+\xi(r) = \frac{1}{2\times 137.036^2} \frac{1}{r} \frac{dV}{dr}
+\end{equation}
+%
+In our self-consistent field approximation, the potential $V(r)$ is the mean-field
+electric potential that all electrons experience in.
+The first order derivative can be obtained approximately from a finite
+difference formula
+\begin{equation}
+\frac{dV}{dx} \approx \frac{V(x+\Delta x)-V(x-\Delta x)}{2\Delta x}
+\end{equation}
+Remember the logarithmic grid transformation in Eqn~(\ref{eq:x2r}),
+we have,
+\begin{equation}
+dr=rdx \quad \text{and} \quad \frac{dV}{dr} = \frac{1}{r} \frac{dV}{dx}
+\end{equation}
+%
+Hence, numerically,
+\begin{equation} \label{eq:Xnl}
+X(nl) = \frac{1}{2\times 137.036^2} \int_{x_\text{min}}^{x_\text{max}} dx\, |u_{nl}(x)|^2 \frac{1}{r} \frac{dV}{dx}
+\end{equation}
+
+To get an intuitive understanding of this spin-orbit energy splitting,
+we again take the carbon atom as an example. A carbon atom has electronic
+configuration $1s^2$ $2s^2$ $2p^2$. From the self-consistent calculation,
+we obtained both the mean-field potential $V(r)$ and the wave function
+$u_{2p}(r)$. From Eqn.~(\ref{eq:Xnl}), we can calculate
+\begin{equation} \label{eq:Xcarbon}
+X(2p) = 0.000218\ \text{(Hartree)}
+\end{equation}
+%
+Meanwhile, we have discovered that a $p^2$ configuration produces
+$^3P$, $^1D$ and $^1S$ multiplets. Among these three multiplets,
+only $^3P$ splits due to spin-orbit interaction. Both $^1D$ and $^1S$
+do not split since $S=0$. In the previous examples, we found
+for the $p^2$ configuration,
+\begin{equation}
+M(^3P) = \frac{1}{2}
+\end{equation}
+%
+Therefore,
+\begin{equation}
+A(2p^2,{^3P}) = 0.000218\times\frac{1}{2} = 0.000109\ \text{(Hartree)}
+\end{equation}
+Now the spin-orbit energy splittings within $^3P$ are (Eqn.~(\ref{eq:ESO}))
+\begin{align}
+\begin{split}
+E_\text{SO}(^3P_2) & = 0.000109\frac{1}{2}[2(2+1)-1(1+1)-1(1+1)] = \phantom{-}0.000109\ (\text{Hartree}) \\
+E_\text{SO}(^3P_1) & = 0.000109\frac{1}{2}[1(1+1)-1(1+1)-1(1+1)] = -0.000109\ (\text{Hartree}) \\
+E_\text{SO}(^3P_0) & = 0.000109\frac{1}{2}[0(0+1)-1(1+1)-1(1+1)] = -0.000218\ (\text{Hartree})
+\end{split}
+\end{align}
+with this additional splitting, Fig.~\ref{fig:p2split} gets an extra column.
+\begin{figure}[h!]
+\begin{center}
+\begin{tikzpicture}[scale=0.175]
+\newcommand{\LA}{0}
+\newcommand{\RA}{15}
+\newcommand{\LB}{30}
+\newcommand{\RB}{45}
+\newcommand{\LC}{60}
+\newcommand{\RC}{75}
+\newcommand{\EA}{13.7797}
+\newcommand{\EBa}{27.5594}
+\newcommand{\EBb}{11.0236}
+\newcommand{\EBc}{0}
+\newcommand{\ECa}{27.5594}
+\newcommand{\ECb}{11.0236}
+\newcommand{\ECc}{ 4.36}
+\newcommand{\ECd}{-4.36}
+\newcommand{\ECe}{-8.72}
+%
+\draw[very thick] (\LA,\EA) -- (\RA,\EA);
+%
+\draw[very thick] (\LB,\EBa) -- (\RB,\EBa);
+\draw[very thick] (\LB,\EBb) -- (\RB,\EBb);
+\draw[very thick] (\LB,\EBc) -- (\RB,\EBc);
+%
+\draw[very thick] (\LC,\ECa) -- (\RC,\ECa);
+\draw[very thick] (\LC,\ECb) -- (\RC,\ECb);
+\draw[very thick] (\LC,\ECc) -- (\RC,\ECc);
+\draw[very thick] (\LC,\ECd) -- (\RC,\ECd);
+\draw[very thick] (\LC,\ECe) -- (\RC,\ECe);
+%
+\node at (\LA+8,\EA+2) {$p^2$};
+\node at (\LB+7,\EBa+2) {$^1S$};
+\node at (\LB+7,\EBb+2) {$^1D$};
+\node at (\LB+7,\EBc+2) {$^3P$};
+\node at (\LC+7,\ECa+2) {$^1S_0$};
+\node at (\LC+7,\ECb+2) {$^1D_2$};
+\node at (\LC+7,\ECc+2) {$^3P_2$};
+\node at (\LC+7,\ECd+2) {$^3P_1$};
+\node at (\LC+7,\ECe+2) {$^3P_0$};
+%
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBa);
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBb);
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBc);
+%
+\draw[very thin, gray, dashed] (\RB,\EBa) -- (\LC,\ECa);
+\draw[very thin, gray, dashed] (\RB,\EBb) -- (\LC,\ECb);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECc);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECd);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECe);
+%
+\draw[triangle 45-triangle 45] (\LB+12,\EBa) -- (\LB+12,\EBb);
+\draw[triangle 45-triangle 45] (\LB+12,\EBa) -- (\LB+12,\EBc);
+\draw[triangle 45-triangle 45] (\LC+12,\ECc) -- (\LC+12,\ECd);
+\draw[triangle 45-triangle 45] (\LC+12,\ECd) -- (\LC+12,\ECe);
+%
+\node at (\RB+5,19.2915) {$\Delta E = 0.082679$};
+\node at (\RB+5,5.5118) {$\Delta E = 0.055118$};
+\node at (\RC+5,0) {$\Delta E = 0.000218$};
+\node at (\RC+5,-6.54) {$\Delta E = 0.000109$};
+%
+\node at (\LA+7.5,-14) {Configuration};
+\node at (\LB+7.5,-14) {Coulomb repulsion};
+\node at (\LC+7.5,-14) {Spin-orbit};
+\end{tikzpicture}
+\end{center}
+\caption{Energy splitting (Coulomb repulsion plus spin-orbit interaction)
+of the $p^2$ configuration of a carbon atom. Energies are given in units of Hartree (a.u.).
+The spin-orbit splitting is magnified for a better plotting. (see Fig.~\ref{fig:cvspb}
+for realistic scale.)}
+\label{fig:p2splitSO}
+\end{figure}
+
+The spin-orbit splitting in Fig.~\ref{fig:p2splitSO} is magnified for a better plotting.
+The actual splitting is rather tiny (remember the $1/c^2$ factor). But I want to
+emphasize that there are two issues about the spin-orbit splitting, namely,
+the ``scale'' and the ``shape''. This can be seen from Eqn.~(\ref{eq:ESO}).
+The part
+\begin{equation*}
+[J(J+1)-L(L+1)-S(S+1)]
+\end{equation*}
+leads to the splitting ``shape'', which is determined by the multiplet term $^{2S+1}L$.
+While the other part
+\begin{equation*}
+A(nl,LS)
+\end{equation*}
+controls the ``scale'' of the splitting.
+We have seen that $A(nl,LS)$ can be separated into $X(nl)$ and $M(LS)$. For a
+given multiplet term, $M(LS)$ is fixed. The final term that governs the scale is
+\begin{equation*}
+X(nl) = \Bra{nl}\xi(r)\Ket{nl} 
+\end{equation*}
+which is the coupling strength constant. For a not-so-heavy atom, $X(nl)$ is usually
+weak (see Eqn.(\ref{eq:Xcarbon}) for a carbon atom). We can safely simplify
+the spin-orbit interaction within a multiplet term and obtain surprisingly
+accurate energies. But for a heavy atom, like uranium,
+this spin-orbit coupling constant becomes strong due to the deep radial potential.
+If the order of the spin-orbit splitting reaches the order of the multiplet
+energy splitting, our ``spin-orbit within multiplet terms'' may no longer be
+a good approximation. In this case, we should consider the spin-orbit interactions
+within the entire shell and diagonalize the complete Hamiltonian.
+
+\section{Spin-orbit coupling within the entire shell}
+By saying ``within entire shell'', it means to solve the problem in the complete basis
+of a given configuration, say, $p^2$,
+\begin{center}
+\vspace{-0.5em}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\bullet$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+ &  & $\bullet$ \\
+\hline
+\end{tabular} \\
+\vspace{0.5em}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\bullet$ \\ \hline
+ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\bullet$ & $\phantom{\bullet}$ \\ \hline
+ &  & $\bullet$ \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+$\bullet$ &  &  \\
+\hline
+\end{tabular} \\
+\vspace{0.5em}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\bullet$ \\ \hline
+ &  & $\bullet$ \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ & $\bullet$ &  \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+$\bullet$ &  & $\bullet$ \\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+$\phantom{\bullet}$ & $\phantom{\bullet}$ & $\phantom{\bullet}$ \\ \hline
+ & $\bullet$ & $\bullet$ \\
+\hline
+\end{tabular}
+\end{center}
+%
+We have previously used the same basis when solving the Coulomb repulsion problem.
+Since we have the basis already, the remaining task is to set up the matrix
+representation of the spin-orbit Hamiltonian in our basis.
+To construct the matrix representation, the first step is to reformulate the Hamiltonian
+\begin{equation}
+H_\text{SO} = \sum_{i=1}^N \xi(r_i) \boldsymbol{\ell}_i\cdot\vec{s}_i
+\end{equation}
+into second quantization,
+\begin{equation} \label{eq:SO2nd}
+H_\text{SO} = \sum_{\alpha,\beta} V_{\alpha\beta} c_\alpha^\dagger c_\beta
+\end{equation}
+where,
+\begin{align*}
+\alpha & = \{n_1,\,l_1,\,m_1,\,\sigma_1\} \\
+\beta  & = \{n_2,\,l_2,\,m_2,\,\sigma_2\}
+\end{align*}
+enumerate all possible quantum states of electrons. Here we consider only
+interactions within the same shell, so we restrict $n_1l_1=n_2l_2=nl$.
+If you still remember, we devoted an entire chapter
+calculating the Coulomb repulsion matrix element $U_{\alpha\beta\gamma\delta}$
+since it was extremely complicated.
+However, today, our spin-orbit matrix element
+\begin{equation}
+V_{\alpha\beta} = \Bra{\alpha} \xi(r) \boldsymbol{\ell}\cdot\vec{s} \Ket{\beta}
+\end{equation}
+can be calculated with zero difficulty.
+This spin-orbit matrix element can be split into a radial dependent part
+and an angular dependent part
+\begin{equation}
+V_{\alpha\beta} = \Bra{nl} \xi(r) \Ket{nl} \Bra{m_1\sigma_1} \boldsymbol{\ell}\cdot\vec{s} \Ket{m_2\sigma_2}
+\end{equation}
+%
+The radial part $\Bra{nl}\xi(r)\Ket{nl}$ is identical to $X(nl)$
+which we have discussed in Eqn.~(\ref{eq:Xnlint}). And the angular part,
+\begin{align} \label{eq:AngularSO}
+\Bra{m_1\sigma_1} \boldsymbol{\ell}\cdot\vec{s} \Ket{m_2\sigma_2}
+& = \Bra{m_1\sigma_1} \ell_x s_x + \ell_y s_y + \ell_z s_z \Ket{m_2\sigma_2} \nonumber \\
+& = \Bra{m_1\sigma_1} \frac{1}{2}\ell_+ s_- + \frac{1}{2}\ell_- s_+ + \ell_z s_z \Ket{m_2\sigma_2} \nonumber \\
+& = \phantom{+} \frac{1}{2}\sqrt{(l+m_2+1)(l-m_2)\left(\frac{1}{2}+\sigma_2\right)\left(\frac{1}{2}-\sigma_2+1\right)} \Braket{m_1\sigma_1|m_2+1,\sigma_2-1} \nonumber \\
+& \phantom{=}\, + \frac{1}{2}\sqrt{(l+m_2)(l-m_2+1)\left(\frac{1}{2}+\sigma_2+1\right)\left(\frac{1}{2}-\sigma_2\right)} \Braket{m_1\sigma_1|m_2-1,\sigma_2+1} \nonumber \\
+& \phantom{=}\, + m_2\sigma_2\Braket{m_1\sigma_1|m_2\sigma_2}
+\end{align}
+can be computed easily with the orthonormality of angular wave functions,
+\begin{equation}
+\Braket{m_1\sigma_1|m_2\sigma_2} = \delta_{m_1m_2}\delta_{\sigma_1\sigma_2}
+\end{equation}
+
+Setting up the spin-orbit Hamiltonian is simpler than setting up the Coulomb
+repulsion Hamiltonian since we have only $\alpha$ and $\beta$ indices
+\begin{equation} \label{eq:Hsoij}
+\Bra{i} H_\text{SO} \Ket{j} = 
+\Bra{i} \sum_{\alpha,\beta} V_{\alpha\beta} c_\alpha^\dag c_\beta \Ket{j}
+\end{equation}
+%
+Hence, the algorithm is also simpler with less for loops (comparing with Algorithm~\ref{alg:Huij}).
+\begin{algorithm}[h!]
+\caption{Set up Hamiltonian}\label{alg:Hsoij}
+\begin{algorithmic}[1]
+\Function{Hamiltonian}{$basis$}
+\State $dim \gets basis.dim$
+\For {$i \gets 0$ to $dim$}
+\State $conf_i \gets basis.conf[i]$
+\ForAll {$\alpha$}
+\If {\Call{isBit}{$\alpha$, $conf_i$}}
+\State $conf_\alpha \gets$ \Call{clearBit}{$\alpha$, $conf_i$}
+\ForAll {$\beta$}
+\If {\Call{!isBit}{$\beta$, $conf_\alpha$}}
+\State $conf_\beta \gets$ \Call{setBit}{$\beta$, $conf_\alpha$}
+\State $conf_j \gets conf_\beta$
+\State $j \gets basis.index[conf_j]$
+\State $H_\text{SO}[i,j] \gets H_\text{SO}[i,j] + fsign*V_{\alpha\beta}$
+\EndIf
+\EndFor
+\EndIf
+\EndFor
+\EndFor
+\State \Return $H_\text{SO}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+If we diagonalize $H_\text{SO}$ directly, we would obtain the eigen-energies
+of the pure spin-orbit interaction. To include both Coulomb repulsion and spin-orbit coupling,
+we should diagonalize (numerically) the sum $(H_U+H_\text{SO})$.
+For not-so-heavy atoms, like carbon, the resulting eigen-energies are surprisingly close
+to the eigen-energies we obtained from the ``within multiplet terms'' approximation, which
+is pretty remarkable, since the solutions from two different approaches agree each other.
+However, for heavy atoms, there is a large discrepancy between those two solutions.
+
+For heavy atoms, the deep potential leads to large values in the derivative $dV/dr$.
+Hence, the spin-orbit coupling constant $\Bra{nl}\xi(r)\Ket{nl}$ is large. For
+strong spin-orbit interactions, the order of energy splitting can reach the order
+of the Coulomb repulsion splitting.
+In this case the approximation using spin-orbit coupling within multiplet terms
+are no longer appropriate.
+
+This can be clearly demonstrated by a comparison between a carbon (C) and a lead (Pb)
+atom, which are from the same group with the same open shell configuration $p^2$.
+Table~\ref{table:cvspb} tabulated the numerical energies of spin-orbit interactions
+within multiplet terms and within entire shell.
+
+\begin{table}[h!]
+\caption{Comparison of open shell spin-orbit energies within multiplet
+terms and within entire shell for a carbon atom and a lead atom.
+Energies are given in units of Hartree (a.u.).}
+\label{table:cvspb}
+\begin{center}
+\begin{tabular}{ c | c | c | c | c | c }
+  \hline
+ Elem & Orbital & \begin{tabular}[t]{@{}c@{}}Energy within\\multiplet terms\\($\times$degeneracy)\end{tabular} &
+ \begin{tabular}[t]{@{}c@{}}Energy within\\entire shell\\($\times$degeneracy)\end{tabular} & Abs Error & Rel Error \\ \hline \hline
+    C & $2p^2$  & 0.612081 ($\times 1$) & 0.612081 ($\times 1$) & 0.000000 & 0.000000 \\
+      &         & 0.529402 ($\times 5$) & 0.529403 ($\times 5$) & 0.000001 & 0.000002 \\
+      &         & 0.474393 ($\times 5$) & 0.474392 ($\times 5$) & 0.000001 & 0.000002 \\
+      &         & 0.474175 ($\times 3$) & 0.474175 ($\times 3$) & 0.000000 & 0.000000 \\
+      &         & 0.474066 ($\times 1$) & 0.474065 ($\times 1$) & 0.000001 & 0.000002 \\ \hline
+   Pb & $6p^2$  & 0.323500 ($\times 1$) & 0.335963 ($\times 1$) & 0.012463 & 0.037096 \\
+      &         & 0.272826 ($\times 5$) & 0.284981 ($\times 5$) & 0.012155 & 0.042652 \\
+      &         & 0.252988 ($\times 5$) & 0.240833 ($\times 5$) & 0.012155 & 0.050471 \\
+      &         & 0.225100 ($\times 3$) & 0.225100 ($\times 3$) & 0.000000 & 0.000000 \\
+      &         & 0.211156 ($\times 1$) & 0.198693 ($\times 1$) & 0.012463 & 0.062725 \\
+  \hline  
+\end{tabular}
+\end{center}
+\end{table}
+
+The discrepancy can be seen more easily from the spectrum plot in Fig.~\ref{fig:cvspb}.
+The spin-orbit splitting within multiplet terms and within
+the entire shell are plotted in the 3rd and 4th column of the plot, respectively.
+It is difficult to resolve the spin-orbit splitting in the carbon atom plot, since the
+energy differences are so tiny. But this tiny splitting gives a good approximation
+when considering spin-orbit coupling within multiplet terms. On the other hand,
+the amplitude of spin-orbit splitting in the lead atom reaches the amplitude of Coulomb
+repulsion splitting. In this case, the energies from the ``within multiplet terms''
+approximation do not match the (more accurate) full shell diagonalization.
+
+\begin{figure}
+\centering
+\subfloat[][Carbon (C)]{
+\begin{tikzpicture}[scale=0.175]
+\newcommand{\LA}{0}
+\newcommand{\RA}{12}
+\newcommand{\LB}{23}
+\newcommand{\RB}{35}
+\newcommand{\LC}{46}
+\newcommand{\RC}{58}
+\newcommand{\LD}{69}
+\newcommand{\RD}{81}
+\newcommand{\EA}{13.8016*1.5}
+\newcommand{\EBa}{27.6032*1.5}
+\newcommand{\EBb}{11.0674*1.5}
+\newcommand{\EBc}{0.0438*1.5}
+\newcommand{\ECa}{27.6032*1.5}
+\newcommand{\ECb}{11.0674*1.5}
+\newcommand{\ECc}{0.0656*1.5}
+\newcommand{\ECd}{0.0220*1.5}
+\newcommand{\ECe}{0.0002*1.5}
+\newcommand{\EDa}{27.6032*1.5}
+\newcommand{\EDb}{11.0676*1.5}
+\newcommand{\EDc}{0.0658*1.5}
+\newcommand{\EDd}{0.0220*1.5}
+\newcommand{\EDe}{0.0000*1.5}
+%
+\draw[very thick] (\LA,\EA) -- (\RA,\EA);
+%
+\draw[very thick] (\LB,\EBa) -- (\RB,\EBa);
+\draw[very thick] (\LB,\EBb) -- (\RB,\EBb);
+\draw[very thick] (\LB,\EBc) -- (\RB,\EBc);
+%
+\draw[very thick] (\LC,\ECa) -- (\RC,\ECa);
+\draw[very thick] (\LC,\ECb) -- (\RC,\ECb);
+\draw[very thick] (\LC,\ECc) -- (\RC,\ECc);
+\draw[very thick] (\LC,\ECd) -- (\RC,\ECd);
+\draw[very thick] (\LC,\ECe) -- (\RC,\ECe);
+%
+\draw[very thick] (\LD,\EDa) -- (\RD,\EDa);
+\draw[very thick] (\LD,\EDb) -- (\RD,\EDb);
+\draw[very thick] (\LD,\EDc) -- (\RD,\EDc);
+\draw[very thick] (\LD,\EDd) -- (\RD,\EDd);
+\draw[very thick] (\LD,\EDe) -- (\RD,\EDe);
+%
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBa);
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBb);
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBc);
+%
+\draw[very thin, gray, dashed] (\RB,\EBa) -- (\LC,\ECa);
+\draw[very thin, gray, dashed] (\RB,\EBb) -- (\LC,\ECb);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECc);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECd);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECe);
+%
+\node at (\LA+6,\EA+2) {$p^2$};
+\node at (\LB+6,\EBa+2) {$^1S\ $ 0.612081};
+\node at (\LB+6,\EBb+2) {$^1D\ $ 0.529402};
+\node at (\LB+6,\EBc+2) {$^3P\ $ 0.474284};
+\node at (\LC+6,\ECa+2) {$^1S_0\ $ 0.612081};
+\node at (\LC+6,\ECb+2) {$^1D_2\ $ 0.529402};
+\node at (\LC+6,\ECc+6) {$^3P_2\ $ 0.474393};
+\node at (\LC+6,\ECc+4) {$^3P_1\ $ 0.474175};
+\node at (\LC+6,\ECc+2) {$^3P_0\ $ 0.474066};
+\node at (\LD+6,\EDa+2) {0.612081};
+\node at (\LD+6,\EDb+2) {0.529403};
+\node at (\LD+6,\EDc+6) {0.474392};
+\node at (\LD+6,\EDc+4) {0.474175};
+\node at (\LD+6,\EDc+2) {0.474065};
+%
+\node at (\LA+6,-5) {Configuration};
+\node at (\LB+6,-5) {Coulomb repulsion};
+\node at (\LC+6,-5) {Spin-orbit};
+\node at (\LD+6,-5) {$H_U+H_\text{SO}$};
+\end{tikzpicture}
+\label{fig:c}} \\
+\subfloat[][Lead (Pb)]{
+\begin{tikzpicture}[scale=0.175]
+\newcommand{\LA}{0}
+\newcommand{\RA}{12}
+\newcommand{\LB}{23}
+\newcommand{\RB}{35}
+\newcommand{\LC}{46}
+\newcommand{\RC}{58}
+\newcommand{\LD}{69}
+\newcommand{\RD}{81}
+\newcommand{\EA}{13.7270*1.5}
+\newcommand{\EBa}{24.9614*1.5}
+\newcommand{\EBb}{14.8266*1.5}
+\newcommand{\EBc}{ 8.0702*1.5}
+\newcommand{\ECa}{24.9614*1.5}
+\newcommand{\ECb}{14.8266*1.5}
+\newcommand{\ECc}{10.8590*1.5}
+\newcommand{\ECd}{ 5.2814*1.5}
+\newcommand{\ECe}{ 2.4926*1.5}
+\newcommand{\EDa}{27.4540*1.5}
+\newcommand{\EDb}{17.2576*1.5}
+\newcommand{\EDc}{ 8.4280*1.5}
+\newcommand{\EDd}{ 5.2814*1.5}
+\newcommand{\EDe}{ 0.0000*1.5}
+%
+\draw[very thick] (\LA,\EA) -- (\RA,\EA);
+%
+\draw[very thick] (\LB,\EBa) -- (\RB,\EBa);
+\draw[very thick] (\LB,\EBb) -- (\RB,\EBb);
+\draw[very thick] (\LB,\EBc) -- (\RB,\EBc);
+%
+\draw[very thick] (\LC,\ECa) -- (\RC,\ECa);
+\draw[very thick] (\LC,\ECb) -- (\RC,\ECb);
+\draw[very thick] (\LC,\ECc) -- (\RC,\ECc);
+\draw[very thick] (\LC,\ECd) -- (\RC,\ECd);
+\draw[very thick] (\LC,\ECe) -- (\RC,\ECe);
+%
+\draw[very thick] (\LD,\EDa) -- (\RD,\EDa);
+\draw[very thick] (\LD,\EDb) -- (\RD,\EDb);
+\draw[very thick] (\LD,\EDc) -- (\RD,\EDc);
+\draw[very thick] (\LD,\EDd) -- (\RD,\EDd);
+\draw[very thick] (\LD,\EDe) -- (\RD,\EDe);
+%
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBa);
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBb);
+\draw[very thin, gray, dashed] (\RA,\EA) -- (\LB,\EBc);
+%
+\draw[very thin, gray, dashed] (\RB,\EBa) -- (\LC,\ECa);
+\draw[very thin, gray, dashed] (\RB,\EBb) -- (\LC,\ECb);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECc);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECd);
+\draw[very thin, gray, dashed] (\RB,\EBc) -- (\LC,\ECe);
+%
+\node at (\LA+6,\EA+2) {$p^2$};
+\node at (\LB+6,\EBa+2) {$^1S\ $ 0.323500};
+\node at (\LB+6,\EBb+2) {$^1D\ $ 0.272826};
+\node at (\LB+6,\EBc+2) {$^3P\ $ 0.239044};
+\node at (\LC+6,\ECa+2) {$^1S_0\ $ 0.323500};
+\node at (\LC+6,\ECb+2) {$^1D_2\ $ 0.272826};
+\node at (\LC+6,\ECc+2) {$^3P_2\ $ 0.252988};
+\node at (\LC+6,\ECd+2) {$^3P_1\ $ 0.225100};
+\node at (\LC+6,\ECe+2) {$^3P_0\ $ 0.211156};
+\node at (\LD+6,\EDa+2) {0.335963};
+\node at (\LD+6,\EDb+2) {0.284981};
+\node at (\LD+6,\EDc+2) {0.240833};
+\node at (\LD+6,\EDd+2) {0.225100};
+\node at (\LD+6,\EDe+2) {0.198693};
+%
+\node at (\LA+6,-5) {Configuration};
+\node at (\LB+6,-5) {Coulomb repulsion};
+\node at (\LC+6,-5) {Spin-orbit};
+\node at (\LD+6,-5) {$H_U+H_\text{SO}$};
+\end{tikzpicture}
+\label{fig:pb}}
+\caption{Comparison of open shell energy splitting between a ``light'' atom carbon (C)
+and a ``heavy'' atom lead (Pb). Energies are given in units of Hartree (a.u.).
+From left to right, 1st column: electronic configuration;
+2nd column: Coulomb repulsion energy splitting; 3rd column: spin-orbit interaction
+within multiplet terms; 4th column: eigen-energies of the Hamiltonian $(H_U+H_\text{SO})$.
+Spin-orbit interaction within multiplet terms are good approximations for ``light'' atoms
+but not for ``heavy'' atoms.}
+\label{fig:cvspb}
+\end{figure}
+
+In the 4th column in Fig.~\ref{fig:cvspb}, we labeled each energy level by their numerical
+values. But we didn't put a label like $^{2S+1}L$ or $^{2S+1}L_J$. This is because
+when we consider the eigen-energies from the sum $(H_U+H_\text{SO})$, the energy levels are mixed
+with contributions from different angular momenta $L$ and $S$. We can no longer
+label each energy level as purely $^{2S+1}L$ or $^{2S+1}L_J$. Nevertheless, from the plot,
+we do see some strong correspondence between the multiplet terms and the energy levels
+from $(H_U+H_\text{SO})$. This correspondence can be calculated from the overlap between
+the eigen-vectors of multiplet terms and the eigen-vectors of $(H_U+H_\text{SO})$, which
+is known as the character of eigen-vectors.
+
+For a multiplet term $^{2S+1}L$ (with seniority number $W$ if necessary), we have eigen-vectors
+$\Ket{L,M_L,S,M_S}$ with $M_L=L,\ldots,-L$ and $M_S=S,\ldots,-S$. Those vectors span
+a ``small space'' of this specific multiplet term. Now, suppose we have an
+eigen-vector $\Ket{v}$ of $(H_U+H_\text{SO})$ from our numerical diagonalization.
+To check if this eigen-vector $\Ket{v}$ lives inside this ``small space'',
+we compute the character
+\begin{equation} \label{eq:char}
+\boxed{
+\lambda = \sum_{M_L,M_S} \big|\Braket{L,M_L,S,M_S|v}\big|^2
+}
+\end{equation}
+%
+If $\Ket{v}$ lives completely in the space spanned by $\Ket{L,M_L,S,M_S}$,
+we shall get $\lambda=1$. On the contrary, if $\Ket{v}$ is completely off,
+we will get $\lambda=0$. However, in our problem, this $\Ket{v}$ is often
+partly in one multiplet term and partly in the others. In this case we get
+$0<\lambda<1$. The closer to 1, the stronger is the contribution from
+this specific multiplet term.
+
+Continuing with our discussion, we compute all characters for each numerical
+eigen-vectors of $(H_U+H_\text{SO})$ within the three multiplet spaces $^1S$, $^1D$
+and $^3P$. The characters are listed in Table~\ref{table:char}.
+
+\begin{table}[h!]
+\caption{Character of numerical eigen-vectors in different multiplet term spaces.
+We highlight the main contribution using underlines.
+Zero values are left as empty entries so that the structure can be seen clearly.}
+\label{table:char}
+\begin{center}
+\begin{tabular}{ c | c | c | c | c | c }
+  \hline
+ Elem & Orbital & \begin{tabular}[t]{@{}c@{}}Energy within\\entire shell\\($\times$degeneracy)\end{tabular} &
+ \begin{tabular}[t]{@{}c@{}}Character\\in $^1S$\end{tabular} &
+ \begin{tabular}[t]{@{}c@{}}Character\\in $^1D$\end{tabular} &
+ \begin{tabular}[t]{@{}c@{}}Character\\in $^3P$\end{tabular} \\ \hline \hline
+    C & $2p^2$  & 0.612081 ($\times 1$) & \underline{0.999995} &          & 0.000005 \\
+      &         & 0.529403 ($\times 5$) &          & \underline{0.999992} & 0.000008 \\
+      &         & 0.474392 ($\times 5$) &          & 0.000008 & \underline{0.999992} \\
+      &         & 0.474175 ($\times 3$) &          &          & \underline{1.000000} \\
+      &         & 0.474065 ($\times 1$) & 0.000005 &          & \underline{0.999995} \\ \hline
+   Pb & $6p^2$  & 0.335963 ($\times 1$) & \underline{0.909208} &          & 0.090792 \\
+      &         & 0.284981 ($\times 5$) &          & \underline{0.724683} & 0.275317 \\
+      &         & 0.240833 ($\times 5$) &          & 0.275317 & \underline{0.724683} \\
+      &         & 0.225100 ($\times 3$) &          &          & \underline{1.000000} \\
+      &         & 0.198693 ($\times 1$) & 0.090792 &          & \underline{0.909208} \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+If you watch carefully and compare Table~\ref{table:char}
+with Fig.~\ref{fig:cvspb}, you will notice that the terms are
+mixed if they have the same $J$. Maybe you also noticed the interesting ``1.000000''
+which never mixes with the others. That is because the vectors are from the
+term with a unique $J$.
+
+This table of characters directly indicates how strongly
+are the eigen-states mixed among different multiplet terms (different
+angular momenta). It again evidenced that with spin-orbit effect,
+the eigen-states in carbon (light atom) are slightly mixed with different multiplet terms,
+but the eigen-states in lead (heavy atom) are strongly mixed with different multiplet terms.
+I must point out that, the numerical diagonalization of $(H_U+H_\text{SO})$
+can always give us a better estimation of the eigen-energies (because it uses
+the complete basis in the open shell), which is especially important for heavy atoms.
+Nevertheless, our construction of multiplet states and
+the first order perturbation theory in spin-orbit coupling give us a very
+important understanding of the problem and a deep insight into the physical system.
+

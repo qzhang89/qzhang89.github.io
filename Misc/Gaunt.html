@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Gaunt Coefficients</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="JS/Gaunt.js"></script>
+<script type="text/javascript">
+window.addEventListener("load", windowLoadHandler);
+function windowLoadHandler() {
+    // Get HTML elements
+    var l1Select = document.getElementById("l1Select");
+    var l2Select = document.getElementById("l2Select");
+    var kkSelect = document.getElementById("kkSelect");
+    var GButton  = document.getElementById("GButton");
+    var gntDiv   = document.getElementById("gntDiv");
+    
+    // Add event listeners
+    l1Select.addEventListener("change", lChangeHandler, false);
+    l2Select.addEventListener("change", lChangeHandler, false);
+    kkSelect.addEventListener("change", kChangeHandler, false);
+    GButton.addEventListener("click", GClickHandler, false);
+    
+    function lChangeHandler() {
+        kkSelect.length = 0;
+        l1 = l1Select.selectedIndex;
+        l2 = l2Select.selectedIndex;
+        
+        var kmin = Math.abs(l1-l2);
+        var kmax = l1+l2;
+        for (var i=kmin; i<=kmax; i++) {
+            if ((l1+l2+i)%2==0) {
+                // Allowed k
+                var option = document.createElement("option");
+                option.text = i;
+                kkSelect.add(option, null);
+            }
+        }
+        kChangeHandler();
+    }
+    lChangeHandler();
+    
+    function kChangeHandler() {
+        k = parseFloat(kkSelect.selectedOptions[0].value);
+    }
+    
+    function GClickHandler() {
+        // Create Gaunt matrix
+        var G = Gaunt.mat(l1, l2, k);
+        
+        //Print with MathJax
+        var tex = "\\[\n";
+        tex += "\\frac{1}{\\sqrt{4\\pi}}\n";
+        tex += "\\begin{bmatrix}\n";
+        for (var m1=-l1; m1<=l1; m1++) {
+            for (var m2=-l2; m2<=l2; m2++) {
+                tex += float2sqrtfrac(G[m1][m2]*Math.sqrt(4*Math.PI));
+                if (m2<l2) {
+                    tex += " & ";
+                }
+            }
+            if (m1<l1) {
+                tex += " \\\\ \n";
+            }
+        }
+        tex += "\n\\end{bmatrix}\n";
+        tex += "\\]";
+        gntDiv.innerHTML = tex;
+        
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+    
+    //Input a float number, Output a LaTeX string of fraction
+    function float2frac(r) {
+        var max = 100000000;
+        var ai  = Math.floor(r);
+        var m00 = 1, m01 = 0, m10 = 0, m11 = 1;
+        
+        //Loop finding terms until denomitor gets too big
+        while (m10*ai+m11 <= max) {
+            var t;
+            t = Math.floor(m00*ai+m01);
+            m01 = m00;
+            m00 = t;
+            t = Math.floor(m10*ai+m11);
+            m11 = m10;
+            m10 = t;
+            if(r == ai) {
+                break;
+            }
+            r = 1 / (r-ai);
+            ai = Math.floor(r);
+        }
+        
+        if (m10 != 1) {
+            return [m00, m10];
+        } else {
+            return [m00, 1];
+        }
+    }
+    
+    function float2sqrtfrac(r) {
+        var r2 = r*r;
+        var fracr2 = float2frac(r2);
+        var fracr1 = [Math.sqrt(fracr2[0]), Math.sqrt(fracr2[1])];
+        if (Math.abs(r2) <= 1e-8) {
+            return "0";
+        } else if (Math.abs(Math.abs(r)%1)<=1e-8 || Math.abs(Math.abs(r)%1-1)<=1e-8) {
+            // Integer
+            return r.toFixed(0);
+        } else if (fracr1[0]%1==0 && fracr1[1]%1==0) {
+            // Integer fraction
+            return (r>0?"":"-") + "\\dfrac{" + fracr1[0] + "}{" + fracr1[1] + "}";
+        } else if (Math.abs(Math.abs(r2)%1)<=1e-8 || Math.abs(Math.abs(r2)%1-1)<=1e-8) {
+            // Sqrt integer
+            return (r>0?"":"-") + "\\sqrt{"+r2.toFixed(0)+"}";
+        } else {
+            // Sqrt integer fraction
+            return (r>0?"":"-") + "\\sqrt{\\dfrac{" + fracr2[0] + "}{" + fracr2[1] + "}}";
+        }
+    }
+
+    function float2intfrac(r) {
+        var frac = float2frac(r);
+        if (Math.abs(r) <= 1e-8) {
+            return "0";
+        } else if (Math.abs(Math.abs(r)%1)<=1e-8 || Math.abs(Math.abs(r)%1-1)<=1e-8) {
+            // Integer
+            return r.toFixed(0);
+        } else {
+            // Integer fraction
+            return (r>0?"":"-") + "\\dfrac{" + frac[0] + "}{" + frac[1] + "}";
+        } 
+    }
+}
+</script>
+</head>
+
+<body>
+<div style="text-align:center">
+    <h2>Gaunt coefficients</h2>
+    l<sub>1</sub> = <select id='l1Select'>
+    <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;
+    l<sub>2</sub> = <select id='l2Select'>
+    <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;
+    k = <select id='kkSelect'></select>&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id='GButton' type='button' value='Gaunt' />
+    <br /><br />
+    <div id='gntDiv'></div>
+</div>
+</body>
+
+</html>
